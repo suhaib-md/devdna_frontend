@@ -6,15 +6,15 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
         <LightRays
-          raysOrigin="top-center"
-          raysColor="#ffffff"
-          raysSpeed={2.0}
-          lightSpread={1.0}
-          rayLength={1.5}
-          followMouse={true}
-          mouseInfluence={0.1}
-          noiseAmount={0.1}
-          distortion={0.05}
+            raysOrigin="top-center"
+            raysColor="#00ffff"
+            raysSpeed={1.5}
+            lightSpread={0.8}
+            rayLength={1.2}
+            followMouse={true}
+            mouseInfluence={0.1}
+            noiseAmount={0.1}
+            distortion={0.05}
         />
         <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8">
             <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
