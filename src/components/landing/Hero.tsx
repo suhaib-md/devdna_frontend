@@ -6,8 +6,8 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="container relative z-10 flex flex-col items-center text-center p-8 md:p-20">
-            <h1 className="font-headline text-3xl md:text-5xl font-bold tracking-tighter !leading-[1.2] mb-8">
-                Unlock Developer Potential with <span className="text-primary">AI-Powered</span> Insights
+            <h1 className="font-headline text-2xl md:text-4xl font-bold tracking-tighter !leading-[1.2] mb-8 max-w-2xl">
+                Unlock Developer Potential with <br /> <span className="text-primary">AI-Powered</span> Insights
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-3xl">
                 DevDNA is an intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
