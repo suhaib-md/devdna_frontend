@@ -16,7 +16,7 @@ const Hero = () => {
             noiseAmount={0.1}
             distortion={0.05}
         />
-        <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8">
+        <div className="container relative z-10 flex flex-col items-center text-center px-12">
             <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
                 Unlock Developer Potential with<br />AI-Powered Insights
             </h1>
