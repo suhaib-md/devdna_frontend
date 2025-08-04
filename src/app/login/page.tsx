@@ -14,11 +14,23 @@ import Link from 'next/link';
 export default function LoginPage() {
   const router = useRouter();
   const [role, setRole] = useState('user');
+  const [userEmail, setUserEmail] = useState('');
+  const [adminEmail, setAdminEmail] = useState('');
 
   const handleSignIn = () => {
     // In a real app, you'd have authentication logic here.
-    // For now, we'll just redirect to the dashboard.
-    router.push('/dashboard');
+    if (role === 'user') {
+        if (userEmail.toLowerCase() === 'manager@gmail.com') {
+            router.push('/dashboard/manager');
+        } else if (userEmail.toLowerCase() === 'dev@gmail.com') {
+            router.push('/dashboard');
+        } else {
+            router.push('/dashboard');
+        }
+    } else {
+        // Admin Login
+        router.push('/dashboard/manager');
+    }
   };
 
   return (
@@ -51,7 +63,7 @@ export default function LoginPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="user-email">Email</Label>
-                    <Input id="user-email" type="email" placeholder="user@example.com" required className="bg-neutral-900 border-neutral-700" />
+                    <Input id="user-email" type="email" placeholder="user@example.com" required className="bg-neutral-900 border-neutral-700" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="user-password">Password</Label>
@@ -68,7 +80,7 @@ export default function LoginPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" placeholder="admin@devdna.com" required className="bg-neutral-900 border-neutral-700" />
+                    <Input id="admin-email" type="email" placeholder="admin@devdna.com" required className="bg-neutral-900 border-neutral-700" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-password">Password</Label>
