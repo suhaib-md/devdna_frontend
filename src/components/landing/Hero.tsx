@@ -17,7 +17,7 @@ const Hero = () => {
           distortion={0.05}
         />
         <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8">
-            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
+            <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
                 Unlock Developer Potential with<br />AI-Powered Insights
             </h1>
             <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl text-center">
