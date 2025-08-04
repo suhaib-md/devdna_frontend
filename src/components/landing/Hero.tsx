@@ -5,11 +5,11 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 const Hero = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
-        <div className="container relative z-10 flex flex-col items-center text-center p-8 md:p-20">
-            <h1 className="font-headline text-5xl md:text-6xl font-bold tracking-tighter !leading-[1.2] mb-8 max-w-3xl">
+        <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8 md:px-20">
+            <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter !leading-[1.2] mb-8 max-w-3xl">
                 Unlock Developer Potential with <br /> <span className="text-primary">AI-Powered</span> Insights
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl">
+            <p className="text-sm md:text-base text-muted-foreground mb-12 max-w-2xl text-center">
                 DevDNA is an intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
             </p>
             <div className="flex gap-4">
