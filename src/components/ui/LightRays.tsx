@@ -153,7 +153,7 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-      const frag = \`precision highp float;
+      const frag = `precision highp float;
 
 uniform float iTime;
 uniform vec2  iResolution;
@@ -245,7 +245,7 @@ void main() {
   vec4 color;
   mainImage(color, gl_FragCoord.xy);
   gl_FragColor  = color;
-}\`;
+}`;
 
       const uniforms = {
         iTime: { value: 0 },
