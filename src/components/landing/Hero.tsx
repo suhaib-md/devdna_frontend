@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import LightRays from "@/components/ui/LightRays";
 
 const Hero = () => {
@@ -24,10 +25,12 @@ const Hero = () => {
                 DevDNA is an intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
             </p>
             <div className="flex gap-4">
-                <Button size="lg" className="group">
-                    Request a Demo
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
+                <Link href="/login">
+                    <Button size="lg" className="group">
+                        Get Started
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                </Link>
                 <Button size="lg" variant="outline">
                     Learn More
                 </Button>

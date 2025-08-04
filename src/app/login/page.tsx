@@ -1,0 +1,88 @@
+
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Atom, Building, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Link from 'next/link';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [role, setRole] = useState('user');
+
+  const handleSignIn = () => {
+    // In a real app, you'd have authentication logic here.
+    // For now, we'll just redirect to the dashboard.
+    router.push('/dashboard');
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
+      <div className="absolute top-8 left-8">
+        <Link href="/" className="flex items-center gap-2 text-white hover:text-neutral-300">
+          <Atom className="h-6 w-6" />
+          <span className="font-bold text-lg">DevDNA</span>
+        </Link>
+      </div>
+      <Card className="w-full max-w-md bg-neutral-950 border-neutral-800 text-white">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Welcome Back</CardTitle>
+          <CardDescription className="text-neutral-400">
+            Sign in to access your developer insights.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="user" className="w-full" onValueChange={setRole}>
+            <TabsList className="grid w-full grid-cols-2 bg-neutral-900">
+              <TabsTrigger value="user">
+                <User className="mr-2 h-4 w-4" /> User
+              </TabsTrigger>
+              <TabsTrigger value="admin">
+                <Building className="mr-2 h-4 w-4" /> Admin
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="user">
+              <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="user-email">Email</Label>
+                    <Input id="user-email" type="email" placeholder="user@example.com" required className="bg-neutral-900 border-neutral-700" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="user-password">Password</Label>
+                    <Input id="user-password" type="password" required className="bg-neutral-900 border-neutral-700" />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Sign In as User
+                  </Button>
+                </div>
+              </form>
+            </TabsContent>
+            <TabsContent value="admin">
+              <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="admin-email">Admin Email</Label>
+                    <Input id="admin-email" type="email" placeholder="admin@devdna.com" required className="bg-neutral-900 border-neutral-700" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="admin-password">Password</Label>
+                    <Input id="admin-password" type="password" required className="bg-neutral-900 border-neutral-700" />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    Sign In as Admin
+                  </Button>
+                </div>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
