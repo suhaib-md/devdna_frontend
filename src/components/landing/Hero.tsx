@@ -8,19 +8,19 @@ const Hero = () => {
         <LightRays
           raysOrigin="top-center"
           raysColor="#ffffff"
-          raysSpeed={1.5}
-          lightSpread={0.8}
-          rayLength={1.2}
+          raysSpeed={2.0}
+          lightSpread={1.0}
+          rayLength={1.5}
           followMouse={true}
           mouseInfluence={0.1}
           noiseAmount={0.1}
           distortion={0.05}
         />
         <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8">
-            <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
+            <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
                 Unlock Developer Potential with<br />AI-Powered Insights
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl text-center">
+            <p className="text-sm md:text-base text-muted-foreground mb-12 max-w-2xl text-center">
                 DevDNA is an intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
             </p>
             <div className="flex gap-4">
