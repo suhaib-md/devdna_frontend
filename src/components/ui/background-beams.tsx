@@ -78,12 +78,12 @@ export const BackgroundBeams = React.memo(
                     key={`path-${index}`}
                     d={path}
                     stroke={`url(#linearGradient-${index})`}
-                    strokeOpacity="0.8"
-                    strokeWidth="2"
+                    strokeOpacity="0.5"
+                    strokeWidth="2.5"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{
-                        duration: 3,
+                        duration: 5,
                         repeat: Infinity,
                         repeatType: 'reverse',
                         ease: 'easeInOut'
@@ -105,10 +105,10 @@ export const BackgroundBeams = React.memo(
                     y2: ["0%", `${93 + Math.random() * 8}%`],
                 }}
                 transition={{
-                    duration: Math.random() * 8 + 6,
+                    duration: Math.random() * 6 + 4,
                     ease: "easeInOut",
                     repeat: Infinity,
-                    delay: Math.random() * 2,
+                    delay: Math.random() * 1.5,
                 }}
               >
                 <stop stopColor="hsl(var(--primary))" stopOpacity="0"></stop>

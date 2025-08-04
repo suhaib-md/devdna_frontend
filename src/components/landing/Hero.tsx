@@ -1,15 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { BackgroundBeams } from "@/components/ui/background-beams";
+import LightRays from "@/components/ui/LightRays";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
-        <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8 md:px-20">
-            <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter !leading-[1.2] mb-8 max-w-3xl">
-                Unlock Developer Potential with <br /> <span className="text-primary">AI-Powered</span> Insights
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#ffffff"
+          raysSpeed={1.5}
+          lightSpread={0.8}
+          rayLength={1.2}
+          followMouse={true}
+          mouseInfluence={0.1}
+          noiseAmount={0.1}
+          distortion={0.05}
+        />
+        <div className="container relative z-10 flex flex-col items-center text-center px-4 sm:px-8">
+            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
+                Unlock Developer Potential with<br />AI-Powered Insights
             </h1>
-            <p className="text-sm md:text-base text-muted-foreground mb-12 max-w-2xl text-center">
+            <p className="text-base md:text-lg text-muted-foreground mb-12 max-w-2xl text-center">
                 DevDNA is an intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
             </p>
             <div className="flex gap-4">
@@ -22,7 +33,6 @@ const Hero = () => {
                 </Button>
             </div>
         </div>
-        <BackgroundBeams />
     </section>
   );
 };
