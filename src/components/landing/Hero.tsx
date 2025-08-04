@@ -4,7 +4,7 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const Hero = () => {
   return (
-    <section className="relative h-[calc(100vh-4rem)] w-full overflow-hidden flex items-center justify-center">
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="container relative z-10 flex flex-col items-center text-center p-8">
             <h1 className="font-headline text-4xl md:text-6xl font-bold tracking-tighter !leading-[1.1] mb-6">
                 Unlock Developer Potential with <span className="text-primary">AI-Powered</span> Insights
