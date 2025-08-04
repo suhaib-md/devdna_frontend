@@ -1,34 +1,37 @@
+"use client";
+
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Code, UserCheck, BarChart3, GitMerge, Sparkles, Bot } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
-    icon: <BarChart3 className="h-8 w-8 text-primary" />,
+    icon: <BarChart3 className="h-8 w-8 text-cyan-400" />,
     title: "Automated Performance Tracking",
     description: "Eliminates manual reporting with comprehensive activity visibility from integrated platforms.",
   },
   {
-    icon: <UserCheck className="h-8 w-8 text-primary" />,
+    icon: <UserCheck className="h-8 w-8 text-cyan-400" />,
     title: "Intelligent Developer Profiling",
     description: "Creates detailed skill profiles based on actual code contributions and work patterns.",
   },
   {
-    icon: <Bot className="h-8 w-8 text-primary" />,
+    icon: <Bot className="h-8 w-8 text-cyan-400" />,
     title: "Data-Driven Project Management",
     description: "Enables objective decision-making for project assignments and resource allocation.",
   },
   {
-    icon: <GitMerge className="h-8 w-8 text-primary" />,
+    icon: <GitMerge className="h-8 w-8 text-cyan-400" />,
     title: "Seamless Integration",
     description: "Works with your existing tools like GitHub, JIRA, and Confluence without disrupting workflows.",
   },
   {
-    icon: <Sparkles className="h-8 w-8 text-primary" />,
+    icon: <Sparkles className="h-8 w-8 text-cyan-400" />,
     title: "AI-Powered Insights",
     description: "Provides actionable recommendations through advanced analytics and natural language processing.",
   },
   {
-    icon: <Code className="h-8 w-8 text-primary" />,
+    icon: <Code className="h-8 w-8 text-cyan-400" />,
     title: "Continuous Learning Tracking",
     description: "Monitors skill development and adaptation to new technologies over time.",
   },
@@ -36,23 +39,30 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="py-20 md:py-28 bg-card/50">
+    <motion.section 
+      id="features" 
+      className="py-20 md:py-28 bg-black"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-headline">Why DevDNA?</h2>
-          <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">Why DevDNA?</h2>
+          <p className="text-lg text-neutral-400 mt-4 max-w-3xl mx-auto">
             Discover the core functionalities that make DevDNA an indispensable tool for modern software development teams.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="bg-card border-border/60 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 transform hover:-translate-y-1 group">
+            <Card key={index} className="bg-neutral-950 border-neutral-800 hover:border-cyan-400/50 hover:bg-neutral-900 transition-all duration-300 transform hover:-translate-y-1 group">
               <CardHeader>
-                <div className="mb-4 flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                <div className="mb-4 flex items-center justify-center h-16 w-16 rounded-full bg-cyan-400/10 border border-cyan-400/20 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <CardTitle className="text-xl font-semibold">{feature.title}</CardTitle>
-                <CardDescription className="pt-2 text-base text-muted-foreground">
+                <CardTitle className="text-xl font-semibold text-white">{feature.title}</CardTitle>
+                <CardDescription className="pt-2 text-base text-neutral-400">
                   {feature.description}
                 </CardDescription>
               </CardHeader>
@@ -60,7 +70,7 @@ const Features = () => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

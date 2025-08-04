@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, Wand2, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   text: z.string().min(50, {
@@ -52,19 +53,26 @@ const ChatbotAssistant = () => {
   }
 
   return (
-    <section id="ai-tool" className="py-20 md:py-28">
+    <motion.section 
+      id="ai-tool" 
+      className="py-20 md:py-28"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-headline">AI-Powered Insight Generation</h2>
-          <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">AI-Powered Insight Generation</h2>
+          <p className="text-lg text-neutral-400 mt-4 max-w-3xl mx-auto">
             Experience the power of DevDNA's AI. Provide text about developer profiling or skills management, and our tool will generate a concise summary for a project manager's briefing book.
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          <Card className="bg-card/80 border-border/60">
+          <Card className="bg-neutral-900 border-neutral-800">
             <CardHeader>
-              <CardTitle>Generate a Summary</CardTitle>
-              <CardDescription>Enter the text you want to summarize below.</CardDescription>
+              <CardTitle className="text-white">Generate a Summary</CardTitle>
+              <CardDescription className="text-neutral-400">Enter the text you want to summarize below.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -78,7 +86,7 @@ const ChatbotAssistant = () => {
                         <FormControl>
                           <Textarea
                             placeholder="Paste your text here... for example, a long email thread, a document excerpt, or meeting notes."
-                            className="min-h-[200px] text-base"
+                            className="min-h-[200px] text-base bg-neutral-950 border-neutral-700 text-white placeholder:text-neutral-500"
                             {...field}
                           />
                         </FormControl>
@@ -86,7 +94,7 @@ const ChatbotAssistant = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" disabled={isLoading} className="w-full group">
+                  <Button type="submit" disabled={isLoading} className="w-full group bg-white text-black hover:bg-neutral-200">
                     {isLoading ? (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     ) : (
@@ -100,26 +108,26 @@ const ChatbotAssistant = () => {
           </Card>
           <div className="flex items-center justify-center">
             {isLoading ? (
-                <Card className="w-full min-h-[300px] flex flex-col items-center justify-center bg-card/80 border-border/60 border-dashed">
-                    <Loader2 className="h-12 w-12 text-primary animate-spin" />
-                    <p className="text-muted-foreground mt-4">Generating insights...</p>
+                <Card className="w-full min-h-[300px] flex flex-col items-center justify-center bg-neutral-900 border-neutral-800 border-dashed">
+                    <Loader2 className="h-12 w-12 text-white animate-spin" />
+                    <p className="text-neutral-400 mt-4">Generating insights...</p>
                 </Card>
             ) : summary ? (
-              <Card className="w-full min-h-[300px] bg-gradient-to-br from-card to-card/60">
+              <Card className="w-full min-h-[300px] bg-neutral-900 border-neutral-800">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-primary">
+                  <CardTitle className="flex items-center gap-2 text-white">
                     <FileText className="h-5 w-5" />
                     Generated Briefing Summary
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-lg text-foreground whitespace-pre-wrap">{summary}</p>
+                  <p className="text-lg text-neutral-300 whitespace-pre-wrap">{summary}</p>
                 </CardContent>
               </Card>
             ) : (
-                <Card className="w-full min-h-[300px] flex flex-col items-center justify-center bg-card/30 border-border/60 border-dashed">
-                    <div className="text-center text-muted-foreground">
-                        <Wand2 className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+                <Card className="w-full min-h-[300px] flex flex-col items-center justify-center bg-transparent border-neutral-800 border-dashed">
+                    <div className="text-center text-neutral-500">
+                        <Wand2 className="h-12 w-12 mx-auto text-neutral-600 mb-4" />
                         <p>Your AI-generated summary will appear here.</p>
                     </div>
                 </Card>
@@ -127,7 +135,7 @@ const ChatbotAssistant = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

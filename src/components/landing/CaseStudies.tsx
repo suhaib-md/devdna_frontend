@@ -1,6 +1,9 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -31,11 +34,18 @@ const testimonials = [
 
 const CaseStudies = () => {
   return (
-    <section id="testimonials" className="py-20 md:py-28">
+    <motion.section 
+      id="testimonials" 
+      className="py-20 md:py-28"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-headline">Trusted by Industry Leaders</h2>
-          <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">Trusted by Industry Leaders</h2>
+          <p className="text-lg text-neutral-400 mt-4 max-w-3xl mx-auto">
             See how DevDNA is helping teams build better software, faster.
           </p>
         </div>
@@ -50,9 +60,9 @@ const CaseStudies = () => {
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
-                  <Card className="h-full flex flex-col justify-between p-6 bg-card/80 border-border/60">
+                  <Card className="h-full flex flex-col justify-between p-6 bg-neutral-900 border-neutral-800">
                     <CardContent className="p-0 flex-grow">
-                      <p className="text-lg text-foreground mb-6">"{testimonial.quote}"</p>
+                      <p className="text-lg text-white mb-6">"{testimonial.quote}"</p>
                     </CardContent>
                     <div className="flex items-center gap-4 mt-4">
                       <Avatar>
@@ -60,8 +70,8 @@ const CaseStudies = () => {
                          <AvatarFallback>{testimonial.avatar}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold text-primary">{testimonial.name}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                        <p className="font-semibold text-white">{testimonial.name}</p>
+                        <p className="text-sm text-neutral-400">{testimonial.title}</p>
                       </div>
                     </div>
                   </Card>
@@ -69,11 +79,11 @@ const CaseStudies = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden md:flex" />
-          <CarouselNext className="hidden md:flex" />
+          <CarouselPrevious className="hidden md:flex bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700" />
+          <CarouselNext className="hidden md:flex bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700" />
         </Carousel>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
