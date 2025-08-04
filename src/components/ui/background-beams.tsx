@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "motion/react";
+import { motion, useMotionValue, animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export const BackgroundBeams = React.memo(
@@ -57,6 +57,18 @@ export const BackgroundBeams = React.memo(
       "M-44 -573C-44 -573 24 -168 488 -41C952 86 1020 491 1020 491",
       "M-37 -581C-37 -581 31 -176 495 -49C959 78 1027 483 1027 483",
     ];
+    const pathLength = useMotionValue(0);
+
+    React.useEffect(() => {
+        const animation = animate(pathLength, 1, {
+            duration: 5,
+            repeat: Infinity,
+            repeatType: 'reverse',
+            ease: 'easeInOut'
+        });
+        return () => animation.stop();
+    }, [pathLength]);
+
     return (
       <div
         className={cn(
@@ -80,19 +92,7 @@ export const BackgroundBeams = React.memo(
                 stroke={`url(#linearGradient-${index})`}
                 strokeOpacity="0.6"
                 strokeWidth="1.5"
-                initial={{
-                    pathLength: 0,
-                }}
-                animate={{
-                    pathLength: 1,
-                }}
-                transition={{
-                  duration: Math.random() * 5 + 5,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: Math.random() * 5,
-                }}
+                style={{ pathLength }}
               />
             ))}
           </g>
