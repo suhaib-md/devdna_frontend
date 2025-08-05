@@ -10,9 +10,12 @@ import {
   Menu,
   Package2,
   Projector,
-  Search,
   Users,
   UserPlus,
+  Send,
+  Loader2,
+  GitCommit,
+  Users2
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -45,6 +48,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Progress } from '@/components/ui/progress';
+import { Textarea } from '@/components/ui/textarea';
+import { getInsight } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const developers = [
     { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active' },
@@ -53,9 +61,26 @@ const developers = [
     { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active' },
 ];
 
+const projects = [
+    { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
+    { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
+    { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
+    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
+]
+
+type Message = {
+    role: 'user' | 'assistant';
+    content: string;
+};
+
 export default function ManagerDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
+  const { toast } = useToast();
+
+  const [chatInput, setChatInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const filteredDevelopers = developers.filter(dev =>
     dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -65,6 +90,30 @@ export default function ManagerDashboard() {
   const handleDevClick = (id: string) => {
     router.push(`/dashboard/developer/${id}`);
   };
+
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+
+    const newMessages: Message[] = [...messages, { role: 'user', content: chatInput }];
+    setMessages(newMessages);
+    setChatInput("");
+    setIsLoading(true);
+
+    const result = await getInsight(chatInput);
+    setIsLoading(false);
+
+    if (result.error) {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: result.error,
+        });
+    } else if (result.summary) {
+        setMessages([...newMessages, { role: 'assistant', content: result.summary }]);
+    }
+  }
+
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -88,27 +137,6 @@ export default function ManagerDashboard() {
               >
                 <Home className="h-4 w-4" />
                 Dashboard
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Projector className="h-4 w-4" />
-                Project Details
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Users className="h-4 w-4" />
-                Developers
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Bot className="h-4 w-4" />
-                Chatbot
               </Link>
             </nav>
           </div>
@@ -143,27 +171,6 @@ export default function ManagerDashboard() {
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Projector className="h-5 w-5" />
-                  Project Details
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Users className="h-5 w-5" />
-                  Developers
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Bot className="h-5 w-5" />
-                  Chatbot
-                </Link>
               </nav>
             </SheetContent>
           </Sheet>
@@ -191,19 +198,88 @@ export default function ManagerDashboard() {
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <Tabs defaultValue="developers">
-            <TabsList>
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="projects">Project Details</TabsTrigger>
               <TabsTrigger value="developers">Developers</TabsTrigger>
               <TabsTrigger value="chatbot">Chatbot</TabsTrigger>
             </TabsList>
-            <TabsContent value="projects">
+            <TabsContent value="projects" className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
+                            <Projector className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{projects.length}</div>
+                            <p className="text-xs text-muted-foreground">Across all teams</p>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Engineers</CardTitle>
+                             <Users2 className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{developers.length}</div>
+                            <p className="text-xs text-muted-foreground">Total active developers</p>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
+                            <GitCommit className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">12,890</div>
+                             <p className="text-xs text-muted-foreground">This quarter</p>
+                        </CardContent>
+                    </Card>
+                     <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
+                            <Bot className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                           <Button variant="outline" size="sm">Generate Report</Button>
+                        </CardContent>
+                    </Card>
+                </div>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Project Details</CardTitle>
-                        <CardDescription>Details about ongoing projects.</CardDescription>
+                        <CardTitle>Projects Overview</CardTitle>
+                        <CardDescription>A summary of all ongoing and completed projects.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <p>Project details content will go here.</p>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Project Name</TableHead>
+                                    <TableHead>Lead</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Team Size</TableHead>
+                                    <TableHead className="text-right">Completion</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {projects.map((project) => (
+                                <TableRow key={project.name}>
+                                    <TableCell className="font-medium">{project.name}</TableCell>
+                                    <TableCell>{project.lead}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={project.status === 'Active' ? 'default' : project.status === 'Completed' ? 'secondary' : 'outline'}>{project.status}</Badge>
+                                    </TableCell>
+                                    <TableCell>{project.teamSize}</TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <span>{project.completion}%</span>
+                                            <Progress value={project.completion} className="w-24" />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -264,13 +340,51 @@ export default function ManagerDashboard() {
               </Card>
             </TabsContent>
              <TabsContent value="chatbot">
-                <Card>
+                <Card className="h-[600px] flex flex-col">
                     <CardHeader>
-                        <CardTitle>AI Chatbot</CardTitle>
-                        <CardDescription>Your AI assistant for project management.</CardDescription>
+                        <CardTitle>AI Assistant</CardTitle>
+                        <CardDescription>Ask about team skills, project risks, or developer performance.</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <p>Chatbot interface will go here.</p>
+                    <CardContent className="flex-grow flex flex-col">
+                        <ScrollArea className="flex-grow h-0 pr-4">
+                            <div className="space-y-4">
+                                {messages.map((message, index) => (
+                                    <div key={index} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
+                                        {message.role === 'assistant' && <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>}
+                                        <div className={`rounded-lg px-4 py-2 max-w-[80%] ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'}`}>
+                                            <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                                        </div>
+                                         {message.role === 'user' && <Avatar className="w-8 h-8"><AvatarFallback><CircleUser size={20}/></AvatarFallback></Avatar>}
+                                    </div>
+                                ))}
+                                {isLoading && (
+                                    <div className="flex items-start gap-3">
+                                        <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>
+                                        <div className="rounded-lg px-4 py-2 bg-secondary flex items-center">
+                                            <Loader2 className="h-5 w-5 animate-spin" />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </ScrollArea>
+                        <form onSubmit={handleChatSubmit} className="mt-4 flex items-center gap-2 border-t border-neutral-800 pt-4">
+                            <Textarea
+                                placeholder="e.g., 'Who are my top Python developers?'"
+                                value={chatInput}
+                                onChange={(e) => setChatInput(e.target.value)}
+                                className="min-h-0 text-base bg-neutral-900 border-neutral-700"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleChatSubmit(e);
+                                    }
+                                }}
+                                rows={1}
+                            />
+                            <Button type="submit" size="icon" disabled={isLoading || !chatInput.trim()}>
+                                <Send className="h-4 w-4" />
+                            </Button>
+                        </form>
                     </CardContent>
                 </Card>
             </TabsContent>
