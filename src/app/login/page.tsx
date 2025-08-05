@@ -23,9 +23,9 @@ export default function LoginPage() {
         if (userEmail.toLowerCase() === 'manager@gmail.com') {
             router.push('/dashboard/manager');
         } else if (userEmail.toLowerCase() === 'dev@gmail.com') {
-            router.push('/dashboard');
+            router.push('/dashboard/developer');
         } else {
-            router.push('/dashboard');
+            router.push('/dashboard/developer');
         }
     } else {
         // Admin Login
@@ -63,7 +63,7 @@ export default function LoginPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="user-email">Email</Label>
-                    <Input id="user-email" type="email" placeholder="user@example.com" required className="bg-neutral-900 border-neutral-700" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+                    <Input id="user-email" type="email" placeholder="dev@gmail.com" required className="bg-neutral-900 border-neutral-700" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="user-password">Password</Label>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" placeholder="admin@devdna.com" required className="bg-neutral-900 border-neutral-700" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} />
+                    <Input id="admin-email" type="email" placeholder="manager@gmail.com" required className="bg-neutral-900 border-neutral-700" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-password">Password</Label>
