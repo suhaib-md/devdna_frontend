@@ -19,17 +19,15 @@ export default function LoginPage() {
 
   const handleSignIn = () => {
     // In a real app, you'd have authentication logic here.
-    if (role === 'user') {
-        if (userEmail.toLowerCase() === 'manager@gmail.com') {
-            router.push('/dashboard/manager');
-        } else if (userEmail.toLowerCase() === 'dev@gmail.com') {
-            router.push('/dashboard/developer');
-        } else {
-            router.push('/dashboard/developer');
-        }
-    } else {
-        // Admin Login
+    const email = role === 'user' ? userEmail : adminEmail;
+    
+    if (email.toLowerCase() === 'manager@gmail.com') {
         router.push('/dashboard/manager');
+    } else if (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com')) {
+        router.push('/dashboard/developer');
+    } else {
+        // Default redirect for any other user
+        router.push('/dashboard/developer');
     }
   };
 

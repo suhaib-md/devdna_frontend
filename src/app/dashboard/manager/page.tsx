@@ -1,20 +1,16 @@
 
 'use client';
 
+import { useState } from 'react';
 import {
   Bell,
   Bot,
-  ChevronDown,
   CircleUser,
   Home,
-  LineChart,
   Menu,
-  Package,
   Package2,
   Projector,
   Search,
-  ShoppingCart,
-  Trophy,
   Users,
   UserPlus,
 } from 'lucide-react';
@@ -48,8 +44,28 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+const developers = [
+    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active' },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active' },
+    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave' },
+    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active' },
+];
 
 export default function ManagerDashboard() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
+
+  const filteredDevelopers = developers.filter(dev =>
+    dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    dev.topSkill.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleDevClick = (id: string) => {
+    router.push(`/dashboard/developer/${id}`);
+  };
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -167,7 +183,9 @@ export default function ManagerDashboard() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/login">Logout</Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
@@ -191,50 +209,24 @@ export default function ManagerDashboard() {
             </TabsContent>
             <TabsContent value="developers" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Project Dev Profiles
-                    </CardTitle>
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">12</div>
-                    <p className="text-xs text-muted-foreground">
-                      Active developers
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Leaderboard
-                    </CardTitle>
-                    <Trophy className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">Top 5</div>
-                    <p className="text-xs text-muted-foreground">
-                      Based on commits
-                    </p>
-                  </CardContent>
-                </Card>
-                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <Card className="lg:col-span-3">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium">Search Developers</CardTitle>
-                    <Search className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <Input placeholder="Search by skill (e.g., React)" />
+                     <Input
+                        placeholder="Search by name or skill (e.g., React)"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                     />
                   </CardContent>
                 </Card>
                 <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardHeader>
                     <CardTitle className="text-sm font-medium">Add Developer</CardTitle>
-                    <UserPlus className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <Button>Add New Dev</Button>
+                    <Button><UserPlus className="mr-2 h-4 w-4" /> Add New Dev</Button>
                   </CardContent>
                 </Card>
               </div>
@@ -242,7 +234,7 @@ export default function ManagerDashboard() {
                 <CardHeader>
                   <CardTitle>Developer Profiles</CardTitle>
                   <CardDescription>
-                    An overview of developers.
+                    Click on a developer to view their DevDNA.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -256,22 +248,16 @@ export default function ManagerDashboard() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      <TableRow>
-                        <TableCell>John Doe</TableCell>
-                        <TableCell>john@example.com</TableCell>
-                        <TableCell>React</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">Active</Badge>
-                        </TableCell>
-                      </TableRow>
-                       <TableRow>
-                        <TableCell>Jane Smith</TableCell>
-                        <TableCell>jane@example.com</TableCell>
-                        <TableCell>Node.js</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">Active</Badge>
-                        </TableCell>
-                      </TableRow>
+                      {filteredDevelopers.map((dev) => (
+                        <TableRow key={dev.id} onClick={() => handleDevClick(dev.id)} className="cursor-pointer">
+                          <TableCell>{dev.name}</TableCell>
+                          <TableCell>{dev.email}</TableCell>
+                          <TableCell>{dev.topSkill}</TableCell>
+                          <TableCell>
+                            <Badge variant={dev.status === 'Active' ? 'default' : 'secondary'}>{dev.status}</Badge>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 </CardContent>
