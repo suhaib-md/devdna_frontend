@@ -1,28 +1,38 @@
+
 "use client";
 
-import { ShieldCheck, GitBranch, DatabaseZap, Workflow } from "lucide-react";
 import { motion } from "framer-motion";
+import TiltedCard from "@/components/ui/TiltedCard";
+import { ShieldCheck, GitBranch, DatabaseZap, Workflow } from "lucide-react";
 
 const securityFeatures = [
     {
         icon: <ShieldCheck className="w-7 h-7 text-cyan-400"/>,
         title: "Data Integrity First",
-        description: "Project managers and developers cannot directly modify data through dashboards, ensuring data integrity."
+        description: "Project managers and developers cannot directly modify data through dashboards, ensuring data integrity.",
+        imageSrc: "https://placehold.co/250x250.png",
+        dataAiHint: "secure lock",
     },
     {
         icon: <GitBranch className="w-7 h-7 text-cyan-400"/>,
         title: "Single Source of Truth",
-        description: "All modifications must be made through original sources like GitHub, JIRA, and Confluence."
+        description: "All modifications must be made through original sources like GitHub, JIRA, and Confluence.",
+        imageSrc: "https://placehold.co/250x250.png",
+        dataAiHint: "data flow",
     },
     {
         icon: <DatabaseZap className="w-7 h-7 text-cyan-400"/>,
         title: "Real-time Synchronization",
-        description: "DevDNA reflects changes from integrated systems, providing a unified view while preserving source authority."
+        description: "DevDNA reflects changes from integrated systems, providing a unified view while preserving source authority.",
+        imageSrc: "https://placehold.co/250x250.png",
+        dataAiHint: "cloud sync",
     },
     {
         icon: <Workflow className="w-7 h-7 text-cyan-400"/>,
         title: "Accuracy Optimization",
-        description: "Our models learn from contextual edits in source tools, continuously improving AI analysis accuracy."
+        description: "Our models learn from contextual edits in source tools, continuously improving AI analysis accuracy.",
+        imageSrc: "https://placehold.co/250x250.png",
+        dataAiHint: "neural network",
     }
 ]
 
@@ -49,18 +59,30 @@ const Security = () => {
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
                         {securityFeatures.map((feature) => (
-                            <div key={feature.title} className="flex flex-col items-center text-center p-6 rounded-lg bg-neutral-900/50 border border-neutral-800/50 hover:border-cyan-400/30 transition-all duration-300 hover:bg-neutral-900/70 space-y-4">
-                                <div className="flex items-center justify-center h-14 w-14 rounded-full bg-cyan-400/10 border border-cyan-400/20">
-                                    {feature.icon}
-                                </div>
-                                <div className="space-y-3">
-                                    <h3 className="text-lg font-semibold text-white leading-tight">
-                                        {feature.title}
-                                    </h3>
-                                    <p className="text-neutral-400 leading-relaxed text-sm">
-                                        {feature.description}
-                                    </p>
-                                </div>
+                           <div key={feature.title} className="flex flex-col items-center text-center p-6 rounded-lg bg-neutral-900/50 border border-neutral-800/50 hover:border-cyan-400/30 transition-all duration-300 hover:bg-neutral-900/70 space-y-4">
+                                <TiltedCard
+                                    imageSrc={feature.imageSrc}
+                                    altText={feature.title}
+                                    captionText={feature.title}
+                                    containerHeight="250px"
+                                    imageHeight="250px"
+                                    imageWidth="250px"
+                                    displayOverlayContent={true}
+                                    data-ai-hint={feature.dataAiHint}
+                                    overlayContent={
+                                         <div className="absolute inset-0 bg-black/70 flex flex-col justify-center items-center p-4 rounded-[15px]">
+                                             <div className="flex items-center justify-center h-14 w-14 rounded-full bg-cyan-400/10 border border-cyan-400/20 mb-4">
+                                                {feature.icon}
+                                            </div>
+                                            <h3 className="text-lg font-semibold text-white leading-tight mb-2">
+                                                {feature.title}
+                                            </h3>
+                                            <p className="text-neutral-400 leading-relaxed text-sm">
+                                                {feature.description}
+                                            </p>
+                                        </div>
+                                    }
+                                />
                             </div>
                         ))}
                     </div>
