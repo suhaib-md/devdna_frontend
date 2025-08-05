@@ -41,14 +41,14 @@ const Features = () => {
   return (
     <motion.section 
       id="features" 
-      className="py-20 md:py-28 bg-black"
+      className="py-24 bg-black"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8 }}
     >
       <div className="container">
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold font-headline text-white">Why DevDNA?</h2>
           <p className="text-lg text-neutral-400 mt-4 max-w-3xl mx-auto">
             Discover the core functionalities that make DevDNA an indispensable tool for modern software development teams.

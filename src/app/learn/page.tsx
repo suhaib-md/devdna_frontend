@@ -1,8 +1,8 @@
 
 import CaseStudies from "@/components/landing/CaseStudies";
-import ChatbotAssistant from "@/components/landing/ChatbotAssistant";
 import Features from "@/components/landing/Features";
 import Footer from "@/components/landing/Footer";
+import GetStarted from "@/components/landing/GetStarted";
 import Header from "@/components/landing/Header";
 import Security from "@/components/landing/Security";
 
@@ -14,7 +14,7 @@ export default function LearnMorePage() {
         <Features />
         <CaseStudies />
         <Security />
-        <ChatbotAssistant />
+        <GetStarted />
       </main>
       <Footer />
     </div>
