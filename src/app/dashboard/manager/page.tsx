@@ -53,6 +53,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { getInsight } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const developers = [
     { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active' },
