@@ -5,6 +5,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import TiltedCard from "@/components/ui/TiltedCard";
+import { Card, CardContent } from "@/components/ui/card";
 
 const testimonials = [
   {
@@ -12,32 +13,24 @@ const testimonials = [
     name: "Alex Johnson",
     title: "CTO, Innovatech",
     avatar: "AJ",
-    imageSrc: "https://placehold.co/300x400.png",
-    dataAiHint: "office collaboration",
   },
   {
     quote: "The developer profiling is a game-changer. We now have a clear, objective view of everyone's strengths, leading to better team composition and happier, more engaged engineers.",
     name: "Samantha Lee",
     title: "VP of Engineering, CodeHarbor",
     avatar: "SL",
-    imageSrc: "https://placehold.co/300x400.png",
-    dataAiHint: "developer coding",
   },
   {
     quote: "I was skeptical about automated tracking, but DevDNA's seamless integration proved me wrong. It provides incredible visibility without any of the administrative overhead.",
     name: "Michael Chen",
     title: "Project Manager, TechSolutions",
     avatar: "MC",
-    imageSrc: "https://placehold.co/300x400.png",
-    dataAiHint: "project management",
   },
   {
     quote: "The ability to match developers to projects based on their skills and growth goals has been invaluable for talent retention. Our team feels more valued and challenged.",
     name: "Emily Rodriguez",
     title: "Director of R&D, FutureSys",
     avatar: "ER",
-    imageSrc: "https://placehold.co/300x400.png",
-    dataAiHint: "team meeting",
   },
 ];
 
@@ -69,33 +62,23 @@ const CaseStudies = () => {
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
-                  <div className="h-full flex flex-col justify-between p-6 bg-neutral-900 border border-neutral-800 rounded-lg">
-                     <TiltedCard
-                        imageSrc={testimonial.imageSrc}
-                        altText={testimonial.name}
-                        captionText={testimonial.name}
-                        containerHeight="400px"
-                        imageHeight="400px"
-                        imageWidth="100%"
-                        displayOverlayContent={true}
-                        data-ai-hint={testimonial.dataAiHint}
-                        overlayContent={
-                        <div className="absolute inset-0 bg-black/70 flex flex-col justify-end p-6 rounded-[15px] text-left">
-                            <p className="text-lg text-white mb-6 flex-grow">"{testimonial.quote}"</p>
-                            <div className="flex items-center gap-4 mt-auto">
-                                <Avatar>
-                                    <AvatarImage src={`https://placehold.co/40x40.png?text=${testimonial.avatar}`} />
-                                    <AvatarFallback>{testimonial.avatar}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className="font-semibold text-white">{testimonial.name}</p>
-                                    <p className="text-sm text-neutral-400">{testimonial.title}</p>
-                                </div>
+                  <TiltedCard>
+                    <Card className="h-full flex flex-col justify-between p-6 bg-neutral-900 border-neutral-800">
+                      <CardContent className="p-0 text-left">
+                        <p className="text-lg text-white mb-6 flex-grow">"{testimonial.quote}"</p>
+                        <div className="flex items-center gap-4 mt-auto">
+                            <Avatar>
+                                <AvatarImage src={`https://placehold.co/40x40.png?text=${testimonial.avatar}`} />
+                                <AvatarFallback>{testimonial.avatar}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <p className="font-semibold text-white">{testimonial.name}</p>
+                                <p className="text-sm text-neutral-400">{testimonial.title}</p>
                             </div>
                         </div>
-                        }
-                    />
-                  </div>
+                      </CardContent>
+                    </Card>
+                  </TiltedCard>
                 </div>
               </CarouselItem>
             ))}
