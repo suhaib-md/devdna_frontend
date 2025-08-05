@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -31,9 +32,11 @@ const Hero = () => {
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                 </Link>
-                <Button size="lg" variant="outline">
-                    Learn More
-                </Button>
+                <Link href="/learn">
+                  <Button size="lg" variant="outline">
+                      Learn More
+                  </Button>
+                </Link>
             </div>
         </div>
     </section>
