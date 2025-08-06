@@ -11,8 +11,6 @@ import {
   Projector,
   BarChart,
   Trophy,
-  Github,
-  GitBranch,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,8 +33,18 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useRouter } from 'next/navigation';
 
 export default function CreateProjectPage() {
+  const router = useRouter();
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    // In a real app, you would have API calls to create the project and repo.
+    // For now, we'll just redirect to the projects page.
+    router.push('/dashboard/manager/projects?created=true');
+  };
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -183,10 +191,10 @@ export default function CreateProjectPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleCreateProject}>
                 <div className="space-y-2">
                   <Label htmlFor="project-name">Project Name</Label>
-                  <Input id="project-name" placeholder="e.g., Project Phoenix" />
+                  <Input id="project-name" placeholder="e.g., Project Phoenix" defaultValue="DevDNA Platform" />
                 </div>
                 <div className="space-y-4">
                   <Label>GitHub Repository</Label>
@@ -205,7 +213,7 @@ export default function CreateProjectPage() {
                    <Label htmlFor="repo-name">Repository Name</Label>
                     <div className="flex items-center">
                         <span className="text-sm text-muted-foreground bg-muted px-3 py-2 rounded-l-md border border-r-0 border-input">github.com/your-org/</span>
-                        <Input id="repo-name" placeholder="project-phoenix" className="rounded-l-none"/>
+                        <Input id="repo-name" placeholder="project-phoenix" defaultValue="devdna-platform" className="rounded-l-none"/>
                     </div>
                 </div>
 
@@ -218,6 +226,3 @@ export default function CreateProjectPage() {
     </div>
   );
 }
-
-
-    

@@ -2,6 +2,8 @@
 
 'use client';
 
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Bell,
   CircleUser,
@@ -12,10 +14,7 @@ import {
   Users,
   BarChart,
   PlusCircle,
-  GitCommit,
-  Activity,
-  Trophy,
-  Users2
+  Trophy
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -46,9 +45,15 @@ const tasks = [
     { id: 'TASK-104', name: 'Setup CI/CD pipeline', assignee: 'Peter Jones', status: 'To Do', progress: 10 },
 ];
 
-export default function ManagerProjectPage() {
+function ManagerProjectPageComponent() {
+  const searchParams = useSearchParams();
+  const [noProject, setNoProject] = useState(true);
 
-    const noProject = true; // Set to false to see the project details
+  useEffect(() => {
+    if (searchParams.get('created') === 'true') {
+      setNoProject(false);
+    }
+  }, [searchParams]);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -299,4 +304,11 @@ export default function ManagerProjectPage() {
   );
 }
 
-    
+
+export default function ManagerProjectPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ManagerProjectPageComponent />
+        </Suspense>
+    )
+}
