@@ -17,7 +17,15 @@ import {
   Database,
   KeyRound
 } from 'lucide-react';
-
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetDescription
+} from '@/components/ui/sheet';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -34,12 +42,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+
+
+const notifications = [
+    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
+    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
+    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
+    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
+];
 
 export default function SystemSettingsPage() {
   return (
@@ -51,10 +67,38 @@ export default function SystemSettingsPage() {
               <Package2 className="h-6 w-6" />
               <span className="">DevDNA</span>
             </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
+             <Sheet>
+                <SheetTrigger asChild>
+                    <Button variant="outline" size="icon" className="ml-auto h-8 w-8 relative">
+                        <Bell className="h-4 w-4" />
+                        <span className="sr-only">Toggle notifications</span>
+                         {notifications.length > 0 && (
+                            <Badge className="absolute -top-1 -right-1 h-4 w-4 justify-center p-1.5 text-xs">
+                                {notifications.length}
+                            </Badge>
+                        )}
+                    </Button>
+                </SheetTrigger>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>Notifications</SheetTitle>
+                        <SheetDescription>You have {notifications.length} unread messages.</SheetDescription>
+                    </SheetHeader>
+                    <div className="mt-4 space-y-4">
+                        {notifications.map((notification, index) => (
+                             <div key={index} className="flex items-start gap-4 p-4 rounded-lg bg-neutral-900/50">
+                                <Avatar className="h-8 w-8">
+                                    <AvatarFallback>{notification.user.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div className="text-sm">
+                                    <p><span className="font-semibold">{notification.user}</span> {notification.action}</p>
+                                    <p className="text-xs text-muted-foreground">{notification.time}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </SheetContent>
+            </Sheet>
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
