@@ -16,7 +16,8 @@ import {
   GitPullRequest,
   CheckCircle,
   History,
-  ClipboardList
+  ClipboardList,
+  Wrench
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -46,6 +47,37 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Link from 'next/link';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { PieChart, Pie, Cell } from 'recharts';
+
+const workTypeData = [
+  { type: "Features", value: 50, fill: "hsl(var(--primary))" },
+  { type: "Bug Fixes", value: 25, fill: "hsl(var(--destructive))" },
+  { type: "Documentation", value: 15, fill: "hsl(var(--chart-3))" },
+  { type: "Infrastructure", value: 10, fill: "hsl(var(--chart-4))" },
+]
+
+const chartConfig = {
+  work: {
+    label: "Work Type",
+  },
+  features: {
+    label: "Features",
+    color: "hsl(var(--primary))",
+  },
+  bug_fixes: {
+    label: "Bug Fixes",
+    color: "hsl(var(--destructive))",
+  },
+  documentation: {
+    label: "Documentation",
+    color: "hsl(var(--chart-3))",
+  },
+  infrastructure: {
+    label: "Infrastructure",
+    color: "hsl(var(--chart-4))",
+  },
+} satisfies ChartConfig
 
 export default function DeveloperDashboard() {
   return (
@@ -200,7 +232,7 @@ export default function DeveloperDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -251,26 +283,36 @@ export default function DeveloperDashboard() {
                   </CardContent>
                 </Card>
               </div>
-            <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
-                <Card>
+            <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+                <Card className="xl:col-span-2">
                     <CardHeader>
-                        <CardTitle>Current Project</CardTitle>
-                        <CardDescription>An overview of your assigned project.</CardDescription>
+                        <CardTitle>Recent Tasks</CardTitle>
+                        <CardDescription>Your most recently updated tasks.</CardDescription>
                     </CardHeader>
                     <CardContent>
                        <Table>
                         <TableHeader>
                         <TableRow>
-                            <TableHead>Project</TableHead>
+                            <TableHead>Task</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Your Role</TableHead>
+                            <TableHead>Project</TableHead>
                         </TableRow>
                         </TableHeader>
                         <TableBody>
                         <TableRow>
+                            <TableCell>Implement user authentication</TableCell>
+                            <TableCell><Badge variant="default">Done</Badge></TableCell>
                             <TableCell>DevDNA Platform</TableCell>
-                            <TableCell><Badge variant="outline">Active</Badge></TableCell>
-                            <TableCell>Frontend Developer</TableCell>
+                        </TableRow>
+                         <TableRow>
+                            <TableCell>Design dashboard layout</TableCell>
+                            <TableCell><Badge variant="outline">In Progress</Badge></TableCell>
+                             <TableCell>DevDNA Platform</TableCell>
+                        </TableRow>
+                         <TableRow>
+                            <TableCell>Setup CI/CD pipeline</TableCell>
+                            <TableCell><Badge variant="secondary">To Do</Badge></TableCell>
+                             <TableCell>DevDNA Platform</TableCell>
                         </TableRow>
                         </TableBody>
                     </Table>
@@ -278,32 +320,16 @@ export default function DeveloperDashboard() {
                 </Card>
                 <Card>
                 <CardHeader>
-                    <CardTitle>Recent Tasks</CardTitle>
-                    <CardDescription>Your most recently updated tasks.</CardDescription>
+                    <CardTitle>Work Breakdown</CardTitle>
+                    <CardDescription>Your contribution by work type.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Task</TableHead>
-                                <TableHead>Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Implement user authentication</TableCell>
-                                <TableCell><Badge variant="default">Done</Badge></TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Design dashboard layout</TableCell>
-                                <TableCell><Badge variant="outline">In Progress</Badge></TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell>Setup CI/CD pipeline</TableCell>
-                                <TableCell><Badge variant="secondary">To Do</Badge></TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                        <PieChart>
+                             <ChartTooltip content={<ChartTooltipContent nameKey="type" />} />
+                             <Pie data={workTypeData} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={60} />
+                        </PieChart>
+                    </ChartContainer>
                 </CardContent>
                 </Card>
             </div>

@@ -18,7 +18,14 @@ import {
   FolderKanban,
   BrainCircuit,
   History,
-  ClipboardList
+  ClipboardList,
+  Activity,
+  ThumbsUp,
+  ThumbsDown,
+  FileText,
+  Wrench,
+  Bug,
+  Codepen
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -50,18 +57,145 @@ import {
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useParams } from 'next/navigation';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Pie, PieChart, Cell } from 'recharts';
+import { Progress } from '@/components/ui/progress';
+
 
 const developers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254, projects: 3, avatar: 'JD', prs: 231, issues: 89 },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active', commits: 987, projects: 4, avatar: 'JS', prs: 180, issues: 120 },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave', commits: 450, projects: 2, avatar: 'PJ', prs: 95, issues: 45 },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active', commits: 1500, projects: 5, avatar: 'MJ', prs: 310, issues: 150 },
+    { 
+      id: '1', 
+      name: 'John Doe', 
+      github: '@johndoe',
+      email: 'john@example.com', 
+      topSkills: ['React', 'TypeScript', 'Node.js'],
+      role: 'Full-Stack Developer',
+      activityScore: 92,
+      status: 'Active',
+      avatar: 'JD', 
+      metrics: {
+        commits: { last30: 85, last90: 250 },
+        prs: { created: 32, approvalRate: 95 },
+        reviews: 48,
+        languages: ['TypeScript', 'JavaScript', 'Python'],
+        workType: [
+            { type: 'Features', value: 50, fill: 'hsl(var(--primary))' },
+            { type: 'Bug Fixes', value: 25, fill: 'hsl(var(--destructive))' },
+            { type: 'Documentation', value: 15, fill: 'hsl(var(--chart-3))' },
+            { type: 'Infrastructure', value: 10, fill: 'hsl(var(--chart-4))' },
+        ],
+      },
+      strengths: ['Strong backend logic & API design', 'Quick PR turnaround', 'High bug fix success rate'],
+      weaknesses: ['Large PR sizes', 'Low test coverage contributions'],
+      developerType: 'Full-Stack Builder'
+    },
+     { 
+      id: '2', 
+      name: 'Jane Smith', 
+      github: '@janesmith',
+      email: 'jane@example.com', 
+      topSkills: ['Node.js', 'Python', 'AWS'],
+      role: 'Backend Specialist',
+      activityScore: 88,
+      status: 'Active', 
+      avatar: 'JS', 
+       metrics: {
+        commits: { last30: 70, last90: 210 },
+        prs: { created: 28, approvalRate: 98 },
+        reviews: 55,
+        languages: ['Python', 'Go', 'SQL'],
+        workType: [
+            { type: 'Features', value: 40, fill: 'hsl(var(--primary))' },
+            { type: 'Bug Fixes', value: 35, fill: 'hsl(var(--destructive))' },
+            { type: 'Documentation', value: 10, fill: 'hsl(var(--chart-3))' },
+            { type: 'Infrastructure', value: 15, fill: 'hsl(var(--chart-4))' },
+        ],
+      },
+      strengths: ['High-quality code', 'Excellent reviewer', 'Strong systems design'],
+      weaknesses: ['Slow review response time', 'Sometimes over-engineers solutions'],
+      developerType: 'Backend Specialist'
+    },
+    { 
+      id: '3', 
+      name: 'Peter Jones', 
+      github: '@peterjones',
+      email: 'peter@example.com', 
+      topSkills: ['Vue.js', 'CSS', 'Testing'],
+      role: 'Frontend Developer',
+      activityScore: 85,
+      status: 'On Leave', 
+      avatar: 'PJ', 
+       metrics: {
+        commits: { last30: 40, last90: 120 },
+        prs: { created: 20, approvalRate: 92 },
+        reviews: 30,
+        languages: ['JavaScript', 'CSS', 'HTML'],
+         workType: [
+            { type: 'Features', value: 60, fill: 'hsl(var(--primary))' },
+            { type: 'Bug Fixes', value: 20, fill: 'hsl(var(--destructive))' },
+            { type: 'Documentation', value: 15, fill: 'hsl(var(--chart-3))' },
+            { type: 'Infrastructure', value: 5, fill: 'hsl(var(--chart-4))' },
+        ],
+      },
+      strengths: ['Great UI/UX sense', 'Writes clean, maintainable CSS', 'Proactive in documentation'],
+      weaknesses: ['Needs to improve TypeScript skills', 'Avoids complex backend tasks'],
+      developerType: 'Frontend Specialist'
+    },
+    { 
+      id: '4', 
+      name: 'Mary Johnson', 
+      github: '@maryj',
+      email: 'mary@example.com', 
+      topSkills: ['Angular', 'DevOps', 'Kubernetes'],
+      role: 'DevOps Engineer',
+      activityScore: 95,
+      status: 'Active', 
+      avatar: 'MJ', 
+       metrics: {
+        commits: { last30: 95, last90: 280 },
+        prs: { created: 40, approvalRate: 99 },
+        reviews: 60,
+        languages: ['YAML', 'Go', 'Shell'],
+        workType: [
+            { type: 'Features', value: 10, fill: 'hsl(var(--primary))' },
+            { type: 'Bug Fixes', value: 15, fill: 'hsl(var(--destructive))' },
+            { type: 'Documentation', value: 25, fill: 'hsl(var(--chart-3))' },
+            { type: 'Infrastructure', value: 50, fill: 'hsl(var(--chart-4))' },
+        ],
+      },
+      strengths: ['Expert in CI/CD pipelines', 'High test coverage contributions', 'Excellent problem-solver'],
+      weaknesses: ['Can be slow to adopt new frontend frameworks', 'PR descriptions can be brief'],
+      developerType: 'Infra & DevOps Engineer'
+    },
 ];
 
 const projectHistory = [
     { name: 'AI Chatbot Integration', role: 'AI Engineer', duration: '6 months', tech: ['Python', 'TensorFlow', 'Next.js'] },
     { name: 'Internal Tools', role: 'Full-stack Developer', duration: '1 year', tech: ['React', 'Node.js', 'PostgreSQL'] },
 ];
+
+const chartConfig = {
+  work: {
+    label: "Work Type",
+  },
+  features: {
+    label: "Features",
+    color: "hsl(var(--primary))",
+  },
+  bugs: {
+    label: "Bug Fixes",
+    color: "hsl(var(--destructive))",
+  },
+  docs: {
+    label: "Documentation",
+    color: "hsl(var(--chart-3))",
+  },
+  infra: {
+    label: "Infrastructure",
+    color: "hsl(var(--chart-4))",
+  },
+} satisfies ChartConfig;
+
 
 export default function DeveloperProfilePage() {
   const params = useParams();
@@ -70,7 +204,6 @@ export default function DeveloperProfilePage() {
   if (!developer) {
     return <div className="flex items-center justify-center h-screen bg-black text-white">Developer not found.</div>;
   }
-
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -225,126 +358,130 @@ export default function DeveloperProfilePage() {
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <Card>
-                <CardHeader className="flex flex-row items-center gap-4">
-                    <Avatar className="h-20 w-20">
-                        <AvatarImage src={`https://placehold.co/80x80.png?text=${developer.avatar}`} />
+                <CardHeader className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <Avatar className="h-24 w-24">
+                        <AvatarImage src={`https://placehold.co/96x96.png?text=${developer.avatar}`} />
                         <AvatarFallback>{developer.avatar}</AvatarFallback>
                     </Avatar>
-                    <div>
-                        <CardTitle className="text-3xl">{developer.name}</CardTitle>
-                        <CardDescription className="text-lg">{developer.email}</CardDescription>
-                        <Badge className="mt-2" variant={developer.status === 'Active' ? 'default' : 'secondary'}>{developer.status}</Badge>
+                    <div className="flex-grow">
+                        <div className='flex justify-between items-start'>
+                             <div>
+                                <CardTitle className="text-3xl">{developer.name}</CardTitle>
+                                <a href="#" className="text-lg text-muted-foreground hover:text-primary">{developer.github}</a>
+                            </div>
+                             <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
+                        </div>
+                        <div className="mt-4 flex items-center gap-4">
+                            <div className="flex flex-col">
+                                <span className='text-sm text-muted-foreground'>Top Skills</span>
+                                <div className='flex gap-2 mt-1'>
+                                    {developer.topSkills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                               <span className='text-sm text-muted-foreground'>Activity Score</span>
+                               <div className='flex items-center gap-2 mt-1'>
+                                <Progress value={developer.activityScore} className="w-32" />
+                                <span className='font-semibold'>{developer.activityScore}%</span>
+                               </div>
+                            </div>
+                        </div>
                     </div>
                 </CardHeader>
             </Card>
 
-           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Total Commits
-                    </CardTitle>
+                    <CardTitle className="text-sm font-medium">Commits (30d)</CardTitle>
                     <GitCommit className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.commits}</div>
-                    <p className="text-xs text-muted-foreground">
-                      All time
-                    </p>
+                    <div className="text-2xl font-bold">{developer.metrics.commits.last30}</div>
+                    <p className="text-xs text-muted-foreground">Total in last 30 days</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Pull Requests
-                    </CardTitle>
+                    <CardTitle className="text-sm font-medium">PR Approval Rate</CardTitle>
                     <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.prs}</div>
-                    <p className="text-xs text-muted-foreground">
-                       All time
-                    </p>
+                    <div className="text-2xl font-bold">{developer.metrics.prs.approvalRate}%</div>
+                    <p className="text-xs text-muted-foreground">{developer.metrics.prs.created} PRs created</p>
                   </CardContent>
                 </Card>
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Issues Resolved</CardTitle>
+                    <CardTitle className="text-sm font-medium">Reviews Given</CardTitle>
                     <CheckCircle className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <div className="text-2xl font-bold">{developer.issues}</div>
-                      <p className="text-xs text-muted-foreground">
-                       All time
-                    </p>
+                     <div className="text-2xl font-bold">{developer.metrics.reviews}</div>
+                     <p className="text-xs text-muted-foreground">Peer reviews completed</p>
                   </CardContent>
                 </Card>
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">AI Insight</CardTitle>
-                        <Bot className="h-4 w-4 text-muted-foreground" />
+                        <CardTitle className="text-sm font-medium">Top Languages</CardTitle>
+                        <Codepen className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <p className="text-xs text-muted-foreground">
-                            {developer.name} shows strong proficiency in frontend frameworks. Consider for UI/UX intensive projects.
-                        </p>
+                        <div className='flex gap-2 mt-2'>
+                           {developer.metrics.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
+                        </div>
                     </CardContent>
                 </Card>
               </div>
-            <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
-                 <Card>
+            <div className="grid gap-4 md:gap-8 lg:grid-cols-5">
+                 <Card className="lg:col-span-3">
                     <CardHeader>
-                        <CardTitle>Skill Set</CardTitle>
-                        <CardDescription>An overview of identified skills and domains.</CardDescription>
+                        <CardTitle>Strengths & Weaknesses</CardTitle>
+                        <CardDescription>AI-generated analysis of development patterns.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <h4 className="text-sm font-semibold mb-2 flex items-center"><BrainCircuit className="mr-2 h-4 w-4" /> Domains</h4>
-                            <div className="flex flex-wrap gap-2">
-                               <Badge variant="secondary">FinTech</Badge>
-                               <Badge variant="secondary">AI/ML</Badge>
-                               <Badge variant="secondary">E-commerce</Badge>
-                            </div>
+                            <h4 className="font-semibold flex items-center mb-2"><ThumbsUp className="h-5 w-5 mr-2 text-green-500" /> Strengths</h4>
+                            <ul className="space-y-2 list-inside">
+                                {developer.strengths.map((strength, index) => (
+                                    <li key={index} className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{strength}</li>
+                                ))}
+                            </ul>
                         </div>
-                        <div>
-                             <h4 className="text-sm font-semibold mb-2 flex items-center"><Code className="mr-2 h-4 w-4" /> Tech & Languages</h4>
-                            <div className="flex flex-wrap gap-2">
-                               <Badge variant="outline">JavaScript</Badge>
-                               <Badge variant="outline">TypeScript</Badge>
-                               <Badge variant="outline">React</Badge>
-                               <Badge variant="outline">Next.js</Badge>
-                               <Badge variant="outline">Tailwind CSS</Badge>
-                               <Badge variant="outline">Figma</Badge>
-                               <Badge variant="outline">Node.js</Badge>
-                            </div>
+                         <div>
+                            <h4 className="font-semibold flex items-center mb-2"><ThumbsDown className="h-5 w-5 mr-2 text-red-500" /> Weaknesses</h4>
+                            <ul className="space-y-2 list-inside">
+                                {developer.weaknesses.map((weakness, index) => (
+                                     <li key={index} className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{weakness}</li>
+                                ))}
+                            </ul>
                         </div>
                     </CardContent>
                 </Card>
-                <Card>
-                <CardHeader>
-                    <CardTitle>Project History</CardTitle>
-                    <CardDescription>A summary of past project experience.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                   <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Project</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead className="text-right">Duration</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {projectHistory.map((project, index) => (
-                                <TableRow key={index}>
-                                    <TableCell className="font-medium">{project.name}</TableCell>
-                                    <TableCell>{project.role}</TableCell>
-                                    <TableCell className="text-right">{project.duration}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
+                 <Card className="lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Work Type Breakdown</CardTitle>
+                        <CardDescription>Distribution of commits by category.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                         <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
+                            <PieChart>
+                                <ChartTooltip content={<ChartTooltipContent nameKey="type" />} />
+                                <Pie data={developer.metrics.workType} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} labelLine={false} label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                                        const RADIAN = Math.PI / 180;
+                                        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                                        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                                        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                        return (
+                                          <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" className="text-xs font-bold">
+                                            {`${(percent * 100).toFixed(0)}%`}
+                                          </text>
+                                        );
+                                      }}>
+                                </Pie>
+                            </PieChart>
+                        </ChartContainer>
+                    </CardContent>
                 </Card>
             </div>
         </main>
