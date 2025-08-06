@@ -11,9 +11,14 @@ import {
   Package2,
   Projector,
   Trophy,
-  BarChart,
   Code,
-  Users
+  Users,
+  GitPullRequest,
+  CheckCircle,
+  FolderKanban,
+  BrainCircuit,
+  History,
+  ClipboardList
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -43,38 +48,20 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Link from 'next/link';
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartConfig,
-} from "@/components/ui/chart"
-import { Bar, BarChart as RechartsBarChart, XAxis, YAxis } from "recharts"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useParams } from 'next/navigation';
 
 const developers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254, projects: 3, avatar: 'JD' },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active', commits: 987, projects: 4, avatar: 'JS' },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave', commits: 450, projects: 2, avatar: 'PJ' },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active', commits: 1500, projects: 5, avatar: 'MJ' },
+    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254, projects: 3, avatar: 'JD', prs: 231, issues: 89 },
+    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active', commits: 987, projects: 4, avatar: 'JS', prs: 180, issues: 120 },
+    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave', commits: 450, projects: 2, avatar: 'PJ', prs: 95, issues: 45 },
+    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active', commits: 1500, projects: 5, avatar: 'MJ', prs: 310, issues: 150 },
 ];
 
-const chartData = [
-  { month: "January", commits: 186 },
-  { month: "February", commits: 305 },
-  { month: "March", commits: 237 },
-  { month: "April", commits: 73 },
-  { month: "May", commits: 209 },
-  { month: "June", commits: 214 },
-]
-
-const chartConfig = {
-  commits: {
-    label: "Commits",
-    color: "hsl(var(--primary))",
-  },
-} satisfies ChartConfig
+const projectHistory = [
+    { name: 'AI Chatbot Integration', role: 'AI Engineer', duration: '6 months', tech: ['Python', 'TensorFlow', 'Next.js'] },
+    { name: 'Internal Tools', role: 'Full-stack Developer', duration: '1 year', tech: ['React', 'Node.js', 'PostgreSQL'] },
+];
 
 export default function DeveloperProfilePage() {
   const params = useParams();
@@ -109,18 +96,32 @@ export default function DeveloperProfilePage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/developer/my-projects"
+                href="/dashboard/developer/project"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
-                My Projects
+                Current Project
               </Link>
                <Link
+                href="/dashboard/developer/tasks"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <ClipboardList className="h-4 w-4" />
+                My Tasks
+              </Link>
+              <Link
                 href="/dashboard/developer/team"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Team
+              </Link>
+              <Link
+                href="/dashboard/developer/project-history"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <History className="h-4 w-4" />
+                Project History
               </Link>
                <Link
                 href={`/dashboard/developer/${developer.id}`}
@@ -163,11 +164,18 @@ export default function DeveloperProfilePage() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/developer/my-projects"
+                  href="/dashboard/developer/project"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
-                  My Projects
+                  Current Project
+                </Link>
+                <Link
+                  href="/dashboard/developer/tasks"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <ClipboardList className="h-5 w-5" />
+                  My Tasks
                 </Link>
                 <Link
                   href="/dashboard/developer/team"
@@ -175,6 +183,13 @@ export default function DeveloperProfilePage() {
                 >
                    <Users className="h-5 w-5" />
                   Team
+                </Link>
+                <Link
+                  href="/dashboard/developer/project-history"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <History className="h-5 w-5" />
+                  Project History
                 </Link>
                  <Link
                   href={`/dashboard/developer/${developer.id}`}
@@ -241,26 +256,26 @@ export default function DeveloperProfilePage() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Active Projects
+                      Pull Requests
                     </CardTitle>
-                    <Projector className="h-4 w-4 text-muted-foreground" />
+                    <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.projects}</div>
+                    <div className="text-2xl font-bold">{developer.prs}</div>
                     <p className="text-xs text-muted-foreground">
-                      Currently assigned
+                       All time
                     </p>
                   </CardContent>
                 </Card>
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Top Skill</CardTitle>
-                    <Trophy className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">Issues Resolved</CardTitle>
+                    <CheckCircle className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <div className="text-2xl font-bold">{developer.topSkill}</div>
+                     <div className="text-2xl font-bold">{developer.issues}</div>
                       <p className="text-xs text-muted-foreground">
-                      Based on recent activity
+                       All time
                     </p>
                   </CardContent>
                 </Card>
@@ -277,44 +292,58 @@ export default function DeveloperProfilePage() {
                 </Card>
               </div>
             <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
-                <Card>
+                 <Card>
                     <CardHeader>
                         <CardTitle>Skill Set</CardTitle>
-                        <CardDescription>An overview of identified skills.</CardDescription>
+                        <CardDescription>An overview of identified skills and domains.</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-wrap gap-2">
-                       <Badge variant="outline">JavaScript</Badge>
-                       <Badge variant="outline">TypeScript</Badge>
-                       <Badge variant="outline">React</Badge>
-                       <Badge variant="outline">Next.js</Badge>
-                       <Badge variant="outline">Tailwind CSS</Badge>
-                       <Badge variant="outline">Figma</Badge>
-                       <Badge variant="outline">Node.js</Badge>
+                    <CardContent className="space-y-4">
+                        <div>
+                            <h4 className="text-sm font-semibold mb-2 flex items-center"><BrainCircuit className="mr-2 h-4 w-4" /> Domains</h4>
+                            <div className="flex flex-wrap gap-2">
+                               <Badge variant="secondary">FinTech</Badge>
+                               <Badge variant="secondary">AI/ML</Badge>
+                               <Badge variant="secondary">E-commerce</Badge>
+                            </div>
+                        </div>
+                        <div>
+                             <h4 className="text-sm font-semibold mb-2 flex items-center"><Code className="mr-2 h-4 w-4" /> Tech & Languages</h4>
+                            <div className="flex flex-wrap gap-2">
+                               <Badge variant="outline">JavaScript</Badge>
+                               <Badge variant="outline">TypeScript</Badge>
+                               <Badge variant="outline">React</Badge>
+                               <Badge variant="outline">Next.js</Badge>
+                               <Badge variant="outline">Tailwind CSS</Badge>
+                               <Badge variant="outline">Figma</Badge>
+                               <Badge variant="outline">Node.js</Badge>
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
                 <Card>
                 <CardHeader>
-                    <CardTitle>Monthly Commits</CardTitle>
-                    <CardDescription>Commit activity over the last 6 months.</CardDescription>
+                    <CardTitle>Project History</CardTitle>
+                    <CardDescription>A summary of past project experience.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                        <RechartsBarChart accessibilityLayer data={chartData}>
-                            <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                            tickFormatter={(value) => value.slice(0, 3)}
-                            />
-                            <YAxis />
-                            <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                            />
-                            <Bar dataKey="commits" fill="var(--color-commits)" radius={4} />
-                        </RechartsBarChart>
-                    </ChartContainer>
+                   <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Project</TableHead>
+                                <TableHead>Role</TableHead>
+                                <TableHead className="text-right">Duration</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {projectHistory.map((project, index) => (
+                                <TableRow key={index}>
+                                    <TableCell className="font-medium">{project.name}</TableCell>
+                                    <TableCell>{project.role}</TableCell>
+                                    <TableCell className="text-right">{project.duration}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </CardContent>
                 </Card>
             </div>
@@ -323,3 +352,5 @@ export default function DeveloperProfilePage() {
     </div>
   );
 }
+
+    

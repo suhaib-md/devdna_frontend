@@ -9,7 +9,9 @@ import {
   Package2,
   Projector,
   Code,
-  Users
+  Users,
+  ClipboardList,
+  History
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -33,9 +35,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const teamMembers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', avatar: 'JD' },
     { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', avatar: 'JS' },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', avatar: 'PJ' },
     { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', avatar: 'MJ' },
     { id: '5', name: 'Alex Green', email: 'manager@gmail.com', topSkill: 'Project Management', avatar: 'AG' },
 ];
@@ -57,7 +57,7 @@ export default function TeamPage() {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
+               <Link
                 href="/dashboard/developer"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -65,11 +65,18 @@ export default function TeamPage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/developer/my-projects"
+                href="/dashboard/developer/project"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
-                My Projects
+                Current Project
+              </Link>
+               <Link
+                href="/dashboard/developer/tasks"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <ClipboardList className="h-4 w-4" />
+                My Tasks
               </Link>
               <Link
                 href="/dashboard/developer/team"
@@ -77,6 +84,13 @@ export default function TeamPage() {
               >
                 <Users className="h-4 w-4" />
                 Team
+              </Link>
+               <Link
+                href="/dashboard/developer/project-history"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <History className="h-4 w-4" />
+                Project History
               </Link>
                <Link
                 href="/dashboard/developer/1"
@@ -119,11 +133,18 @@ export default function TeamPage() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/developer/my-projects"
+                  href="/dashboard/developer/project"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
-                  My Projects
+                  Current Project
+                </Link>
+                <Link
+                  href="/dashboard/developer/tasks"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <ClipboardList className="h-5 w-5" />
+                  My Tasks
                 </Link>
                 <Link
                   href="/dashboard/developer/team"
@@ -131,6 +152,13 @@ export default function TeamPage() {
                 >
                    <Users className="h-5 w-5" />
                   Team
+                </Link>
+                 <Link
+                  href="/dashboard/developer/project-history"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <History className="h-5 w-5" />
+                  Project History
                 </Link>
                  <Link
                   href="/dashboard/developer/1"
@@ -143,7 +171,7 @@ export default function TeamPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">My Team</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">Project Team</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -167,29 +195,31 @@ export default function TeamPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <Card>
                 <CardHeader>
-                    <CardTitle>Team Members</CardTitle>
+                    <CardTitle>Team Members for "DevDNA Platform"</CardTitle>
                     <CardDescription>
-                       An overview of the talented individuals in your team.
+                       An overview of the talented individuals on your current project.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {teamMembers.map((member) => (
                          <Link href={`/dashboard/developer/${member.id}`} key={member.id}>
-                            <Card className="hover:bg-neutral-900/50 transition-colors">
-                                <CardHeader className="flex flex-row items-center gap-4">
-                                    <Avatar className="h-12 w-12">
-                                        <AvatarImage src={`https://placehold.co/48x48.png?text=${member.avatar}`} />
-                                        <AvatarFallback>{member.avatar}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <CardTitle className="text-lg">{member.name}</CardTitle>
-                                        <CardDescription>{member.email}</CardDescription>
-                                    </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <Badge variant="secondary">{member.topSkill}</Badge>
-                                </CardContent>
-                            </Card>
+                            <TiltedCard>
+                                <Card className="hover:bg-neutral-900/50 transition-colors h-full">
+                                    <CardHeader className="flex flex-row items-center gap-4">
+                                        <Avatar className="h-12 w-12">
+                                            <AvatarImage src={`https://placehold.co/48x48.png?text=${member.avatar}`} />
+                                            <AvatarFallback>{member.avatar}</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <CardTitle className="text-lg">{member.name}</CardTitle>
+                                            <CardDescription>{member.email}</CardDescription>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Badge variant="secondary">{member.topSkill}</Badge>
+                                    </CardContent>
+                                </Card>
+                            </TiltedCard>
                         </Link>
                     ))}
                 </CardContent>
@@ -199,3 +229,5 @@ export default function TeamPage() {
     </div>
   );
 }
+
+    

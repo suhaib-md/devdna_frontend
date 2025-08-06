@@ -11,7 +11,10 @@ import {
   Code,
   Users,
   ClipboardList,
-  History
+  History,
+  GitCommit,
+  GitPullRequest,
+  CheckCircle,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -33,9 +36,41 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
-import { Progress } from '@/components/ui/progress';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
-export default function CurrentProjectPage() {
+const projectHistory = [
+    { 
+      name: 'AI Chatbot Integration', 
+      role: 'AI Engineer', 
+      duration: 'Jan 2023 - Jun 2023 (6 months)', 
+      tech: ['Python', 'TensorFlow', 'Next.js', 'LangChain'],
+      description: 'Led the development of a customer-facing AI chatbot, improving response times by 40%. Responsible for model training and integration.',
+      stats: { commits: 350, prs: 80, issues: 45 }
+    },
+    { 
+      name: 'Internal Tools Platform', 
+      role: 'Full-stack Developer', 
+      duration: 'Mar 2022 - Dec 2022 (10 months)', 
+      tech: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
+      description: 'Built and maintained a suite of internal tools for the marketing team, resulting in a 25% increase in operational efficiency.',
+      stats: { commits: 520, prs: 110, issues: 95 }
+    },
+     { 
+      name: 'Data Migration Service', 
+      role: 'Backend Developer', 
+      duration: 'Oct 2021 - Feb 2022 (5 months)', 
+      tech: ['Go', 'Kafka', 'gRPC', 'Kubernetes'],
+      description: 'Developed a high-throughput service to migrate user data between legacy and modern database systems with zero downtime.',
+      stats: { commits: 210, prs: 45, issues: 30 }
+    },
+];
+
+export default function ProjectHistoryPage() {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -61,7 +96,7 @@ export default function CurrentProjectPage() {
               </Link>
               <Link
                 href="/dashboard/developer/project"
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
@@ -80,9 +115,9 @@ export default function CurrentProjectPage() {
                 <Users className="h-4 w-4" />
                 Team
               </Link>
-              <Link
+               <Link
                 href="/dashboard/developer/project-history"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <History className="h-4 w-4" />
                 Project History
@@ -129,7 +164,7 @@ export default function CurrentProjectPage() {
                 </Link>
                 <Link
                   href="/dashboard/developer/project"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
@@ -150,7 +185,7 @@ export default function CurrentProjectPage() {
                 </Link>
                  <Link
                   href="/dashboard/developer/project-history"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <History className="h-5 w-5" />
                   Project History
@@ -166,7 +201,7 @@ export default function CurrentProjectPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Current Project</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">Project History</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -190,42 +225,41 @@ export default function CurrentProjectPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl">DevDNA Platform</CardTitle>
+                    <CardTitle>Past Project Experience</CardTitle>
                     <CardDescription>
-                       An intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
+                        A detailed log of your contributions and roles in previous projects.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                    <div>
-                        <h3 className="text-lg font-semibold mb-2">Project Details</h3>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div className="font-semibold">Your Role:</div>
-                            <div>Frontend Developer</div>
-                            <div className="font-semibold">Status:</div>
-                            <div><Badge variant="outline">Active</Badge></div>
-                            <div className="font-semibold">Start Date:</div>
-                            <div>2023-01-15</div>
-                            <div className="font-semibold">Project Lead:</div>
-                            <div>Alex Green</div>
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Project Progress</h3>
-                        <div className="flex items-center gap-4">
-                            <span className="text-lg font-bold">75%</span>
-                            <Progress value={75} className="w-full" />
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Tech Stack</h3>
-                        <div className="flex flex-wrap gap-2">
-                           <Badge variant="secondary">Next.js</Badge>
-                           <Badge variant="secondary">TypeScript</Badge>
-                           <Badge variant="secondary">Tailwind CSS</Badge>
-                           <Badge variant="secondary">Genkit</Badge>
-                           <Badge variant="secondary">Firebase</Badge>
-                        </div>
-                    </div>
+                <CardContent>
+                    <Accordion type="single" collapsible className="w-full">
+                        {projectHistory.map((project, index) => (
+                            <AccordionItem value={`item-${index}`} key={index}>
+                                <AccordionTrigger>
+                                    <div className="flex flex-col items-start">
+                                        <span className="font-semibold text-base">{project.name}</span>
+                                        <span className="text-sm text-muted-foreground">{project.role} &middot; {project.duration}</span>
+                                    </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="space-y-4 pt-2">
+                                    <p className="text-neutral-300">{project.description}</p>
+                                    <div>
+                                        <h4 className="font-semibold text-sm mb-2">Key Technologies:</h4>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.tech.map(t => <Badge key={t} variant="outline">{t}</Badge>)}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-sm mb-2">Project Stats:</h4>
+                                        <div className="flex items-center gap-6 text-sm text-neutral-400">
+                                            <div className="flex items-center gap-2"><GitCommit className="h-4 w-4"/><span>{project.stats.commits} Commits</span></div>
+                                            <div className="flex items-center gap-2"><GitPullRequest className="h-4 w-4"/><span>{project.stats.prs} PRs</span></div>
+                                            <div className="flex items-center gap-2"><CheckCircle className="h-4 w-4"/><span>{project.stats.issues} Issues</span></div>
+                                        </div>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
                 </CardContent>
             </Card>
         </main>

@@ -11,9 +11,12 @@ import {
   Package2,
   Projector,
   Trophy,
-  BarChart,
   Code,
   Users,
+  GitPullRequest,
+  CheckCircle,
+  History,
+  ClipboardList
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -43,29 +46,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Link from 'next/link';
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartConfig,
-} from "@/components/ui/chart"
-import { Bar, BarChart as RechartsBarChart, XAxis, YAxis } from "recharts"
-
-const chartData = [
-  { month: "January", commits: 186 },
-  { month: "February", commits: 305 },
-  { month: "March", commits: 237 },
-  { month: "April", commits: 73 },
-  { month: "May", commits: 209 },
-  { month: "June", commits: 214 },
-]
-
-const chartConfig = {
-  commits: {
-    label: "Commits",
-    color: "hsl(var(--primary))",
-  },
-} satisfies ChartConfig
 
 export default function DeveloperDashboard() {
   return (
@@ -92,11 +72,18 @@ export default function DeveloperDashboard() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/developer/my-projects"
+                href="/dashboard/developer/project"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
-                My Projects
+                Current Project
+              </Link>
+              <Link
+                href="/dashboard/developer/tasks"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <ClipboardList className="h-4 w-4" />
+                My Tasks
               </Link>
               <Link
                 href="/dashboard/developer/team"
@@ -104,6 +91,13 @@ export default function DeveloperDashboard() {
               >
                 <Users className="h-4 w-4" />
                 Team
+              </Link>
+               <Link
+                href="/dashboard/developer/project-history"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <History className="h-4 w-4" />
+                Project History
               </Link>
                <Link
                 href="/dashboard/developer/1"
@@ -146,11 +140,18 @@ export default function DeveloperDashboard() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/developer/my-projects"
+                  href="/dashboard/developer/project"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
-                  My Projects
+                  Current Project
+                </Link>
+                <Link
+                  href="/dashboard/developer/tasks"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <ClipboardList className="h-5 w-5" />
+                  My Tasks
                 </Link>
                 <Link
                   href="/dashboard/developer/team"
@@ -158,6 +159,13 @@ export default function DeveloperDashboard() {
                 >
                    <Users className="h-5 w-5" />
                   Team
+                </Link>
+                 <Link
+                  href="/dashboard/developer/project-history"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <History className="h-5 w-5" />
+                  Project History
                 </Link>
                  <Link
                   href="/dashboard/developer/1"
@@ -210,26 +218,26 @@ export default function DeveloperDashboard() {
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Active Projects
+                      Pull Requests
                     </CardTitle>
-                    <Projector className="h-4 w-4 text-muted-foreground" />
+                    <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">3</div>
+                    <div className="text-2xl font-bold">231</div>
                     <p className="text-xs text-muted-foreground">
-                      Currently assigned
+                      +15 since last month
                     </p>
                   </CardContent>
                 </Card>
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Top Skill</CardTitle>
-                    <Trophy className="h-4 w-4 text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">Issues Resolved</CardTitle>
+                    <CheckCircle className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <div className="text-2xl font-bold">React</div>
+                     <div className="text-2xl font-bold">89</div>
                       <p className="text-xs text-muted-foreground">
-                      Based on recent activity
+                      This quarter
                     </p>
                   </CardContent>
                 </Card>
@@ -246,8 +254,8 @@ export default function DeveloperDashboard() {
             <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>My Projects</CardTitle>
-                        <CardDescription>An overview of your assigned projects.</CardDescription>
+                        <CardTitle>Current Project</CardTitle>
+                        <CardDescription>An overview of your assigned project.</CardDescription>
                     </CardHeader>
                     <CardContent>
                        <Table>
@@ -264,43 +272,38 @@ export default function DeveloperDashboard() {
                             <TableCell><Badge variant="outline">Active</Badge></TableCell>
                             <TableCell>Frontend Developer</TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell>AI Chatbot Integration</TableCell>
-                            <TableCell><Badge variant="outline">Active</Badge></TableCell>
-                            <TableCell>AI Engineer</TableCell>
-                        </TableRow>
-                         <TableRow>
-                            <TableCell>Internal Tools</TableCell>
-                            <TableCell><Badge>Completed</Badge></TableCell>
-                            <TableCell>Full-stack Developer</TableCell>
-                        </TableRow>
                         </TableBody>
                     </Table>
                     </CardContent>
                 </Card>
                 <Card>
                 <CardHeader>
-                    <CardTitle>Monthly Commits</CardTitle>
-                    <CardDescription>Your commit activity over the last 6 months.</CardDescription>
+                    <CardTitle>Recent Tasks</CardTitle>
+                    <CardDescription>Your most recently updated tasks.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                        <RechartsBarChart accessibilityLayer data={chartData}>
-                            <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                            tickFormatter={(value) => value.slice(0, 3)}
-                            />
-                            <YAxis />
-                            <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent hideLabel />}
-                            />
-                            <Bar dataKey="commits" fill="var(--color-commits)" radius={4} />
-                        </RechartsBarChart>
-                    </ChartContainer>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Task</TableHead>
+                                <TableHead>Status</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>Implement user authentication</TableCell>
+                                <TableCell><Badge variant="default">Done</Badge></TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Design dashboard layout</TableCell>
+                                <TableCell><Badge variant="outline">In Progress</Badge></TableCell>
+                            </TableRow>
+                             <TableRow>
+                                <TableCell>Setup CI/CD pipeline</TableCell>
+                                <TableCell><Badge variant="secondary">To Do</Badge></TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
                 </CardContent>
                 </Card>
             </div>
@@ -309,3 +312,5 @@ export default function DeveloperDashboard() {
     </div>
   );
 }
+
+    
