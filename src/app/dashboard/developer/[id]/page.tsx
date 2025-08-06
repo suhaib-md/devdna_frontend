@@ -427,7 +427,7 @@ export default function DeveloperProfilePage() {
                         <Codepen className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className='flex gap-2 mt-2'>
+                        <div className='flex flex-wrap gap-2 mt-2'>
                            {developer.metrics.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
                         </div>
                     </CardContent>
@@ -489,5 +489,3 @@ export default function DeveloperProfilePage() {
     </div>
   );
 }
-
-    
