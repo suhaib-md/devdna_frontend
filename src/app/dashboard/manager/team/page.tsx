@@ -43,6 +43,16 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from '@/components/ui/label';
 
 const developers = [
     { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254 },
@@ -208,7 +218,32 @@ export default function ManagerTeamPage() {
                     <CardTitle className="text-sm font-medium">Add Developer</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <Button><UserPlus className="mr-2 h-4 w-4" /> Add New Dev</Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button><UserPlus className="mr-2 h-4 w-4" /> Add New Dev</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                            <DialogTitle>Add New Developer</DialogTitle>
+                            <DialogDescription>
+                                Enter the developer's details to add them to your team.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">Name</Label>
+                                <Input id="name" placeholder="John Doe" className="col-span-3" />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="email" className="text-right">Email</Label>
+                                <Input id="email" type="email" placeholder="dev@example.com" className="col-span-3" />
+                            </div>
+                            </div>
+                            <DialogFooter>
+                            <Button type="submit">Add Developer</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                   </CardContent>
                 </Card>
             </div>

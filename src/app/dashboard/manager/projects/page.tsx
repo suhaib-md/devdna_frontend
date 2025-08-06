@@ -40,6 +40,17 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const projects = [
     { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
@@ -182,7 +193,32 @@ export default function ManagerProjectsPage() {
                             A list of all projects you are currently managing.
                         </CardDescription>
                     </div>
-                    <Button><PlusCircle className="mr-2 h-4 w-4" />Create Project</Button>
+                     <Dialog>
+                        <DialogTrigger asChild>
+                           <Button><PlusCircle className="mr-2 h-4 w-4" />Create Project</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                            <DialogTitle>Create New Project</DialogTitle>
+                            <DialogDescription>
+                                Fill in the details below to start a new project.
+                            </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">Name</Label>
+                                <Input id="name" placeholder="Project Phoenix" className="col-span-3" />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="lead" className="text-right">Lead</Label>
+                                <Input id="lead" placeholder="Select developer" className="col-span-3" />
+                            </div>
+                            </div>
+                            <DialogFooter>
+                            <Button type="submit">Create Project</Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
                 </CardHeader>
                 <CardContent>
                 <Table>
