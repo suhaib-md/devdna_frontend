@@ -109,14 +109,14 @@ export default function DeveloperProfilePage() {
                 Dashboard
               </Link>
               <Link
-                href="#"
+                href="/dashboard/developer/my-projects"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 My Projects
               </Link>
                <Link
-                href="#"
+                href="/dashboard/developer/team"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
@@ -163,14 +163,14 @@ export default function DeveloperProfilePage() {
                   Dashboard
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/developer/my-projects"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   My Projects
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/developer/team"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                    <Users className="h-5 w-5" />
