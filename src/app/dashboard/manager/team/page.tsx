@@ -13,7 +13,8 @@ import {
   BarChart,
   UserPlus,
   Search,
-  Trophy
+  Trophy,
+  GitBranch
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -54,6 +55,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const developers = [
     { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254 },
@@ -237,25 +239,33 @@ export default function ManagerTeamPage() {
                         <DialogTrigger asChild>
                             <Button><UserPlus className="mr-2 h-4 w-4" /> Add New Dev</Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                         <DialogContent className="sm:max-w-md">
                             <DialogHeader>
-                            <DialogTitle>Add New Developer</DialogTitle>
-                            <DialogDescription>
-                                Enter the developer's details to add them to your team.
-                            </DialogDescription>
+                                <DialogTitle>Add Developer to Project</DialogTitle>
+                                <DialogDescription>
+                                    Assign a developer to the project and set them up for success.
+                                </DialogDescription>
                             </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">Name</Label>
-                                <Input id="name" placeholder="John Doe" className="col-span-3" />
-                            </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="email" className="text-right">Email</Label>
-                                <Input id="email" type="email" placeholder="dev@example.com" className="col-span-3" />
-                            </div>
+                            <div className="grid gap-6 py-4">
+                                <div>
+                                    <Label htmlFor="developer-search">Search Developer</Label>
+                                    <Input id="developer-search" placeholder="Search by name, email, or skill..." className="mt-2" />
+                                    {/* In a real app, this would show search results */}
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="initial-task">Initial Task</Label>
+                                    <Textarea id="initial-task" placeholder="e.g., Set up the initial project structure for the authentication feature."/>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="git-branch">Assign Git Branch</Label>
+                                     <div className="flex items-center">
+                                        <span className="text-sm text-muted-foreground bg-muted px-3 py-2 rounded-l-md border border-r-0 border-input"><GitBranch/></span>
+                                        <Input id="git-branch" placeholder="e.g., feature/user-auth" className="rounded-l-none"/>
+                                    </div>
+                                </div>
                             </div>
                             <DialogFooter>
-                            <Button type="submit">Add Developer</Button>
+                                <Button type="submit">Add to Project</Button>
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
