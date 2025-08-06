@@ -4,27 +4,20 @@
 import { useState } from 'react';
 import {
   Bell,
+  Bot,
   CircleUser,
   Home,
   Menu,
   Package2,
-  Users,
   Projector,
+  Users,
+  Send,
+  Loader2,
   BarChart,
-  Trophy,
-  Github,
-  Lock,
-  Unlock,
-  Bot
+  Trophy
 } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,22 +28,46 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import { getInsight } from '@/app/actions';
+import { useToast } from '@/hooks/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function CreateProjectPage() {
-  const router = useRouter();
-  const [repoOption, setRepoOption] = useState('new-repo');
+type Message = {
+    role: 'user' | 'assistant';
+    content: string;
+};
 
-  const handleCreateProject = (e: React.FormEvent) => {
+export default function AiAssistantPage() {
+  const { toast } = useToast();
+
+  const [chatInput, setChatInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would have API calls to create the project and repo.
-    // For now, we'll just redirect to the projects page.
-    router.push('/dashboard/manager/projects?created=true');
-  };
+    if (!chatInput.trim()) return;
+
+    const newMessages: Message[] = [...messages, { role: 'user', content: chatInput }];
+    setMessages(newMessages);
+    setChatInput("");
+    setIsLoading(true);
+
+    const result = await getInsight(chatInput);
+    setIsLoading(false);
+
+    if (result.error) {
+        toast({
+            variant: "destructive",
+            title: "Error",
+            description: result.error,
+        });
+    } else if (result.summary) {
+        setMessages([...newMessages, { role: 'assistant', content: result.summary }]);
+    }
+  }
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -103,9 +120,9 @@ export default function CreateProjectPage() {
                 <Trophy className="h-4 w-4" />
                 Leaderboard
               </Link>
-               <Link
+              <Link
                 href="/dashboard/manager/ai-assistant"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Bot className="h-4 w-4" />
                 AI Assistant
@@ -136,7 +153,7 @@ export default function CreateProjectPage() {
                   <Package2 className="h-6 w-6" />
                   <span className="sr-only">DevDNA</span>
                 </Link>
-                 <Link
+                <Link
                   href="/dashboard/manager"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
@@ -165,24 +182,24 @@ export default function CreateProjectPage() {
                   Analytics
                 </Link>
                 <Link
-                  href="/dashboard/manager/leaderboard"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                    href="/dashboard/manager/leaderboard"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
-                  <Trophy className="h-5 w-5" />
-                  Leaderboard
+                    <Trophy className="h-5 w-5" />
+                    Leaderboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/ai-assistant"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                <Link
+                    href="/dashboard/manager/ai-assistant"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
-                  <Bot className="h-5 w-5" />
-                  AI Assistant
+                    <Bot className="h-5 w-5" />
+                    AI Assistant
                 </Link>
               </nav>
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Create New Project</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">AI Assistant</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -203,79 +220,56 @@ export default function CreateProjectPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <Card className="max-w-2xl mx-auto w-full">
-            <CardHeader>
-              <CardTitle>Project Details</CardTitle>
-              <CardDescription>
-                Fill in the information below to create your new project.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form className="space-y-6" onSubmit={handleCreateProject}>
-                <div className="space-y-2">
-                  <Label htmlFor="project-name">Project Name</Label>
-                  <Input id="project-name" placeholder="e.g., Project Phoenix" defaultValue="DevDNA Platform" />
-                </div>
-                 <div className="space-y-2">
-                    <Label htmlFor="project-description">Project Description</Label>
-                    <Textarea id="project-description" placeholder="A short description of your project." />
-                </div>
-                <div className="space-y-4">
-                  <Label>GitHub Repository</Label>
-                   <RadioGroup defaultValue="new-repo" className="flex space-x-6" onValueChange={setRepoOption}>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="new-repo" id="new-repo" />
-                        <Label htmlFor="new-repo">Create a new repository</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="existing-repo" id="existing-repo" />
-                        <Label htmlFor="existing-repo">Use an existing repository</Label>
-                      </div>
-                    </RadioGroup>
-                </div>
-
-                {repoOption === 'new-repo' ? (
-                   <div className="space-y-6">
-                        <div className="space-y-2">
-                           <Label htmlFor="repo-name">Repository Name</Label>
-                            <div className="flex items-center">
-                                <span className="text-sm text-muted-foreground bg-muted px-3 py-2 rounded-l-md border border-r-0 border-input">github.com/your-org/</span>
-                                <Input id="repo-name" placeholder="project-phoenix" defaultValue="devdna-platform" className="rounded-l-none"/>
-                            </div>
+        <main className="flex flex-1 flex-col p-4 md:p-8 items-center justify-center">
+            <Card className="w-full max-w-4xl h-[70vh]">
+                <CardHeader>
+                    <CardTitle>AI Assistant</CardTitle>
+                    <CardDescription>Ask about team skills, project risks, or for a summary.</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-col h-[calc(70vh-78px)]">
+                    <ScrollArea className="flex-grow h-0 pr-4">
+                        <div className="space-y-4">
+                            {messages.map((message, index) => (
+                                <div key={index} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
+                                    {message.role === 'assistant' && <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>}
+                                    <div className={`rounded-lg px-4 py-2 max-w-[80%] ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'}`}>
+                                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                                    </div>
+                                     {message.role === 'user' && <Avatar className="w-8 h-8"><AvatarFallback><CircleUser size={20}/></AvatarFallback></Avatar>}
+                                </div>
+                            ))}
+                            {isLoading && (
+                                <div className="flex items-start gap-3">
+                                    <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>
+                                    <div className="rounded-lg px-4 py-2 bg-secondary flex items-center">
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                         <div className="space-y-2">
-                             <Label>Visibility</Label>
-                             <RadioGroup defaultValue="private" className="flex items-center gap-4">
-                                <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="private" id="private"/>
-                                    <Label htmlFor="private" className="flex items-center gap-2"><Lock/> Private</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                     <RadioGroupItem value="public" id="public"/>
-                                    <Label htmlFor="public" className="flex items-center gap-2"><Unlock/> Public</Label>
-                                </div>
-                            </RadioGroup>
-                         </div>
-                   </div>
-                ) : (
-                    <div className="space-y-2">
-                        <Label htmlFor="repo-link">Repository Link</Label>
-                        <Input id="repo-link" placeholder="https://github.com/your-org/existing-repo" />
-                    </div>
-                )}
-                
-
-                <Button type="submit" className="w-full">
-                    <Github className="mr-2 h-4 w-4"/>
-                    Create Project
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+                    </ScrollArea>
+                    <form onSubmit={handleChatSubmit} className="mt-4 flex items-center gap-2 border-t border-neutral-800 pt-4">
+                        <Textarea
+                            placeholder="e.g., 'Who are my top Python developers?'"
+                            value={chatInput}
+                            onChange={(e) => setChatInput(e.target.value)}
+                            className="min-h-0 text-base bg-neutral-900 border-neutral-700"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleChatSubmit(e);
+                                }
+                            }}
+                            rows={1}
+                        />
+                        <Button type="submit" size="icon" disabled={isLoading || !chatInput.trim()}>
+                            <Send className="h-4 w-4" />
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </main>
       </div>
     </div>
   );
 }
-

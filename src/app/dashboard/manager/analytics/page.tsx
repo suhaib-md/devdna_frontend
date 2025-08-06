@@ -12,7 +12,8 @@ import {
   BarChart,
   Trophy,
   GitCommit,
-  Activity
+  Activity,
+  Bot
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -120,6 +121,13 @@ export default function ManagerAnalyticsPage() {
                 <Trophy className="h-4 w-4" />
                 Leaderboard
               </Link>
+               <Link
+                href="/dashboard/manager/ai-assistant"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <Bot className="h-4 w-4" />
+                AI Assistant
+              </Link>
             </nav>
           </div>
         </div>
@@ -180,6 +188,13 @@ export default function ManagerAnalyticsPage() {
                 >
                   <Trophy className="h-5 w-5" />
                   Leaderboard
+                </Link>
+                 <Link
+                  href="/dashboard/manager/ai-assistant"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <Bot className="h-5 w-5" />
+                  AI Assistant
                 </Link>
               </nav>
             </SheetContent>
