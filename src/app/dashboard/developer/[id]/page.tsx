@@ -25,7 +25,8 @@ import {
   FileText,
   Wrench,
   Bug,
-  Codepen
+  Codepen,
+  Layers
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -69,6 +70,7 @@ const developers = [
       github: '@johndoe',
       email: 'john@example.com', 
       topSkills: ['React', 'TypeScript', 'Node.js'],
+      topDomains: ['Frontend', 'Backend', 'API Design'],
       role: 'Full-Stack Developer',
       activityScore: 92,
       status: 'Active',
@@ -95,6 +97,7 @@ const developers = [
       github: '@janesmith',
       email: 'jane@example.com', 
       topSkills: ['Node.js', 'Python', 'AWS'],
+      topDomains: ['Backend', 'System Design', 'Databases'],
       role: 'Backend Specialist',
       activityScore: 88,
       status: 'Active', 
@@ -121,6 +124,7 @@ const developers = [
       github: '@peterjones',
       email: 'peter@example.com', 
       topSkills: ['Vue.js', 'CSS', 'Testing'],
+      topDomains: ['Frontend', 'UI/UX', 'Web Performance'],
       role: 'Frontend Developer',
       activityScore: 85,
       status: 'On Leave', 
@@ -147,6 +151,7 @@ const developers = [
       github: '@maryj',
       email: 'mary@example.com', 
       topSkills: ['Angular', 'DevOps', 'Kubernetes'],
+      topDomains: ['DevOps', 'Cloud Infra', 'CI/CD'],
       role: 'DevOps Engineer',
       activityScore: 95,
       status: 'Active', 
@@ -371,13 +376,21 @@ export default function DeveloperProfilePage() {
                             </div>
                              <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
                         </div>
-                        <div className="mt-4 flex items-center gap-4">
+                        <div className="mt-4 flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div className="flex flex-col">
-                                <span className='text-sm text-muted-foreground'>Top Skills</span>
-                                <div className='flex gap-2 mt-1'>
+                                <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Code className="h-3.5 w-3.5" /> Top Skills</span>
+                                <div className='flex gap-2 mt-1 flex-wrap'>
                                     {developer.topSkills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
                                 </div>
                             </div>
+                             <div className="flex flex-col">
+                                <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Layers className="h-3.5 w-3.5" /> Top Domains</span>
+                                <div className='flex gap-2 mt-1 flex-wrap'>
+                                    {developer.topDomains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
+                                </div>
+                            </div>
+                        </div>
+                         <div className="mt-4 flex items-center gap-4">
                             <div className="flex flex-col">
                                <span className='text-sm text-muted-foreground'>Activity Score</span>
                                <div className='flex items-center gap-2 mt-1'>
