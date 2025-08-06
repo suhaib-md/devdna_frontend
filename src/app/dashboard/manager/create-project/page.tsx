@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState } from 'react';
 import {
   Bell,
   CircleUser,
@@ -11,6 +12,9 @@ import {
   Projector,
   BarChart,
   Trophy,
+  Github,
+  Lock,
+  Unlock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,9 +38,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useRouter } from 'next/navigation';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function CreateProjectPage() {
   const router = useRouter();
+  const [repoOption, setRepoOption] = useState('new-repo');
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,9 +202,13 @@ export default function CreateProjectPage() {
                   <Label htmlFor="project-name">Project Name</Label>
                   <Input id="project-name" placeholder="e.g., Project Phoenix" defaultValue="DevDNA Platform" />
                 </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="project-description">Project Description</Label>
+                    <Textarea id="project-description" placeholder="A short description of your project." />
+                </div>
                 <div className="space-y-4">
                   <Label>GitHub Repository</Label>
-                   <RadioGroup defaultValue="new-repo" className="flex space-x-6">
+                   <RadioGroup defaultValue="new-repo" className="flex space-x-6" onValueChange={setRepoOption}>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="new-repo" id="new-repo" />
                         <Label htmlFor="new-repo">Create a new repository</Label>
@@ -209,15 +219,42 @@ export default function CreateProjectPage() {
                       </div>
                     </RadioGroup>
                 </div>
-                <div className="space-y-2">
-                   <Label htmlFor="repo-name">Repository Name</Label>
-                    <div className="flex items-center">
-                        <span className="text-sm text-muted-foreground bg-muted px-3 py-2 rounded-l-md border border-r-0 border-input">github.com/your-org/</span>
-                        <Input id="repo-name" placeholder="project-phoenix" defaultValue="devdna-platform" className="rounded-l-none"/>
-                    </div>
-                </div>
 
-                <Button type="submit" className="w-full">Create Project</Button>
+                {repoOption === 'new-repo' ? (
+                   <div className="space-y-6">
+                        <div className="space-y-2">
+                           <Label htmlFor="repo-name">Repository Name</Label>
+                            <div className="flex items-center">
+                                <span className="text-sm text-muted-foreground bg-muted px-3 py-2 rounded-l-md border border-r-0 border-input">github.com/your-org/</span>
+                                <Input id="repo-name" placeholder="project-phoenix" defaultValue="devdna-platform" className="rounded-l-none"/>
+                            </div>
+                        </div>
+                         <div className="space-y-2">
+                             <Label>Visibility</Label>
+                             <RadioGroup defaultValue="private" className="flex items-center gap-4">
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="private" id="private"/>
+                                    <Label htmlFor="private" className="flex items-center gap-2"><Lock/> Private</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                     <RadioGroupItem value="public" id="public"/>
+                                    <Label htmlFor="public" className="flex items-center gap-2"><Unlock/> Public</Label>
+                                </div>
+                            </RadioGroup>
+                         </div>
+                   </div>
+                ) : (
+                    <div className="space-y-2">
+                        <Label htmlFor="repo-link">Repository Link</Label>
+                        <Input id="repo-link" placeholder="https://github.com/your-org/existing-repo" />
+                    </div>
+                )}
+                
+
+                <Button type="submit" className="w-full">
+                    <Github className="mr-2 h-4 w-4"/>
+                    Create Project
+                </Button>
               </form>
             </CardContent>
           </Card>
@@ -226,3 +263,4 @@ export default function CreateProjectPage() {
     </div>
   );
 }
+
