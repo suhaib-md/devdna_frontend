@@ -11,11 +11,13 @@ import {
   Package2,
   Projector,
   Users,
-  UserPlus,
   Send,
   Loader2,
   GitCommit,
-  Users2
+  Users2,
+  BarChart,
+  Settings,
+  LineChart
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -45,29 +47,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { getInsight } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
-const developers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active' },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active' },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave' },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active' },
-];
-
 const projects = [
     { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
     { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
     { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
-    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
-]
+];
 
 type Message = {
     role: 'user' | 'assistant';
@@ -75,22 +66,11 @@ type Message = {
 };
 
 export default function ManagerDashboard() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const router = useRouter();
   const { toast } = useToast();
 
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const filteredDevelopers = developers.filter(dev =>
-    dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    dev.topSkill.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleDevClick = (id: string) => {
-    router.push(`/dashboard/developer/${id}`);
-  };
 
   const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,11 +113,32 @@ export default function ManagerDashboard() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href="#"
+                href="/dashboard/manager"
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
+              </Link>
+              <Link
+                href="/dashboard/manager/projects"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <Projector className="h-4 w-4" />
+                Projects
+              </Link>
+              <Link
+                href="/dashboard/manager/team"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <Users className="h-4 w-4" />
+                Team
+              </Link>
+              <Link
+                href="/dashboard/manager/analytics"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <BarChart className="h-4 w-4" />
+                Analytics
               </Link>
             </nav>
           </div>
@@ -166,11 +167,32 @@ export default function ManagerDashboard() {
                   <span className="sr-only">DevDNA</span>
                 </Link>
                 <Link
-                  href="#"
+                  href="/dashboard/manager"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
+                </Link>
+                <Link
+                  href="/dashboard/manager/projects"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <Projector className="h-5 w-5" />
+                  Projects
+                </Link>
+                <Link
+                  href="/dashboard/manager/team"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <Users className="h-5 w-5" />
+                  Team
+                </Link>
+                <Link
+                  href="/dashboard/manager/analytics"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <BarChart className="h-5 w-5" />
+                  Analytics
                 </Link>
               </nav>
             </SheetContent>
@@ -198,155 +220,80 @@ export default function ManagerDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <Tabs defaultValue="developers">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="projects">Project Details</TabsTrigger>
-              <TabsTrigger value="developers">Developers</TabsTrigger>
-              <TabsTrigger value="chatbot">Chatbot</TabsTrigger>
-            </TabsList>
-            <TabsContent value="projects" className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Projects</CardTitle>
-                            <Projector className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{projects.length}</div>
-                            <p className="text-xs text-muted-foreground">Across all teams</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Engineers</CardTitle>
-                             <Users2 className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{developers.length}</div>
-                            <p className="text-xs text-muted-foreground">Total active developers</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
-                            <GitCommit className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">12,890</div>
-                             <p className="text-xs text-muted-foreground">This quarter</p>
-                        </CardContent>
-                    </Card>
-                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
-                            <Bot className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                           <Button variant="outline" size="sm">Generate Report</Button>
-                        </CardContent>
-                    </Card>
-                </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+                        <Projector className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">3</div>
+                        <p className="text-xs text-muted-foreground">managed by you</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Team Size</CardTitle>
+                         <Users2 className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">12</div>
+                        <p className="text-xs text-muted-foreground">Total developers</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Team Velocity</CardTitle>
+                        <LineChart className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">18 SP</div>
+                         <p className="text-xs text-muted-foreground">+5 from last sprint</p>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
+                        <Bot className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                       <Button variant="outline" size="sm">Generate Report</Button>
+                    </CardContent>
+                </Card>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+                <Card className="lg:col-span-4">
                     <CardHeader>
-                        <CardTitle>Projects Overview</CardTitle>
-                        <CardDescription>A summary of all ongoing and completed projects.</CardDescription>
+                        <CardTitle>Recent Projects</CardTitle>
+                        <CardDescription>An overview of projects you manage.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Project Name</TableHead>
-                                    <TableHead>Lead</TableHead>
+                                    <TableHead>Project</TableHead>
                                     <TableHead>Status</TableHead>
-                                    <TableHead>Team Size</TableHead>
-                                    <TableHead className="text-right">Completion</TableHead>
+                                    <TableHead className="text-right">Lead</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {projects.map((project) => (
-                                <TableRow key={project.name}>
-                                    <TableCell className="font-medium">{project.name}</TableCell>
-                                    <TableCell>{project.lead}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={project.status === 'Active' ? 'default' : project.status === 'Completed' ? 'secondary' : 'outline'}>{project.status}</Badge>
-                                    </TableCell>
-                                    <TableCell>{project.teamSize}</TableCell>
-                                    <TableCell className="text-right">
-                                        <div className="flex items-center justify-end gap-2">
-                                            <span>{project.completion}%</span>
-                                            <Progress value={project.completion} className="w-24" />
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
+                                    <TableRow key={project.name}>
+                                        <TableCell>{project.name}</TableCell>
+                                        <TableCell><Badge variant="outline">{project.status}</Badge></TableCell>
+                                        <TableCell className="text-right">{project.lead}</TableCell>
+                                    </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
                     </CardContent>
                 </Card>
-            </TabsContent>
-            <TabsContent value="developers" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
                 <Card className="lg:col-span-3">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium">Search Developers</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                     <Input
-                        placeholder="Search by name or skill (e.g., React)"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                     />
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium">Add Developer</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Button><UserPlus className="mr-2 h-4 w-4" /> Add New Dev</Button>
-                  </CardContent>
-                </Card>
-              </div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Developer Profiles</CardTitle>
-                  <CardDescription>
-                    Click on a developer to view their DevDNA.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Top Skill</TableHead>
-                        <TableHead>Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {filteredDevelopers.map((dev) => (
-                        <TableRow key={dev.id} onClick={() => handleDevClick(dev.id)} className="cursor-pointer">
-                          <TableCell>{dev.name}</TableCell>
-                          <TableCell>{dev.email}</TableCell>
-                          <TableCell>{dev.topSkill}</TableCell>
-                          <TableCell>
-                            <Badge variant={dev.status === 'Active' ? 'default' : 'secondary'}>{dev.status}</Badge>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </CardContent>
-              </Card>
-            </TabsContent>
-             <TabsContent value="chatbot">
-                <Card className="h-[600px] flex flex-col">
                     <CardHeader>
                         <CardTitle>AI Assistant</CardTitle>
-                        <CardDescription>Ask about team skills, project risks, or developer performance.</CardDescription>
+                        <CardDescription>Ask about team skills or project risks.</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-grow flex flex-col">
+                    <CardContent className="flex flex-col h-[400px]">
                         <ScrollArea className="flex-grow h-0 pr-4">
                             <div className="space-y-4">
                                 {messages.map((message, index) => (
@@ -388,8 +335,7 @@ export default function ManagerDashboard() {
                         </form>
                     </CardContent>
                 </Card>
-            </TabsContent>
-          </Tabs>
+            </div>
         </main>
       </div>
     </div>
