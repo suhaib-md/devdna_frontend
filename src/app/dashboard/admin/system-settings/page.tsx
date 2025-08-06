@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import {
   Bell,
   CircleUser,
@@ -12,15 +11,13 @@ import {
   Building,
   Shield,
   Settings,
-  UserPlus,
   BarChart,
-  Search,
-  Users2,
-  GitCommit,
-  Bot
+  Save,
+  Mail,
+  Database,
+  KeyRound
 } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -37,27 +34,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import Link from 'next/link';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
-const projects = [
-    { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
-    { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
-    { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
-    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
-]
-
-export default function AdminDashboard() {
-
+export default function SystemSettingsPage() {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -76,7 +60,7 @@ export default function AdminDashboard() {
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
                 href="/dashboard/admin"
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
@@ -111,7 +95,7 @@ export default function AdminDashboard() {
               </Link>
               <Link
                 href="/dashboard/admin/system-settings"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Settings className="h-4 w-4" />
                 System Settings
@@ -144,7 +128,7 @@ export default function AdminDashboard() {
                 </Link>
                  <Link
                     href="/dashboard/admin"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                     <Home className="h-5 w-5" />
                     Dashboard
@@ -179,7 +163,7 @@ export default function AdminDashboard() {
                 </Link>
                  <Link
                     href="/dashboard/admin/system-settings"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                     <Settings className="h-5 w-5" />
                     System Settings
@@ -188,7 +172,7 @@ export default function AdminDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Admin Dashboard</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">System Settings</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -210,91 +194,87 @@ export default function AdminDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6">
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                        <Users2 className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader>
+                        <CardTitle>General Settings</CardTitle>
+                        <CardDescription>Manage global application settings.</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">1250</div>
-                        <p className="text-xs text-muted-foreground">+50 since last month</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Managers</CardTitle>
-                         <Building className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">15</div>
-                        <p className="text-xs text-muted-foreground">+2 since last month</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
-                        <GitCommit className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">12,890</div>
-                         <p className="text-xs text-muted-foreground">This quarter</p>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between rounded-lg border p-4">
+                            <div>
+                                <h3 className="font-semibold">Enable Developer Registrations</h3>
+                                <p className="text-sm text-muted-foreground">Allow new developers to sign up themselves.</p>
+                            </div>
+                            <Switch defaultChecked />
+                        </div>
+                            <div className="flex items-center justify-between rounded-lg border p-4">
+                            <div>
+                                <h3 className="font-semibold">Manager Account Creation</h3>
+                                <p className="text-sm text-muted-foreground">Allow managers to be created by other managers.</p>
+                            </div>
+                            <Switch defaultChecked={false} />
+                        </div>
+                            <div className="flex items-center justify-between rounded-lg border p-4">
+                            <div>
+                                <h3 className="font-semibold">AI Insight Level</h3>
+                                <p className="text-sm text-muted-foreground">Set the detail level for AI-generated reports.</p>
+                            </div>
+                            <Select defaultValue="standard">
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select level" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="basic">Basic</SelectItem>
+                                    <SelectItem value="standard">Standard</SelectItem>
+                                    <SelectItem value="detailed">Detailed</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </CardContent>
                 </Card>
                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
-                        <Bot className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader>
+                        <CardTitle>Integrations</CardTitle>
+                        <CardDescription>Connect third-party services like GitHub, JIRA, etc.</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                       <Button variant="outline" size="sm">Generate Report</Button>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between rounded-lg border p-4">
+                             <div className="flex items-center gap-4">
+                                <KeyRound className="h-6 w-6" />
+                                <div>
+                                    <h3 className="font-semibold">GitHub API Key</h3>
+                                    <p className="text-sm text-muted-foreground">Used for fetching repository data.</p>
+                                </div>
+                            </div>
+                           <Input type="password" defaultValue="••••••••••••••••••••" className="w-[240px]" />
+                        </div>
+                         <div className="flex items-center justify-between rounded-lg border p-4">
+                           <div className="flex items-center gap-4">
+                                <Mail className="h-6 w-6" />
+                                <div>
+                                    <h3 className="font-semibold">SMTP Server</h3>
+                                    <p className="text-sm text-muted-foreground">Configure email notification settings.</p>
+                                </div>
+                            </div>
+                           <Input placeholder="smtp.example.com" className="w-[240px]" />
+                        </div>
+                         <div className="flex items-center justify-between rounded-lg border p-4">
+                           <div className="flex items-center gap-4">
+                                <Database className="h-6 w-6" />
+                                <div>
+                                    <h3 className="font-semibold">Database Connection</h3>
+                                    <p className="text-sm text-muted-foreground">Database connection string.</p>
+                                </div>
+                            </div>
+                           <Input type="password" defaultValue="••••••••••••••••••••" className="w-[240px]" />
+                        </div>
                     </CardContent>
                 </Card>
+                 <div className="flex justify-end">
+                    <Button><Save className="mr-2 h-4 w-4"/>Save All Settings</Button>
+                </div>
             </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>An overview of recent system-wide activities.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Details</TableHead>
-                                <TableHead>Date</TableHead>
-                                <TableHead className="text-right">User</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell><Badge variant="default">User Added</Badge></TableCell>
-                                <TableCell>New developer account created.</TableCell>
-                                <TableCell>2023-10-18</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Badge variant="secondary">Project Started</Badge></TableCell>
-                                <TableCell>New project "Phoenix" initiated.</TableCell>
-                                <TableCell>2023-10-17</TableCell>
-                                <TableCell className="text-right">Manager A</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="outline">Permission Change</Badge></TableCell>
-                                <TableCell>Developer role permissions updated.</TableCell>
-                                <TableCell>2023-10-16</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="destructive">System Alert</Badge></TableCell>
-                                <TableCell>High memory usage detected on server.</TableCell>
-                                <TableCell>2023-10-15</TableCell>
-                                <TableCell className="text-right">System</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
         </main>
       </div>
     </div>

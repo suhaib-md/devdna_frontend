@@ -14,10 +14,7 @@ import {
   Settings,
   UserPlus,
   BarChart,
-  Search,
-  Users2,
-  GitCommit,
-  Bot
+  Search
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -37,7 +34,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
+import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   Table,
@@ -48,15 +45,30 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Link from 'next/link';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from '@/components/ui/label';
 
-const projects = [
-    { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
-    { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
-    { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
-    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
-]
+const managers = [
+    { id: '5', name: 'Alex Green', email: 'manager@gmail.com', status: 'Active', teamSize: 8 },
+    { id: '6', name: 'Samantha Blue', email: 's.blue@example.com', status: 'Active', teamSize: 5 },
+    { id: '7', name: 'Tom Red', email: 't.red@example.com', status: 'Inactive', teamSize: 0 },
+];
 
-export default function AdminDashboard() {
+export default function ManagerAccountsPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredManagers = managers.filter(manager =>
+    manager.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    manager.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -76,7 +88,7 @@ export default function AdminDashboard() {
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
                 href="/dashboard/admin"
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
@@ -90,7 +102,7 @@ export default function AdminDashboard() {
               </Link>
                <Link
                 href="/dashboard/admin/manager-accounts"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Building className="h-4 w-4" />
                 Manager Accounts
@@ -144,7 +156,7 @@ export default function AdminDashboard() {
                 </Link>
                  <Link
                     href="/dashboard/admin"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                     <Home className="h-5 w-5" />
                     Dashboard
@@ -158,7 +170,7 @@ export default function AdminDashboard() {
                 </Link>
                 <Link
                     href="/dashboard/admin/manager-accounts"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                     <Building className="h-5 w-5" />
                     Manager Accounts
@@ -188,7 +200,7 @@ export default function AdminDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Admin Dashboard</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">Manager Accounts</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -210,89 +222,89 @@ export default function AdminDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                        <Users2 className="h-4 w-4 text-muted-foreground" />
+            <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+                <Card className="lg:col-span-3">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <CardTitle className="text-sm font-medium">Search Managers</CardTitle>
+                        <Search className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">1250</div>
-                        <p className="text-xs text-muted-foreground">+50 since last month</p>
+                        <Input
+                            placeholder="Search by name or email..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Managers</CardTitle>
-                         <Building className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader>
+                        <CardTitle className="text-sm font-medium">Add New Manager</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">15</div>
-                        <p className="text-xs text-muted-foreground">+2 since last month</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
-                        <GitCommit className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">12,890</div>
-                         <p className="text-xs text-muted-foreground">This quarter</p>
-                    </CardContent>
-                </Card>
-                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
-                        <Bot className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                       <Button variant="outline" size="sm">Generate Report</Button>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button><UserPlus className="mr-2 h-4 w-4" /> Add Manager</Button>
+                            </DialogTrigger>
+                             <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                <DialogTitle>Add New Manager</DialogTitle>
+                                <DialogDescription>
+                                    Create a new manager account.
+                                </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid gap-4 py-4">
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="name" className="text-right">Name</Label>
+                                    <Input id="name" placeholder="Jane Smith" className="col-span-3" />
+                                </div>
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                    <Label htmlFor="email" className="text-right">Email</Label>
+                                    <Input id="email" type="email" placeholder="manager@example.com" className="col-span-3" />
+                                </div>
+                                </div>
+                                <DialogFooter>
+                                <Button type="submit">Create Manager</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </CardContent>
                 </Card>
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>An overview of recent system-wide activities.</CardDescription>
+                <CardTitle>All Managers</CardTitle>
+                <CardDescription>
+                    A list of all manager accounts in the system.
+                </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Details</TableHead>
-                                <TableHead>Date</TableHead>
-                                <TableHead className="text-right">User</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell><Badge variant="default">User Added</Badge></TableCell>
-                                <TableCell>New developer account created.</TableCell>
-                                <TableCell>2023-10-18</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Badge variant="secondary">Project Started</Badge></TableCell>
-                                <TableCell>New project "Phoenix" initiated.</TableCell>
-                                <TableCell>2023-10-17</TableCell>
-                                <TableCell className="text-right">Manager A</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="outline">Permission Change</Badge></TableCell>
-                                <TableCell>Developer role permissions updated.</TableCell>
-                                <TableCell>2023-10-16</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="destructive">System Alert</Badge></TableCell>
-                                <TableCell>High memory usage detected on server.</TableCell>
-                                <TableCell>2023-10-15</TableCell>
-                                <TableCell className="text-right">System</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                <Table>
+                    <TableHeader>
+                    <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Team Size</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                    {filteredManagers.map((manager) => (
+                        <TableRow key={manager.id}>
+                        <TableCell>{manager.name}</TableCell>
+                        <TableCell>{manager.email}</TableCell>
+                        <TableCell>{manager.teamSize}</TableCell>
+                        <TableCell>
+                            <Badge variant={manager.status === 'Active' ? 'outline' : 'destructive'}>{manager.status}</Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                            <Button variant="ghost" size="sm">Edit</Button>
+                             <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-400">Delete</Button>
+                        </TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
                 </CardContent>
             </Card>
         </main>

@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import {
   Bell,
   CircleUser,
@@ -12,12 +11,11 @@ import {
   Building,
   Shield,
   Settings,
-  UserPlus,
   BarChart,
-  Search,
-  Users2,
   GitCommit,
-  Bot
+  Users2,
+  AlertTriangle,
+  Server
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -37,27 +35,48 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import Link from 'next/link';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartConfig,
+} from "@/components/ui/chart"
+import { Bar, BarChart as RechartsBarChart, Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid } from "recharts"
+import { Progress } from '@/components/ui/progress';
 
-const projects = [
-    { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
-    { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
-    { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
-    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
+const userGrowthData = [
+  { month: "Jan", users: 400 },
+  { month: "Feb", users: 300 },
+  { month: "Mar", users: 500 },
+  { month: "Apr", users: 700 },
+  { month: "May", users: 600 },
+  { month: "Jun", users: 800 },
 ]
 
-export default function AdminDashboard() {
+const serverLoadData = [
+  { time: "12:00", load: 0.4 },
+  { time: "13:00", load: 0.5 },
+  { time: "14:00", load: 0.3 },
+  { time: "15:00", load: 0.6 },
+  { time: "16:00", load: 0.7 },
+  { time: "17:00", load: 0.5 },
+]
 
+const chartConfig = {
+  users: {
+    label: "Users",
+    color: "hsl(var(--primary))",
+  },
+  load: {
+      label: "CPU Load",
+      color: "hsl(var(--destructive))"
+  }
+} satisfies ChartConfig
+
+
+export default function SystemAnalyticsPage() {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -76,7 +95,7 @@ export default function AdminDashboard() {
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
                 href="/dashboard/admin"
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
@@ -104,7 +123,7 @@ export default function AdminDashboard() {
               </Link>
               <Link
                 href="/dashboard/admin/system-analytics"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <BarChart className="h-4 w-4" />
                 System Analytics
@@ -144,7 +163,7 @@ export default function AdminDashboard() {
                 </Link>
                  <Link
                     href="/dashboard/admin"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                     <Home className="h-5 w-5" />
                     Dashboard
@@ -172,7 +191,7 @@ export default function AdminDashboard() {
                 </Link>
                 <Link
                     href="/dashboard/admin/system-analytics"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                     <BarChart className="h-5 w-5" />
                     System Analytics
@@ -188,7 +207,7 @@ export default function AdminDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Admin Dashboard</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">System Analytics</h1>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -210,91 +229,111 @@ export default function AdminDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">Active Users</CardTitle>
                         <Users2 className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">1250</div>
-                        <p className="text-xs text-muted-foreground">+50 since last month</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Managers</CardTitle>
-                         <Building className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">15</div>
-                        <p className="text-xs text-muted-foreground">+2 since last month</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
-                        <GitCommit className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">12,890</div>
-                         <p className="text-xs text-muted-foreground">This quarter</p>
+                        <div className="text-2xl font-bold">1,250</div>
+                        <p className="text-xs text-muted-foreground">+5% from last week</p>
                     </CardContent>
                 </Card>
                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">AI Insights</CardTitle>
-                        <Bot className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">Server Status</CardTitle>
+                        <Server className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                       <Button variant="outline" size="sm">Generate Report</Button>
+                        <div className="text-2xl font-bold text-green-400">Online</div>
+                        <p className="text-xs text-muted-foreground">Uptime: 99.98%</p>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">API Calls</CardTitle>
+                        <GitCommit className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">2.1M</div>
+                        <p className="text-xs text-muted-foreground">In the last 24 hours</p>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">System Alerts</CardTitle>
+                        <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">3</div>
+                        <p className="text-xs text-muted-foreground">Active critical alerts</p>
                     </CardContent>
                 </Card>
             </div>
-            <Card>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>User Growth</CardTitle>
+                        <CardDescription>New users over the last 6 months.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                            <RechartsBarChart accessibilityLayer data={userGrowthData}>
+                                <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
+                                <YAxis />
+                                <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                                <Bar dataKey="users" fill="var(--color-users)" radius={4} />
+                            </RechartsBarChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Live Server Load</CardTitle>
+                        <CardDescription>CPU utilization over the past few hours.</CardDescription>
+                    </CardHeader>
+                     <CardContent>
+                        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                            <RechartsLineChart data={serverLoadData}>
+                                 <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                                <XAxis dataKey="time" />
+                                <YAxis />
+                                <ChartTooltip content={<ChartTooltipContent />} />
+                                <Line type="monotone" dataKey="load" stroke="var(--color-load)" strokeWidth={2} dot={false} />
+                            </RechartsLineChart>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </div>
+             <Card>
                 <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>An overview of recent system-wide activities.</CardDescription>
+                    <CardTitle>Resource Utilization</CardTitle>
                 </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Details</TableHead>
-                                <TableHead>Date</TableHead>
-                                <TableHead className="text-right">User</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell><Badge variant="default">User Added</Badge></TableCell>
-                                <TableCell>New developer account created.</TableCell>
-                                <TableCell>2023-10-18</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell><Badge variant="secondary">Project Started</Badge></TableCell>
-                                <TableCell>New project "Phoenix" initiated.</TableCell>
-                                <TableCell>2023-10-17</TableCell>
-                                <TableCell className="text-right">Manager A</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="outline">Permission Change</Badge></TableCell>
-                                <TableCell>Developer role permissions updated.</TableCell>
-                                <TableCell>2023-10-16</TableCell>
-                                <TableCell className="text-right">Admin</TableCell>
-                            </TableRow>
-                             <TableRow>
-                                <TableCell><Badge variant="destructive">System Alert</Badge></TableCell>
-                                <TableCell>High memory usage detected on server.</TableCell>
-                                <TableCell>2023-10-15</TableCell>
-                                <TableCell className="text-right">System</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                <CardContent className="space-y-4">
+                    <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm font-medium">CPU Usage</span>
+                            <span className="text-sm font-medium">68%</span>
+                        </div>
+                        <Progress value={68} />
+                    </div>
+                     <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm font-medium">Memory Usage</span>
+                            <span className="text-sm font-medium">82%</span>
+                        </div>
+                        <Progress value={82} />
+                    </div>
+                     <div>
+                        <div className="flex justify-between mb-1">
+                            <span className="text-sm font-medium">Storage</span>
+                            <span className="text-sm font-medium">45%</span>
+                        </div>
+                        <Progress value={45} />
+                    </div>
                 </CardContent>
-            </Card>
+             </Card>
         </main>
       </div>
     </div>
