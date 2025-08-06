@@ -123,7 +123,7 @@ export default function DeveloperProfilePage() {
                 Team
               </Link>
                <Link
-                href="#"
+                href={`/dashboard/developer/${developer.id}`}
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
@@ -177,7 +177,7 @@ export default function DeveloperProfilePage() {
                   Team
                 </Link>
                  <Link
-                  href="#"
+                  href={`/dashboard/developer/${developer.id}`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Code className="h-5 w-5" />
