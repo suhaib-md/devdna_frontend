@@ -47,6 +47,9 @@ const tasks = [
 ];
 
 export default function ManagerProjectPage() {
+
+    const noProject = true; // Set to false to see the project details
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -71,7 +74,7 @@ export default function ManagerProjectPage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/project"
+                href="/dashboard/manager/projects"
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
@@ -132,7 +135,7 @@ export default function ManagerProjectPage() {
                   Dashboard
                 </Link>
                  <Link
-                  href="/dashboard/manager/project"
+                  href="/dashboard/manager/projects"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
@@ -185,6 +188,24 @@ export default function ManagerProjectPage() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+            {noProject ? (
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>No Active Project</CardTitle>
+                        <CardDescription>You are not currently managing any project.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Create a new project to get started.</p>
+                         <Link href="/dashboard/manager/create-project">
+                            <Button className="mt-4">
+                                <PlusCircle className="mr-2 h-4 w-4"/>
+                                Create New Project
+                            </Button>
+                        </Link>
+                    </CardContent>
+                </Card>
+            ) : (
+                <>
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl">DevDNA Platform</CardTitle>
@@ -270,8 +291,12 @@ export default function ManagerProjectPage() {
                     </div>
                 </CardContent>
             </Card>
+            </>
+            )}
         </main>
       </div>
     </div>
   );
 }
+
+    
