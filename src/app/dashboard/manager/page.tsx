@@ -17,7 +17,9 @@ import {
   Users2,
   BarChart,
   Settings,
-  LineChart
+  LineChart,
+  Trophy,
+  PlusCircle
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -120,11 +122,11 @@ export default function ManagerDashboard() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/projects"
+                href="/dashboard/manager/project"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
-                Projects
+                Project
               </Link>
               <Link
                 href="/dashboard/manager/team"
@@ -139,6 +141,13 @@ export default function ManagerDashboard() {
               >
                 <BarChart className="h-4 w-4" />
                 Analytics
+              </Link>
+              <Link
+                href="/dashboard/manager/leaderboard"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <Trophy className="h-4 w-4" />
+                Leaderboard
               </Link>
             </nav>
           </div>
@@ -174,11 +183,11 @@ export default function ManagerDashboard() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/manager/projects"
+                  href="/dashboard/manager/project"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
-                  Projects
+                  Project
                 </Link>
                 <Link
                   href="/dashboard/manager/team"
@@ -193,6 +202,13 @@ export default function ManagerDashboard() {
                 >
                   <BarChart className="h-5 w-5" />
                   Analytics
+                </Link>
+                <Link
+                    href="/dashboard/manager/leaderboard"
+                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                    <Trophy className="h-5 w-5" />
+                    Leaderboard
                 </Link>
               </nav>
             </SheetContent>
@@ -223,12 +239,12 @@ export default function ManagerDashboard() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+                        <CardTitle className="text-sm font-medium">Active Project</CardTitle>
                         <Projector className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">3</div>
-                        <p className="text-xs text-muted-foreground">managed by you</p>
+                        <div className="text-2xl font-bold">DevDNA Platform</div>
+                        <p className="text-xs text-muted-foreground">Status: In Progress</p>
                     </CardContent>
                 </Card>
                 <Card>
@@ -264,28 +280,17 @@ export default function ManagerDashboard() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="lg:col-span-4">
                     <CardHeader>
-                        <CardTitle>Recent Projects</CardTitle>
-                        <CardDescription>An overview of projects you manage.</CardDescription>
+                        <CardTitle>Project Overview</CardTitle>
+                        <CardDescription>High-level status of the current project.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Project</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Lead</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {projects.map((project) => (
-                                    <TableRow key={project.name}>
-                                        <TableCell>{project.name}</TableCell>
-                                        <TableCell><Badge variant="outline">{project.status}</Badge></TableCell>
-                                        <TableCell className="text-right">{project.lead}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+                        <p>No active project. Create a new project to get started.</p>
+                         <Link href="/dashboard/manager/create-project">
+                            <Button className="mt-4">
+                                <PlusCircle className="mr-2 h-4 w-4"/>
+                                Create New Project
+                            </Button>
+                        </Link>
                     </CardContent>
                 </Card>
                 <Card className="lg:col-span-3">
