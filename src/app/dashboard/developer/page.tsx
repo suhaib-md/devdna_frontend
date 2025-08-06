@@ -210,7 +210,10 @@ export default function DeveloperDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Developer Dashboard</h1>
+            <div>
+              <h1 className="text-lg font-semibold md:text-2xl">John Doe's Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Developer</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -338,5 +341,3 @@ export default function DeveloperDashboard() {
     </div>
   );
 }
-
-    

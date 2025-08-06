@@ -244,7 +244,10 @@ export default function ManagerAccountsPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Manager Accounts</h1>
+            <div>
+              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Manager Accounts</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -216,7 +216,10 @@ export default function SystemSettingsPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">System Settings</h1>
+            <div>
+              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
+              <p className="text-sm text-muted-foreground">System Settings</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -171,7 +171,10 @@ export default function ManagerDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Manager Dashboard</h1>
+            <div>
+              <h1 className="text-lg font-semibold md:text-2xl">Alex Green's Dashboard</h1>
+              <p className="text-sm text-muted-foreground">Manager</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
