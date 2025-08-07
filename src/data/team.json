@@ -6,9 +6,11 @@
         { "id": "5", "name": "Alex Green", "email": "manager@gmail.com", "topSkill": "Project Management", "avatar": "AG" }
     ],
     "developers": [
-        { "id": "JD", "name": "John Doe", "email": "john@example.com", "topSkill": "React", "status": "Active", "commits": 1254 },
-        { "id": "JS", "name": "Jane Smith", "email": "jane@example.com", "topSkill": "Node.js", "status": "Active", "commits": 987 },
-        { "id": "PJ", "name": "Peter Jones", "email": "peter@example.com", "topSkill": "Vue.js", "status": "On Leave", "commits": 450 },
-        { "id": "MJ", "name": "Mary Johnson", "email": "mary@example.com", "topSkill": "Angular", "status": "Active", "commits": 1500 }
+        { "id": "1", "name": "John Doe", "email": "john@example.com", "topSkill": "React", "status": "Active", "commits": 1254, "avatar": "JD" },
+        { "id": "2", "name": "Jane Smith", "email": "jane@example.com", "topSkill": "Node.js", "status": "Active", "commits": 987, "avatar": "JS" },
+        { "id": "3", "name": "Peter Jones", "email": "peter@example.com", "topSkill": "Vue.js", "status": "On Leave", "commits": 450, "avatar": "PJ" },
+        { "id": "4", "name": "Mary Johnson", "email": "mary@example.com", "topSkill": "Angular", "status": "Active", "commits": 1500, "avatar": "MJ" }
     ]
 }
+
+    

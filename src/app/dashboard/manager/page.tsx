@@ -226,15 +226,15 @@ function ManagerDashboardComponent() {
                                 <div>
                                     <h3 className="text-lg font-semibold mb-2">Project Health</h3>
                                     <div className="space-y-4">
-                                        <Link href="/dashboard/manager/analytics">
-                                            <div className="flex justify-between mb-1 hover:text-primary cursor-pointer">
+                                        <Link href="/dashboard/manager/analytics" className='block hover:bg-neutral-950/50 p-2 rounded-lg'>
+                                            <div className="flex justify-between mb-1">
                                                 <span className="text-sm font-medium">Overall Progress</span>
                                                 <span className="text-sm font-medium">75%</span>
                                             </div>
                                             <Progress value={75} />
                                         </Link>
-                                        <Link href="/dashboard/manager/analytics">
-                                            <div className="flex justify-between mb-1 hover:text-primary cursor-pointer">
+                                        <Link href="/dashboard/manager/analytics" className='block hover:bg-neutral-950/50 p-2 rounded-lg'>
+                                            <div className="flex justify-between mb-1">
                                                 <span className="text-sm font-medium">Sprint Velocity</span>
                                                 <span className="text-sm font-medium">18 SP / sprint</span>
                                             </div>
@@ -256,7 +256,7 @@ function ManagerDashboardComponent() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Team Overview</CardTitle>
-                            <CardDescription>Current assignments for developers on this project.</CardDescription>
+                            <CardDescription>Current assignments for developers on this project. Click a developer to view their profile.</CardDescription>
                         </CardHeader>
                         <CardContent>
                              <div className="relative w-full overflow-auto">
@@ -275,8 +275,8 @@ function ManagerDashboardComponent() {
                                                     <Link href={`/dashboard/developer/${dev.id}`}>
                                                         <div className="flex items-center gap-3 group">
                                                             <Avatar>
-                                                                <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.id}`} />
-                                                                <AvatarFallback>{dev.id}</AvatarFallback>
+                                                                <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.avatar}`} />
+                                                                <AvatarFallback>{dev.avatar}</AvatarFallback>
                                                             </Avatar>
                                                             <span className="font-medium group-hover:text-primary">{dev.name}</span>
                                                         </div>
@@ -317,3 +317,5 @@ export default function ManagerDashboard() {
         </Suspense>
     )
 }
+
+    
