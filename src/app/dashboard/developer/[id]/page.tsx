@@ -20,16 +20,9 @@ import {
   History,
   ClipboardList,
   Activity,
-  ThumbsUp,
-  ThumbsDown,
-  FileText,
-  Wrench,
-  Bug,
-  Codepen,
   Layers,
-  ArrowLeft
+  Codepen
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -49,21 +42,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useParams } from 'next/navigation';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Pie, PieChart, Cell } from 'recharts';
-import { Progress } from '@/components/ui/progress';
 import allUsers from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const chartConfig = {
   work: {
@@ -88,16 +73,15 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 
-export default function DeveloperProfilePage() {
+export default function DeveloperDashboard() {
   const params = useParams();
-  const router = useRouter();
   const developer = allUsers.find(d => d.id === params.id && d.role === 'Developer');
 
   if (!developer || !developer.profile) {
     return <div className="flex items-center justify-center h-screen bg-black text-white">Developer not found.</div>;
   }
-
-  const { profile } = developer;
+  
+  const { profile, metrics } = developer;
 
   const workData = [
     { type: "Features", value: profile.type_of_work_in_percentage.features, fill: "hsl(var(--primary))" },
@@ -106,7 +90,6 @@ export default function DeveloperProfilePage() {
     { type: "Documentation", value: profile.type_of_work_in_percentage.documentation, fill: "hsl(var(--chart-3))" }
   ];
 
-  const prApprovalRate = parseFloat(profile.pull_request_approval_rate);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -125,43 +108,43 @@ export default function DeveloperProfilePage() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href="/dashboard/developer"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                href={`/dashboard/developer/${params.id}`}
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/developer/project"
+                href={`/dashboard/developer/${params.id}/project`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
               </Link>
                <Link
-                href="/dashboard/developer/tasks"
+                href={`/dashboard/developer/${params.id}/tasks`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <ClipboardList className="h-4 w-4" />
                 My Tasks
               </Link>
               <Link
-                href="/dashboard/developer/team"
+                href={`/dashboard/developer/${params.id}/team`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Team
               </Link>
               <Link
-                href="/dashboard/developer/project-history"
+                href={`/dashboard/developer/${params.id}/project-history`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <History className="h-4 w-4" />
                 Project History
               </Link>
                <Link
-                href={`/dashboard/developer/${params.id}`}
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                href={`/dashboard/developer/${params.id}/profile`}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
                 Skill Profile
@@ -193,43 +176,43 @@ export default function DeveloperProfilePage() {
                   <span className="sr-only">DevDNA</span>
                 </Link>
                 <Link
-                  href="/dashboard/developer"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                  href={`/dashboard/developer/${params.id}`}
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/developer/project"
+                  href={`/dashboard/developer/${params.id}/project`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
                 </Link>
                 <Link
-                  href="/dashboard/developer/tasks"
+                  href={`/dashboard/developer/${params.id}/tasks`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <ClipboardList className="h-5 w-5" />
                   My Tasks
                 </Link>
                 <Link
-                  href="/dashboard/developer/team"
+                  href={`/dashboard/developer/${params.id}/team`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                    <Users className="h-5 w-5" />
                   Team
                 </Link>
                 <Link
-                  href="/dashboard/developer/project-history"
+                  href={`/dashboard/developer/${params.id}/project-history`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <History className="h-5 w-5" />
                   Project History
                 </Link>
                  <Link
-                  href={`/dashboard/developer/${params.id}`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                  href={`/dashboard/developer/${params.id}/profile`}
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Code className="h-5 w-5" />
                   Skill Profile
@@ -237,12 +220,8 @@ export default function DeveloperProfilePage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.push('/dashboard/developer')}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-             <h1 className="text-lg font-semibold md:text-2xl">Developer DNA: {developer.name}</h1>
+          <div className="w-full flex-1">
+             <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -264,115 +243,53 @@ export default function DeveloperProfilePage() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-            <Card>
-                <CardHeader className="flex flex-col md:flex-row items-start md:items-center gap-4">
-                    <Avatar className="h-24 w-24">
-                        <AvatarImage src={`https://placehold.co/96x96.png?text=${developer.avatar}`} />
-                        <AvatarFallback>{developer.avatar}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-grow">
-                        <div className='flex justify-between items-start'>
-                             <div>
-                                <CardTitle className="text-3xl">{developer.name}</CardTitle>
-                                <a href={`https://github.com/${profile.github_username}`} target="_blank" rel="noopener noreferrer" className="text-lg text-muted-foreground hover:text-primary">@{profile.github_username}</a>
-                            </div>
-                             <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
-                        </div>
-                        <div className="mt-4 flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div className="flex flex-col">
-                                <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Code className="h-3.5 w-3.5" /> Top Skills</span>
-                                <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {profile.languages.slice(0, 3).map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
-                                </div>
-                            </div>
-                             <div className="flex flex-col">
-                                <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Layers className="h-3.5 w-3.5" /> Top Domains</span>
-                                <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {profile.skills_domains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
-                                </div>
-                            </div>
-                        </div>
-                         <div className="mt-4 flex items-center gap-4">
-                            <div className="flex flex-col">
-                               <span className='text-sm text-muted-foreground'>Activity Score</span>
-                               <div className='flex items-center gap-2 mt-1'>
-                                <Progress value={developer.activityScore} className="w-32" />
-                                <span className='font-semibold'>{developer.activityScore}%</span>
-                               </div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Commits (30d)</CardTitle>
+                  <GitCommit className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
-            </Card>
-
-           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Commits (30d)</CardTitle>
-                    <GitCommit className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{profile.monthly_commits}</div>
-                    <p className="text-xs text-muted-foreground">Avg {profile.average_commits_per_day.toFixed(1)}/day</p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">PR Approval Rate</CardTitle>
-                    <GitPullRequest className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{prApprovalRate}%</div>
-                    <p className="text-xs text-muted-foreground">{developer.metrics.prs.created} PRs created</p>
-                  </CardContent>
-                </Card>
+                <CardContent>
+                  <div className="text-2xl font-bold">{profile.monthly_commits}</div>
+                  <p className="text-xs text-muted-foreground">Avg {profile.average_commits_per_day.toFixed(1)}/day</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">PR Approval Rate</CardTitle>
+                  <GitPullRequest className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{metrics.prs.approvalRate}%</div>
+                   <p className="text-xs text-muted-foreground">{metrics.prs.created} PRs created</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Issues Resolved</CardTitle>
+                  <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{metrics.issues_resolved}</div>
+                  <p className="text-xs text-muted-foreground">In the last quarter</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">AI Dev Type</CardTitle>
+                  <Bot className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-base font-bold">{developer.developerType}</div>
+                   <p className="text-xs text-muted-foreground">Based on recent activity</p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4 md:gap-8 lg:grid-cols-2">
                  <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Reviews Given</CardTitle>
-                    <CheckCircle className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                     <div className="text-2xl font-bold">{profile.pull_request_reviews}</div>
-                     <p className="text-xs text-muted-foreground">Peer reviews completed</p>
-                  </CardContent>
-                </Card>
-                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Top Languages</CardTitle>
-                        <Codepen className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className='flex flex-wrap gap-2 mt-2'>
-                           {profile.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
-                        </div>
-                    </CardContent>
-                </Card>
-              </div>
-            <div className="grid gap-4 md:gap-8 lg:grid-cols-5">
-                 <Card className="lg:col-span-3">
-                    <CardHeader>
-                        <CardTitle>Strengths & Weaknesses</CardTitle>
-                        <CardDescription>AI-generated analysis of development patterns.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h4 className="font-semibold flex items-center mb-2"><ThumbsUp className="h-5 w-5 mr-2 text-green-500" /> Strengths</h4>
-                            <ul className="space-y-2 list-inside">
-                                <li className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{profile.strengths}</li>
-                            </ul>
-                        </div>
-                         <div>
-                            <h4 className="font-semibold flex items-center mb-2"><ThumbsDown className="h-5 w-5 mr-2 text-red-500" /> Weaknesses</h4>
-                            <ul className="space-y-2 list-inside">
-                                <li className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{profile.weakness}</li>
-                            </ul>
-                        </div>
-                    </CardContent>
-                </Card>
-                 <Card className="lg:col-span-2">
                     <CardHeader>
                         <CardTitle>Work Type Breakdown</CardTitle>
-                        <CardDescription>Distribution of commits by category.</CardDescription>
+                        <CardDescription>Distribution of your commits by category.</CardDescription>
                     </CardHeader>
                     <CardContent>
                          <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
@@ -395,6 +312,26 @@ export default function DeveloperProfilePage() {
                                 </Pie>
                             </PieChart>
                         </ChartContainer>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Skill Cloud</CardTitle>
+                        <CardDescription>Your top languages and domains.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                         <div>
+                            <h4 className="font-semibold text-sm mb-2 flex items-center"><Codepen className="h-4 w-4 mr-2" /> Languages</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {profile.languages.slice(0, 8).map(lang => <Badge key={lang} variant="secondary">{lang}</Badge>)}
+                            </div>
+                        </div>
+                         <div>
+                            <h4 className="font-semibold text-sm mb-2 flex items-center"><Layers className="h-4 w-4 mr-2" /> Domains</h4>
+                             <div className="flex flex-wrap gap-2">
+                                {profile.skills_domains.map(domain => <Badge key={domain} variant="outline">{domain}</Badge>)}
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

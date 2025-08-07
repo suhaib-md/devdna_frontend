@@ -13,7 +13,7 @@ import {
   ClipboardList,
   History,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -46,7 +46,7 @@ import tasks from '@/data/tasks.json';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export default function MyTasksPage() {
-  const router = useRouter();
+  const params = useParams();
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -65,46 +65,46 @@ export default function MyTasksPage() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href="/dashboard/developer"
+                href={`/dashboard/developer/${params.id}`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/developer/project"
+                href={`/dashboard/developer/${params.id}/project`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
               </Link>
               <Link
-                href="/dashboard/developer/tasks"
+                href={`/dashboard/developer/${params.id}/tasks`}
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <ClipboardList className="h-4 w-4" />
                 My Tasks
               </Link>
               <Link
-                href="/dashboard/developer/team"
+                href={`/dashboard/developer/${params.id}/team`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Team
               </Link>
                <Link
-                href="/dashboard/developer/project-history"
+                href={`/dashboard/developer/${params.id}/project-history`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <History className="h-4 w-4" />
                 Project History
               </Link>
                <Link
-                href="/dashboard/developer/1"
+                href={`/dashboard/developer/${params.id}/profile`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
-                My Skill Profile
+                Skill Profile
               </Link>
             </nav>
           </div>
@@ -133,46 +133,46 @@ export default function MyTasksPage() {
                   <span className="sr-only">DevDNA</span>
                 </Link>
                 <Link
-                  href="/dashboard/developer"
+                  href={`/dashboard/developer/${params.id}`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/developer/project"
+                  href={`/dashboard/developer/${params.id}/project`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
                 </Link>
                  <Link
-                  href="/dashboard/developer/tasks"
+                  href={`/dashboard/developer/${params.id}/tasks`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <ClipboardList className="h-5 w-5" />
                   My Tasks
                 </Link>
                 <Link
-                  href="/dashboard/developer/team"
+                  href={`/dashboard/developer/${params.id}/team`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                    <Users className="h-5 w-5" />
                   Team
                 </Link>
                  <Link
-                  href="/dashboard/developer/project-history"
+                  href={`/dashboard/developer/${params.id}/project-history`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <History className="h-5 w-5" />
                   Project History
                 </Link>
                  <Link
-                  href="/dashboard/developer/1"
+                  href={`/dashboard/developer/${params.id}/profile`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Code className="h-5 w-5" />
-                  My Skill Profile
+                  Skill Profile
                 </Link>
               </nav>
             </SheetContent>

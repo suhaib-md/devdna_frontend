@@ -64,6 +64,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Pie, PieChart, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
 import allUsers from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const chartConfig = {
   work: {
@@ -116,15 +117,6 @@ export default function DeveloperProfilePage() {
 
   const prApprovalRate = parseFloat(profile.pull_request_approval_rate);
 
-  const handleBackClick = () => {
-    if (fromTeam) {
-      router.push(`/dashboard/developer/${loggedInUserId}/team`);
-    } else {
-      router.push(`/dashboard/developer/${loggedInUserId}`);
-    }
-  };
-
-
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -142,46 +134,46 @@ export default function DeveloperProfilePage() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href={`/dashboard/developer/${loggedInUserId}`}
+                href={`/dashboard/developer/${profileId}`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
-                href={`/dashboard/developer/${loggedInUserId}/project`}
+                href={`/dashboard/developer/${profileId}/project`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
               </Link>
                <Link
-                href={`/dashboard/developer/${loggedInUserId}/tasks`}
+                href={`/dashboard/developer/${profileId}/tasks`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <ClipboardList className="h-4 w-4" />
                 My Tasks
               </Link>
               <Link
-                href={`/dashboard/developer/${loggedInUserId}/team`}
+                href={`/dashboard/developer/${profileId}/team`}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-white ${fromTeam ? 'bg-neutral-800 text-white' : 'text-neutral-400'}`}
               >
                 <Users className="h-4 w-4" />
                 Team
               </Link>
               <Link
-                href={`/dashboard/developer/${loggedInUserId}/project-history`}
+                href={`/dashboard/developer/${profileId}/project-history`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <History className="h-4 w-4" />
                 Project History
               </Link>
                <Link
-                href={`/dashboard/developer/${loggedInUserId}/profile`}
+                href={`/dashboard/developer/${profileId}/profile`}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-white ${!fromTeam ? 'bg-neutral-800 text-white' : 'text-neutral-400'}`}
               >
                 <Code className="h-4 w-4" />
-                My Skill Profile
+                Skill Profile
               </Link>
             </nav>
           </div>
@@ -210,42 +202,42 @@ export default function DeveloperProfilePage() {
                   <span className="sr-only">DevDNA</span>
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${loggedInUserId}`}
+                  href={`/dashboard/developer/${profileId}`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${loggedInUserId}/project`}
+                  href={`/dashboard/developer/${profileId}/project`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${loggedInUserId}/tasks`}
+                  href={`/dashboard/developer/${profileId}/tasks`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <ClipboardList className="h-5 w-5" />
                   My Tasks
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${loggedInUserId}/team`}
+                  href={`/dashboard/developer/${profileId}/team`}
                   className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-white ${fromTeam ? 'bg-neutral-800 text-white' : 'text-neutral-400'}`}
                 >
                    <Users className="h-5 w-5" />
                   Team
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${loggedInUserId}/project-history`}
+                  href={`/dashboard/developer/${profileId}/project-history`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <History className="h-5 w-5" />
                   Project History
                 </Link>
                  <Link
-                  href={`/dashboard/developer/${loggedInUserId}/profile`}
+                  href={`/dashboard/developer/${profileId}/profile`}
                   className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-white ${!fromTeam ? 'bg-neutral-800 text-white' : 'text-neutral-400'}`}
                 >
                   <Code className="h-5 w-5" />
@@ -254,12 +246,8 @@ export default function DeveloperProfilePage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={handleBackClick}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-             <h1 className="text-lg font-semibold md:text-2xl">Developer DNA: {developer.name}</h1>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -339,7 +327,7 @@ export default function DeveloperProfilePage() {
                     <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{prApprovalRate}%</div>
+                    <div className="text-2xl font-bold">{developer.metrics.prs.approvalRate}%</div>
                     <p className="text-xs text-muted-foreground">{developer.metrics.prs.created} PRs created</p>
                   </CardContent>
                 </Card>
