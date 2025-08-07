@@ -72,7 +72,7 @@ export default function ManagerTeamPage() {
   );
 
   const handleDevClick = (id: string) => {
-    router.push(`/dashboard/developer/${id}`);
+    router.push(`/dashboard/manager/project-developer/${id}`);
   };
 
 
