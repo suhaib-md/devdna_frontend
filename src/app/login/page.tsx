@@ -21,6 +21,8 @@ export default function LoginPage() {
       router.push('/dashboard/admin');
     } else if (role === 'manager' && email.toLowerCase() === 'manager@gmail.com') {
       router.push('/dashboard/manager');
+    } else if (role === 'user' && email.toLowerCase() === 'suhaib@gmail.com') {
+      router.push('/dashboard/developer/1');
     } else if (role === 'user' && (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com'))) {
       router.push('/dashboard/developer');
     } else if (role === 'user') {

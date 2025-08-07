@@ -62,6 +62,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Pie, PieChart, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
 import developerData from '@/data/suhaib-profile.json';
+import allDevelopers from '@/data/developers.json';
 
 
 const chartConfig = {
@@ -88,7 +89,14 @@ const chartConfig = {
 
 
 export default function DeveloperProfilePage() {
-  const developer = developerData;
+  const params = useParams();
+  const developer = params.id === '1' ? developerData : allDevelopers.find(d => d.id === params.id);
+  const workData = Array.isArray(developer?.type_of_work_in_percentage) 
+    ? developer.type_of_work_in_percentage
+    : developer?.type_of_work_in_percentage 
+      ? Object.entries(developer.type_of_work_in_percentage).map(([type, value]) => ({ type: type.charAt(0).toUpperCase() + type.slice(1), value: value as number }))
+      : [];
+
 
   if (!developer) {
     return <div className="flex items-center justify-center h-screen bg-black text-white">Developer not found.</div>;
@@ -256,7 +264,7 @@ export default function DeveloperProfilePage() {
                         <div className='flex justify-between items-start'>
                              <div>
                                 <CardTitle className="text-3xl">{developer.name}</CardTitle>
-                                <a href="#" className="text-lg text-muted-foreground hover:text-primary">@{developer.github_username}</a>
+                                <a href={`https://github.com/${developer.github_username}`} target="_blank" rel="noopener noreferrer" className="text-lg text-muted-foreground hover:text-primary">@{developer.github_username}</a>
                             </div>
                              <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
                         </div>
@@ -360,7 +368,7 @@ export default function DeveloperProfilePage() {
                          <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
                             <PieChart>
                                 <ChartTooltip content={<ChartTooltipContent nameKey="type" />} />
-                                <Pie data={Object.entries(developer.type_of_work_in_percentage).map(([type, value]) => ({ type, value }))} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} labelLine={false} label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                                <Pie data={workData} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} labelLine={false} label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
                                         const RADIAN = Math.PI / 180;
                                         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                         const x = cx + radius * Math.cos(-midAngle * RADIAN);
