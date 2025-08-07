@@ -51,10 +51,9 @@ const Breadcrumbs = () => {
         
         let name = breadcrumbNameMap[segment] || segment.replace(/-/g, ' ');
         
-        // Check if the previous segment is 'developer', 'project-developer' etc. to determine if 'segment' is an ID
-        const prevSegment = pathSegments[index-1];
-        if (['developer', 'project-developer'].includes(prevSegment)) {
-          name = userCache[segment] || 'Profile';
+        // Check if the segment is a user ID
+        if (userCache[segment]) {
+            name = userCache[segment];
         }
 
         return (
