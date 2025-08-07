@@ -71,7 +71,7 @@ export default function ManagerTeamPage() {
 
   const filteredDevelopers = developers.filter(dev =>
     dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (dev.profile && dev.profile.languages[0].toLowerCase().includes(searchTerm.toLowerCase()))
+    (dev.profile && dev.profile.languages.some(lang => lang.toLowerCase().includes(searchTerm.toLowerCase())))
   );
 
   const handleDevClick = (id: string) => {

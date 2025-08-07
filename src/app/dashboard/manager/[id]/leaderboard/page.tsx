@@ -49,7 +49,7 @@ const leaderboardData = allUsers
         name: u.name,
         avatar: u.avatar,
         score: u.activityScore,
-        commits: u.profile.monthly_commits,
+        commits: u.profile!.monthly_commits,
         prs: u.metrics.prs.created,
         issues: u.metrics.issues_resolved
     }))

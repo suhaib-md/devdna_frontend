@@ -43,9 +43,17 @@ import {
 } from "@/components/ui/chart"
 import { Bar, BarChart as RechartsBarChart, Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid, Pie, PieChart, Cell } from "recharts"
 import managerAnalyticsData from '@/data/manager-analytics.json';
+import allUsers from '@/data/users.json';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const { teamCommitData, skillDistributionData } = managerAnalyticsData;
+
+const developers = allUsers.filter(u => u.role === 'Developer' && u.profile);
+
+const topPerformer = developers.reduce((prev, current) => {
+    return (prev.profile!.monthly_commits > current.profile!.monthly_commits) ? prev : current
+});
+
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#BF00FF"];
 
@@ -206,7 +214,7 @@ export default function ManagerAnalyticsPage() {
                         <Trophy className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">Mary Johnson</div>
+                        <div className="text-2xl font-bold">{topPerformer.name}</div>
                         <p className="text-xs text-muted-foreground">Highest commit count this month</p>
                     </CardContent>
                 </Card>
