@@ -1,31 +1,30 @@
-
 [
     { 
       "id": "1", 
-      "name": "John Doe", 
-      "github": "@johndoe",
-      "email": "john@example.com", 
-      "topSkills": ["React", "TypeScript", "Node.js"],
-      "topDomains": ["Frontend", "Backend", "API Design"],
-      "role": "Full-Stack Developer",
-      "activityScore": 92,
+      "name": "Suhaib", 
+      "github": "@suhaib-md",
+      "email": "suhaib@gmail.com", 
+      "topSkills": ["TypeScript", "PHP", "HTML"],
+      "topDomains": ["DevOps", "Frontend", "Backend", "Data Science"],
+      "role": "Data-Driven Generalist",
+      "activityScore": 89,
       "status": "Active",
-      "avatar": "JD", 
+      "avatar": "SM", 
       "metrics": {
-        "commits": { "last30": 85, "last90": 250 },
-        "prs": { "created": 32, "approvalRate": 95 },
-        "reviews": 48,
-        "languages": ["TypeScript", "JavaScript", "Python"],
+        "commits": { "last30": 223, "last90": 669 },
+        "prs": { "created": 0, "approvalRate": 0 },
+        "reviews": 0,
+        "languages": ["TypeScript", "PHP", "HTML", "Jinja", "Java", "EJS", "HCL", "Bicep", "Shell", "SCSS", "PowerShell", "CSS", "Python", "Jupyter Notebook", "C#", "Dockerfile", "JavaScript", "Smarty", "Procfile", "Nix", "Kotlin", "Makefile"],
         "workType": [
-            { "type": "Features", "value": 50, "fill": "hsl(var(--primary))" },
-            { "type": "Bug Fixes", "value": 25, "fill": "hsl(var(--destructive))" },
-            { "type": "Documentation", "value": 15, "fill": "hsl(var(--chart-3))" },
-            { "type": "Infrastructure", "value": 10, "fill": "hsl(var(--chart-4))" }
+            { "type": "Features", "value": 40, "fill": "hsl(var(--primary))" },
+            { "type": "Bugs", "value": 15, "fill": "hsl(var(--destructive))" },
+            { "type": "Infrastructure", "value": 35, "fill": "hsl(var(--chart-4))" },
+            { "type": "Documentation", "value": 10, "fill": "hsl(var(--chart-3))" }
         ]
       },
-      "strengths": ["Strong backend logic & API design", "Quick PR turnaround", "High bug fix success rate"],
-      "weaknesses": ["Large PR sizes", "Low test coverage contributions"],
-      "developerType": "Full-Stack Builder"
+      "strengths": ["Broad exposure to a wide range of languages, tools, and frameworks across multiple domains including DevOps, web development (frontend and backend), and data science."],
+      "weaknesses": ["No available pull request reviews or diffs, so collaboration, code review participation, and detailed code quality aspects cannot be analyzed."],
+      "developerType": "Data-Driven Generalist"
     },
      { 
       "id": "2", 
@@ -106,6 +105,6 @@
       },
       "strengths": ["Expert in CI/CD pipelines", "High test coverage contributions", "Excellent problem-solver"],
       "weaknesses": ["Can be slow to adopt new frontend frameworks", "PR descriptions can be brief"],
-      "developerType": "Infra & DevOps Engineer"
+      "developerType": "Infra &amp; DevOps Engineer"
     }
 ]
