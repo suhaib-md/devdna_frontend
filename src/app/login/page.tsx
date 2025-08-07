@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
+import DarkVeil from '@/components/ui/DarkVeil';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,14 +37,17 @@ export default function LoginPage() {
 
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
-      <div className="absolute top-8 left-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4 relative">
+       <div className="absolute inset-0 z-0 h-full w-full">
+          <DarkVeil />
+       </div>
+      <div className="absolute top-8 left-8 z-10">
         <Link href="/" className="flex items-center gap-2 text-white hover:text-neutral-300">
           <Atom className="h-6 w-6" />
           <span className="font-bold text-lg">DevDNA</span>
         </Link>
       </div>
-      <Card className="w-full max-w-md bg-neutral-950 border-neutral-800 text-white">
+      <Card className="w-full max-w-md bg-neutral-950/80 backdrop-blur-sm border-neutral-800 text-white z-10">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Welcome Back</CardTitle>
           <CardDescription className="text-neutral-400">
@@ -65,7 +69,7 @@ export default function LoginPage() {
             </TabsList>
             <TabsContent value="user">
               <form onSubmit={(e) => { e.preventDefault(); handleSignIn('user'); }}>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4">
                   <div className="space-y-2">
                     <Label htmlFor="user-email">Email</Label>
                     <Input id="user-email" type="email" placeholder="dev@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -82,7 +86,7 @@ export default function LoginPage() {
             </TabsContent>
             <TabsContent value="manager">
               <form onSubmit={(e) => { e.preventDefault(); handleSignIn('manager'); }}>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4">
                   <div className="space-y-2">
                     <Label htmlFor="manager-email">Manager Email</Label>
                     <Input id="manager-email" type="email" placeholder="manager@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -99,7 +103,7 @@ export default function LoginPage() {
             </TabsContent>
             <TabsContent value="admin">
               <form onSubmit={(e) => { e.preventDefault(); handleSignIn('admin'); }}>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
                     <Input id="admin-email" type="email" placeholder="admin@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
