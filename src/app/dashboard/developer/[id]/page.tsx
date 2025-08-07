@@ -61,8 +61,7 @@ import { useParams } from 'next/navigation';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Pie, PieChart, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
-import developers from '@/data/developers.json';
-import projectHistory from '@/data/project-history.json';
+import developerData from '@/data/suhaib-profile.json';
 
 
 const chartConfig = {
@@ -89,8 +88,7 @@ const chartConfig = {
 
 
 export default function DeveloperProfilePage() {
-  const params = useParams();
-  const developer = developers.find(d => d.id === params.id);
+  const developer = developerData;
 
   if (!developer) {
     return <div className="flex items-center justify-center h-screen bg-black text-white">Developer not found.</div>;
@@ -148,7 +146,7 @@ export default function DeveloperProfilePage() {
                 Project History
               </Link>
                <Link
-                href={`/dashboard/developer/${developer.id}`}
+                href={`/dashboard/developer/1`}
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
@@ -216,7 +214,7 @@ export default function DeveloperProfilePage() {
                   Project History
                 </Link>
                  <Link
-                  href={`/dashboard/developer/${developer.id}`}
+                  href={`/dashboard/developer/1`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Code className="h-5 w-5" />
@@ -258,7 +256,7 @@ export default function DeveloperProfilePage() {
                         <div className='flex justify-between items-start'>
                              <div>
                                 <CardTitle className="text-3xl">{developer.name}</CardTitle>
-                                <a href="#" className="text-lg text-muted-foreground hover:text-primary">{developer.github}</a>
+                                <a href="#" className="text-lg text-muted-foreground hover:text-primary">@{developer.github_username}</a>
                             </div>
                              <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
                         </div>
@@ -266,13 +264,13 @@ export default function DeveloperProfilePage() {
                             <div className="flex flex-col">
                                 <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Code className="h-3.5 w-3.5" /> Top Skills</span>
                                 <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {developer.topSkills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
+                                    {developer.languages.slice(0, 3).map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
                                 </div>
                             </div>
                              <div className="flex flex-col">
                                 <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Layers className="h-3.5 w-3.5" /> Top Domains</span>
                                 <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {developer.topDomains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
+                                    {developer.skills_domains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
                                 </div>
                             </div>
                         </div>
@@ -296,8 +294,8 @@ export default function DeveloperProfilePage() {
                     <GitCommit className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.metrics.commits.last30}</div>
-                    <p className="text-xs text-muted-foreground">Total in last 30 days</p>
+                    <div className="text-2xl font-bold">{developer.monthly_commits}</div>
+                    <p className="text-xs text-muted-foreground">Avg {developer.average_commits_per_day}/day</p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -306,8 +304,8 @@ export default function DeveloperProfilePage() {
                     <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.metrics.prs.approvalRate}%</div>
-                    <p className="text-xs text-muted-foreground">{developer.metrics.prs.created} PRs created</p>
+                    <div className="text-2xl font-bold">{developer.pull_request_approval_rate}</div>
+                    <p className="text-xs text-muted-foreground">{developer.pull_requests_created} PRs created</p>
                   </CardContent>
                 </Card>
                  <Card>
@@ -316,7 +314,7 @@ export default function DeveloperProfilePage() {
                     <CheckCircle className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <div className="text-2xl font-bold">{developer.metrics.reviews}</div>
+                     <div className="text-2xl font-bold">{developer.pull_request_reviews}</div>
                      <p className="text-xs text-muted-foreground">Peer reviews completed</p>
                   </CardContent>
                 </Card>
@@ -327,7 +325,7 @@ export default function DeveloperProfilePage() {
                     </CardHeader>
                     <CardContent>
                         <div className='flex flex-wrap gap-2 mt-2'>
-                           {developer.metrics.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
+                           {developer.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
                         </div>
                     </CardContent>
                 </Card>
@@ -342,17 +340,13 @@ export default function DeveloperProfilePage() {
                         <div>
                             <h4 className="font-semibold flex items-center mb-2"><ThumbsUp className="h-5 w-5 mr-2 text-green-500" /> Strengths</h4>
                             <ul className="space-y-2 list-inside">
-                                {developer.strengths.map((strength, index) => (
-                                    <li key={index} className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{strength}</li>
-                                ))}
+                                <li className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{developer.strengths}</li>
                             </ul>
                         </div>
                          <div>
                             <h4 className="font-semibold flex items-center mb-2"><ThumbsDown className="h-5 w-5 mr-2 text-red-500" /> Weaknesses</h4>
                             <ul className="space-y-2 list-inside">
-                                {developer.weaknesses.map((weakness, index) => (
-                                     <li key={index} className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{weakness}</li>
-                                ))}
+                                <li className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{developer.weakness}</li>
                             </ul>
                         </div>
                     </CardContent>
@@ -366,7 +360,7 @@ export default function DeveloperProfilePage() {
                          <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
                             <PieChart>
                                 <ChartTooltip content={<ChartTooltipContent nameKey="type" />} />
-                                <Pie data={developer.metrics.workType} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} labelLine={false} label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                                <Pie data={Object.entries(developer.type_of_work_in_percentage).map(([type, value]) => ({ type, value }))} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} labelLine={false} label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
                                         const RADIAN = Math.PI / 180;
                                         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                         const x = cx + radius * Math.cos(-midAngle * RADIAN);
