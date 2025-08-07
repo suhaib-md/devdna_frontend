@@ -13,29 +13,25 @@ import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [role, setRole] = useState('user');
-  const [userEmail, setUserEmail] = useState('');
-  const [managerEmail, setManagerEmail] = useState('');
-  const [adminEmail, setAdminEmail] = useState('');
+  const [email, setEmail] = useState('');
 
-  const handleSignIn = () => {
+  const handleSignIn = (role: string) => {
     // In a real app, you'd have authentication logic here.
-    let email = '';
-    if (role === 'user') email = userEmail;
-    if (role === 'manager') email = managerEmail;
-    if (role === 'admin') email = adminEmail;
-
-    if (email.toLowerCase() === 'admin@gmail.com') {
+    if (role === 'admin' && email.toLowerCase() === 'admin@gmail.com') {
       router.push('/dashboard/admin');
-    } else if (email.toLowerCase() === 'manager@gmail.com') {
+    } else if (role === 'manager' && email.toLowerCase() === 'manager@gmail.com') {
       router.push('/dashboard/manager');
-    } else if (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com')) {
+    } else if (role === 'user' && (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com'))) {
       router.push('/dashboard/developer');
-    } else {
-      // Default redirect for any other user
+    } else if (role === 'user') {
       router.push('/dashboard/developer');
     }
   };
+
+  const handleRoleChange = (role: string) => {
+    setEmail(''); // Reset email when role changes
+  }
+
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4">
@@ -53,7 +49,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="user" className="w-full" onValueChange={setRole}>
+          <Tabs defaultValue="user" className="w-full" onValueChange={handleRoleChange}>
             <TabsList className="grid w-full grid-cols-3 bg-neutral-900">
               <TabsTrigger value="user">
                 <User className="mr-2 h-4 w-4" /> User
@@ -66,11 +62,11 @@ export default function LoginPage() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="user">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('user'); }}>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="user-email">Email</Label>
-                    <Input id="user-email" type="email" placeholder="dev@gmail.com" required className="bg-neutral-900 border-neutral-700" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} />
+                    <Input id="user-email" type="email" placeholder="dev@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="user-password">Password</Label>
@@ -83,11 +79,11 @@ export default function LoginPage() {
               </form>
             </TabsContent>
             <TabsContent value="manager">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('manager'); }}>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="manager-email">Manager Email</Label>
-                    <Input id="manager-email" type="email" placeholder="manager@gmail.com" required className="bg-neutral-900 border-neutral-700" value={managerEmail} onChange={(e) => setManagerEmail(e.target.value)} />
+                    <Input id="manager-email" type="email" placeholder="manager@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="manager-password">Password</Label>
@@ -100,11 +96,11 @@ export default function LoginPage() {
               </form>
             </TabsContent>
             <TabsContent value="admin">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('admin'); }}>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" placeholder="admin@gmail.com" required className="bg-neutral-900 border-neutral-700" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} />
+                    <Input id="admin-email" type="email" placeholder="admin@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="admin-password">Password</Label>
