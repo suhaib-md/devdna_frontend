@@ -34,12 +34,9 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import TiltedCard from '@/components/ui/TiltedCard';
+import teamData from '@/data/team.json';
 
-const teamMembers = [
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', avatar: 'JS' },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', avatar: 'MJ' },
-    { id: '5', name: 'Alex Green', email: 'manager@gmail.com', topSkill: 'Project Management', avatar: 'AG' },
-];
+const { teamMembers } = teamData;
 
 export default function TeamPage() {
   return (

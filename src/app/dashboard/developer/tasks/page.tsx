@@ -42,14 +42,7 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
-
-const tasks = [
-    { id: 'TASK-101', name: 'Implement user authentication flow', status: 'Done', progress: 100, dueDate: '2023-10-20' },
-    { id: 'TASK-102', name: 'Design dashboard layout and components', status: 'In Progress', progress: 60, dueDate: '2023-10-25' },
-    { id: 'TASK-103', name: 'Develop API for user profiles', status: 'In Progress', progress: 40, dueDate: '2023-10-28' },
-    { id: 'TASK-104', name: 'Setup CI/CD pipeline for frontend', status: 'To Do', progress: 10, dueDate: '2023-10-30' },
-    { id: 'TASK-105', name: 'Write integration tests for auth service', status: 'To Do', progress: 0, dueDate: '2023-11-05' },
-];
+import tasks from '@/data/tasks.json';
 
 export default function MyTasksPage() {
   return (
@@ -251,5 +244,3 @@ export default function MyTasksPage() {
     </div>
   );
 }
-
-    

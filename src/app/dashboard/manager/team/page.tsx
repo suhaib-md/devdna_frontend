@@ -57,13 +57,9 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import teamData from '@/data/team.json';
 
-const developers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', topSkill: 'React', status: 'Active', commits: 1254 },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', topSkill: 'Node.js', status: 'Active', commits: 987 },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', topSkill: 'Vue.js', status: 'On Leave', commits: 450 },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', topSkill: 'Angular', status: 'Active', commits: 1500 },
-];
+const { developers } = teamData;
 
 export default function ManagerTeamPage() {
   const [searchTerm, setSearchTerm] = useState('');

@@ -62,20 +62,8 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-
-
-const managers = [
-    { id: '5', name: 'Alex Green', email: 'manager@gmail.com', status: 'Active', teamSize: 8 },
-    { id: '6', name: 'Samantha Blue', email: 's.blue@example.com', status: 'Active', teamSize: 5 },
-    { id: '7', name: 'Tom Red', email: 't.red@example.com', status: 'Inactive', teamSize: 0 },
-];
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
+import managers from '@/data/managers.json';
+import notifications from '@/data/notifications.json';
 
 
 export default function ManagerAccountsPage() {

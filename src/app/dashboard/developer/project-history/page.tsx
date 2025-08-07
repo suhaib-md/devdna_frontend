@@ -41,34 +41,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import projectHistory from '@/data/project-history.json';
 
-const projectHistory = [
-    { 
-      name: 'AI Chatbot Integration', 
-      role: 'AI Engineer', 
-      duration: 'Jan 2023 - Jun 2023 (6 months)', 
-      tech: ['Python', 'TensorFlow', 'Next.js', 'LangChain'],
-      description: 'Led the development of a customer-facing AI chatbot, improving response times by 40%. Responsible for model training and integration.',
-      stats: { commits: 350, prs: 80, issues: 45 }
-    },
-    { 
-      name: 'Internal Tools Platform', 
-      role: 'Full-stack Developer', 
-      duration: 'Mar 2022 - Dec 2022 (10 months)', 
-      tech: ['React', 'Node.js', 'PostgreSQL', 'Docker'],
-      description: 'Built and maintained a suite of internal tools for the marketing team, resulting in a 25% increase in operational efficiency.',
-      stats: { commits: 520, prs: 110, issues: 95 }
-    },
-     { 
-      name: 'Data Migration Service', 
-      role: 'Backend Developer', 
-      duration: 'Oct 2021 - Feb 2022 (5 months)', 
-      tech: ['Go', 'Kafka', 'gRPC', 'Kubernetes'],
-      description: 'Developed a high-throughput service to migrate user data between legacy and modern database systems with zero downtime.',
-      stats: { commits: 210, prs: 45, issues: 30 }
-    },
-];
 
 export default function ProjectHistoryPage() {
   return (
@@ -267,5 +242,3 @@ export default function ProjectHistoryPage() {
     </div>
   );
 }
-
-    

@@ -1,0 +1,33 @@
+
+[
+    {
+      "icon": "BarChart3",
+      "title": "Automated Performance Tracking",
+      "description": "Eliminates manual reporting with comprehensive activity visibility from integrated platforms."
+    },
+    {
+      "icon": "UserCheck",
+      "title": "Intelligent Developer Profiling",
+      "description": "Creates detailed skill profiles based on actual code contributions and work patterns."
+    },
+    {
+      "icon": "Bot",
+      "title": "Data-Driven Project Management",
+      "description": "Enables objective decision-making for project assignments and resource allocation."
+    },
+    {
+      "icon": "GitMerge",
+      "title": "Seamless Integration",
+      "description": "Works with your existing tools like GitHub, JIRA, and Confluence without disrupting workflows."
+    },
+    {
+      "icon": "Sparkles",
+      "title": "AI-Powered Insights",
+      "description": "Provides actionable recommendations through advanced analytics and natural language processing."
+    },
+    {
+      "icon": "Code",
+      "title": "Continuous Learning Tracking",
+      "description": "Monitors skill development and adaptation to new technologies over time."
+    }
+]

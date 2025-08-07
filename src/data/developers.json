@@ -1,0 +1,111 @@
+
+[
+    { 
+      "id": "1", 
+      "name": "John Doe", 
+      "github": "@johndoe",
+      "email": "john@example.com", 
+      "topSkills": ["React", "TypeScript", "Node.js"],
+      "topDomains": ["Frontend", "Backend", "API Design"],
+      "role": "Full-Stack Developer",
+      "activityScore": 92,
+      "status": "Active",
+      "avatar": "JD", 
+      "metrics": {
+        "commits": { "last30": 85, "last90": 250 },
+        "prs": { "created": 32, "approvalRate": 95 },
+        "reviews": 48,
+        "languages": ["TypeScript", "JavaScript", "Python"],
+        "workType": [
+            { "type": "Features", "value": 50, "fill": "hsl(var(--primary))" },
+            { "type": "Bug Fixes", "value": 25, "fill": "hsl(var(--destructive))" },
+            { "type": "Documentation", "value": 15, "fill": "hsl(var(--chart-3))" },
+            { "type": "Infrastructure", "value": 10, "fill": "hsl(var(--chart-4))" }
+        ]
+      },
+      "strengths": ["Strong backend logic & API design", "Quick PR turnaround", "High bug fix success rate"],
+      "weaknesses": ["Large PR sizes", "Low test coverage contributions"],
+      "developerType": "Full-Stack Builder"
+    },
+     { 
+      "id": "2", 
+      "name": "Jane Smith", 
+      "github": "@janesmith",
+      "email": "jane@example.com", 
+      "topSkills": ["Node.js", "Python", "AWS"],
+      "topDomains": ["Backend", "System Design", "Databases"],
+      "role": "Backend Specialist",
+      "activityScore": 88,
+      "status": "Active", 
+      "avatar": "JS", 
+       "metrics": {
+        "commits": { "last30": 70, "last90": 210 },
+        "prs": { "created": 28, "approvalRate": 98 },
+        "reviews": 55,
+        "languages": ["Python", "Go", "SQL"],
+        "workType": [
+            { "type": "Features", "value": 40, "fill": "hsl(var(--primary))" },
+            { "type": "Bug Fixes", "value": 35, "fill": "hsl(var(--destructive))" },
+            { "type": "Documentation", "value": 10, "fill": "hsl(var(--chart-3))" },
+            { "type": "Infrastructure", "value": 15, "fill": "hsl(var(--chart-4))" }
+        ]
+      },
+      "strengths": ["High-quality code", "Excellent reviewer", "Strong systems design"],
+      "weaknesses": ["Slow review response time", "Sometimes over-engineers solutions"],
+      "developerType": "Backend Specialist"
+    },
+    { 
+      "id": "3", 
+      "name": "Peter Jones", 
+      "github": "@peterjones",
+      "email": "peter@example.com", 
+      "topSkills": ["Vue.js", "CSS", "Testing"],
+      "topDomains": ["Frontend", "UI/UX", "Web Performance"],
+      "role": "Frontend Developer",
+      "activityScore": 85,
+      "status": "On Leave", 
+      "avatar": "PJ", 
+       "metrics": {
+        "commits": { "last30": 40, "last90": 120 },
+        "prs": { "created": 20, "approvalRate": 92 },
+        "reviews": 30,
+        "languages": ["JavaScript", "CSS", "HTML"],
+         "workType": [
+            { "type": "Features", "value": 60, "fill": "hsl(var(--primary))" },
+            { "type": "Bug Fixes", "value": 20, "fill": "hsl(var(--destructive))" },
+            { "type": "Documentation", "value": 15, "fill": "hsl(var(--chart-3))" },
+            { "type": "Infrastructure", "value": 5, "fill": "hsl(var(--chart-4))" }
+        ]
+      },
+      "strengths": ["Great UI/UX sense", "Writes clean, maintainable CSS", "Proactive in documentation"],
+      "weaknesses": ["Needs to improve TypeScript skills", "Avoids complex backend tasks"],
+      "developerType": "Frontend Specialist"
+    },
+    { 
+      "id": "4", 
+      "name": "Mary Johnson", 
+      "github": "@maryj",
+      "email": "mary@example.com", 
+      "topSkills": ["Angular", "DevOps", "Kubernetes"],
+      "topDomains": ["DevOps", "Cloud Infra", "CI/CD"],
+      "role": "DevOps Engineer",
+      "activityScore": 95,
+      "status": "Active", 
+      "avatar": "MJ", 
+       "metrics": {
+        "commits": { "last30": 95, "last90": 280 },
+        "prs": { "created": 40, "approvalRate": 99 },
+        "reviews": 60,
+        "languages": ["YAML", "Go", "Shell"],
+        "workType": [
+            { "type": "Features", "value": 10, "fill": "hsl(var(--primary))" },
+            { "type": "Bug Fixes", "value": 15, "fill": "hsl(var(--destructive))" },
+            { "type": "Documentation", "value": 25, "fill": "hsl(var(--chart-3))" },
+            { "type": "Infrastructure", "value": 50, "fill": "hsl(var(--chart-4))" }
+        ]
+      },
+      "strengths": ["Expert in CI/CD pipelines", "High test coverage contributions", "Excellent problem-solver"],
+      "weaknesses": ["Can be slow to adopt new frontend frameworks", "PR descriptions can be brief"],
+      "developerType": "Infra & DevOps Engineer"
+    }
+]

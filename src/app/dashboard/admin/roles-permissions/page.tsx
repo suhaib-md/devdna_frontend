@@ -51,55 +51,14 @@ import {
 import Link from 'next/link';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-
-
-const roles = [
-    { 
-      name: 'Admin', 
-      description: 'Full system access.',
-      permissions: {
-        users: { read: true, write: true, create: true, delete: true },
-        projects: { read: true, write: true, create: true, delete: true },
-        billing: { read: true, write: true, create: true, delete: true },
-        settings: { read: true, write: true },
-      }
-    },
-    { 
-      name: 'Manager', 
-      description: 'Can manage developers and projects.',
-      permissions: {
-        users: { read: true, write: true, create: true, delete: false },
-        projects: { read: true, write: true, create: true, delete: true },
-        billing: { read: false, write: false, create: false, delete: false },
-        settings: { read: true, write: false },
-      }
-    },
-    { 
-      name: 'Developer', 
-      description: 'Access to assigned projects and their own profile.',
-       permissions: {
-        users: { read: false, write: false, create: false, delete: false },
-        projects: { read: true, write: false, create: false, delete: false },
-        billing: { read: false, write: false, create: false, delete: false },
-        settings: { read: false, write: false },
-      }
-    },
-];
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
-
+import initialRoles from '@/data/roles.json';
+import notifications from '@/data/notifications.json';
 
 type Permission = 'read' | 'write' | 'create' | 'delete';
 type Module = 'users' | 'projects' | 'billing' | 'settings';
 
-
 export default function RolesPermissionsPage() {
-  const [currentRoles, setCurrentRoles] = useState(roles);
+  const [currentRoles, setCurrentRoles] = useState(initialRoles);
 
   const handlePermissionChange = (roleName: string, module: Module, permission: Permission) => {
     setCurrentRoles(prevRoles =>

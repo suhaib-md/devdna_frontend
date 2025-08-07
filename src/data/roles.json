@@ -1,0 +1,33 @@
+
+[
+    { 
+      "name": "Admin", 
+      "description": "Full system access.",
+      "permissions": {
+        "users": { "read": true, "write": true, "create": true, "delete": true },
+        "projects": { "read": true, "write": true, "create": true, "delete": true },
+        "billing": { "read": true, "write": true, "create": true, "delete": true },
+        "settings": { "read": true, "write": true }
+      }
+    },
+    { 
+      "name": "Manager", 
+      "description": "Can manage developers and projects.",
+      "permissions": {
+        "users": { "read": true, "write": true, "create": true, "delete": false },
+        "projects": { "read": true, "write": true, "create": true, "delete": true },
+        "billing": { "read": false, "write": false, "create": false, "delete": false },
+        "settings": { "read": true, "write": false }
+      }
+    },
+    { 
+      "name": "Developer", 
+      "description": "Access to assigned projects and their own profile.",
+       "permissions": {
+        "users": { "read": false, "write": false, "create": false, "delete": false },
+        "projects": { "read": true, "write": false, "create": false, "delete": false },
+        "billing": { "read": false, "write": false, "create": false, "delete": false },
+        "settings": { "read": false, "write": false }
+      }
+    }
+]

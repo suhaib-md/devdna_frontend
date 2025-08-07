@@ -1,31 +1,21 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import TiltedCard from "@/components/ui/TiltedCard";
 import { ShieldCheck, GitBranch, DatabaseZap, Workflow } from "lucide-react";
+import securityFeaturesData from "@/data/security-features.json";
 
-const securityFeatures = [
-    {
-        icon: <ShieldCheck className="w-8 h-8 text-cyan-400"/>,
-        title: "Data Integrity First",
-        description: "Project managers and developers cannot directly modify data through dashboards, ensuring data integrity.",
-    },
-    {
-        icon: <GitBranch className="w-8 h-8 text-cyan-400"/>,
-        title: "Single Source of Truth",
-        description: "All modifications must be made through original sources like GitHub, JIRA, and Confluence.",
-    },
-    {
-        icon: <DatabaseZap className="w-8 h-8 text-cyan-400"/>,
-        title: "Real-time Synchronization",
-        description: "DevDNA reflects changes from integrated systems, providing a unified view while preserving source authority.",
-    },
-    {
-        icon: <Workflow className="w-8 h-8 text-cyan-400"/>,
-        title: "Accuracy Optimization",
-        description: "Our models learn from contextual edits in source tools, continuously improving AI analysis accuracy.",
-    }
-]
+type IconMap = {
+    [key: string]: React.ReactNode;
+};
+
+const icons: IconMap = {
+    ShieldCheck: <ShieldCheck className="w-8 h-8 text-cyan-400"/>,
+    GitBranch: <GitBranch className="w-8 h-8 text-cyan-400"/>,
+    DatabaseZap: <DatabaseZap className="w-8 h-8 text-cyan-400"/>,
+    Workflow: <Workflow className="w-8 h-8 text-cyan-400"/>,
+};
 
 const Security = () => {
     return (
@@ -55,7 +45,7 @@ const Security = () => {
                     </motion.div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10 xl:gap-12 max-w-2xl mx-auto lg:mx-0">
-                        {securityFeatures.map((feature, index) => (
+                        {securityFeaturesData.map((feature, index) => (
                             <motion.div
                                 key={feature.title}
                                 initial={{ opacity: 0, y: 30 }}
@@ -67,7 +57,7 @@ const Security = () => {
                                 <TiltedCard>
                                     <div className="h-full flex flex-col items-center text-center p-8 rounded-xl bg-neutral-900/50 border border-neutral-800/50 hover:border-cyan-400/30 transition-all duration-300 hover:bg-neutral-900/70 min-h-[260px] w-full max-w-xs mx-auto">
                                         <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-cyan-400/20 to-cyan-600/10 border border-cyan-400/30 mb-6 group-hover:scale-110 transition-transform duration-300">
-                                            {feature.icon}
+                                            {icons[feature.icon]}
                                         </div>
                                         <h3 className="text-lg lg:text-xl font-semibold text-white leading-tight mb-4 min-h-[2.5rem] flex items-center">
                                             {feature.title}

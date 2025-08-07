@@ -1,0 +1,19 @@
+
+{
+    "userGrowthData": [
+        { "month": "Jan", "users": 400 },
+        { "month": "Feb", "users": 300 },
+        { "month": "Mar", "users": 500 },
+        { "month": "Apr", "users": 700 },
+        { "month": "May", "users": 600 },
+        { "month": "Jun", "users": 800 }
+    ],
+    "serverLoadData": [
+        { "time": "12:00", "load": 0.4 },
+        { "time": "13:00", "load": 0.5 },
+        { "time": "14:00", "load": 0.3 },
+        { "time": "15:00", "load": 0.6 },
+        { "time": "16:00", "load": 0.7 },
+        { "time": "17:00", "load": 0.5 }
+    ]
+}

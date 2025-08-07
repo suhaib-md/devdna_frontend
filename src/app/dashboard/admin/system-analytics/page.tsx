@@ -52,25 +52,10 @@ import {
 import { Bar, BarChart as RechartsBarChart, Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid } from "recharts"
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import analyticsData from '@/data/analytics.json';
+import notifications from '@/data/notifications.json';
 
-
-const userGrowthData = [
-  { month: "Jan", users: 400 },
-  { month: "Feb", users: 300 },
-  { month: "Mar", users: 500 },
-  { month: "Apr", users: 700 },
-  { month: "May", users: 600 },
-  { month: "Jun", users: 800 },
-]
-
-const serverLoadData = [
-  { time: "12:00", load: 0.4 },
-  { time: "13:00", load: 0.5 },
-  { time: "14:00", load: 0.3 },
-  { time: "15:00", load: 0.6 },
-  { time: "16:00", load: 0.7 },
-  { time: "17:00", load: 0.5 },
-]
+const { userGrowthData, serverLoadData } = analyticsData;
 
 const chartConfig = {
   users: {
@@ -82,13 +67,6 @@ const chartConfig = {
       color: "hsl(var(--destructive))"
   }
 } satisfies ChartConfig
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
 
 
 export default function SystemAnalyticsPage() {

@@ -37,14 +37,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-
-const leaderboardData = [
-    { rank: 1, name: 'Mary Johnson', avatar: 'MJ', score: 98.5, commits: 1500, prs: 310, issues: 150 },
-    { rank: 2, name: 'John Doe', avatar: 'JD', score: 95.2, commits: 1254, prs: 231, issues: 89 },
-    { rank: 3, name: 'Jane Smith', avatar: 'JS', score: 91.8, commits: 987, prs: 180, issues: 120 },
-    { rank: 4, name: 'Peter Jones', avatar: 'PJ', score: 85.1, commits: 450, prs: 95, issues: 45 },
-];
+import leaderboardData from '@/data/leaderboard.json';
 
 
 export default function ManagerLeaderboardPage() {
@@ -254,5 +247,3 @@ export default function ManagerLeaderboardPage() {
     </div>
   );
 }
-
-    

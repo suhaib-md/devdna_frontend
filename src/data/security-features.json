@@ -1,0 +1,23 @@
+
+[
+    {
+        "icon": "ShieldCheck",
+        "title": "Data Integrity First",
+        "description": "Project managers and developers cannot directly modify data through dashboards, ensuring data integrity."
+    },
+    {
+        "icon": "GitBranch",
+        "title": "Single Source of Truth",
+        "description": "All modifications must be made through original sources like GitHub, JIRA, and Confluence."
+    },
+    {
+        "icon": "DatabaseZap",
+        "title": "Real-time Synchronization",
+        "description": "DevDNA reflects changes from integrated systems, providing a unified view while preserving source authority."
+    },
+    {
+        "icon": "Workflow",
+        "title": "Accuracy Optimization",
+        "description": "Our models learn from contextual edits in source tools, continuously improving AI analysis accuracy."
+    }
+]

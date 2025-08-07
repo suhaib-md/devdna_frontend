@@ -49,13 +49,9 @@ import {
 import Link from 'next/link';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell } from 'recharts';
+import developerDashboardData from '@/data/developer-dashboard.json';
 
-const workTypeData = [
-  { type: "Features", value: 50, fill: "hsl(var(--primary))" },
-  { type: "Bug Fixes", value: 25, fill: "hsl(var(--destructive))" },
-  { type: "Documentation", value: 15, fill: "hsl(var(--chart-3))" },
-  { type: "Infrastructure", value: 10, fill: "hsl(var(--chart-4))" },
-]
+const { workTypeData } = developerDashboardData;
 
 const chartConfig = {
   work: {

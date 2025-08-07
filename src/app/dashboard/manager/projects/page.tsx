@@ -37,14 +37,8 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
+import tasks from '@/data/tasks.json';
 
-
-const tasks = [
-    { id: 'TASK-101', name: 'Implement user authentication flow', assignee: 'John Doe', status: 'Done', progress: 100 },
-    { id: 'TASK-102', name: 'Design dashboard layout', assignee: 'Jane Smith', status: 'In Progress', progress: 60 },
-    { id: 'TASK-103', name: 'Develop API for user profiles', assignee: 'Mary Johnson', status: 'In Progress', progress: 40 },
-    { id: 'TASK-104', name: 'Setup CI/CD pipeline', assignee: 'Peter Jones', status: 'To Do', progress: 10 },
-];
 
 function ManagerProjectPageComponent() {
   const searchParams = useSearchParams();

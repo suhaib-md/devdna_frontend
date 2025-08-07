@@ -6,33 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "framer-motion";
 import TiltedCard from "@/components/ui/TiltedCard";
 import { Card, CardContent } from "@/components/ui/card";
-
-const testimonials = [
-  {
-    quote: "DevDNA has transformed our project management. The AI-driven insights allow us to allocate resources with surgical precision, boosting our productivity by over 30%.",
-    name: "Alex Johnson",
-    title: "CTO, Innovatech",
-    avatar: "AJ",
-  },
-  {
-    quote: "The developer profiling is a game-changer. We now have a clear, objective view of everyone's strengths, leading to better team composition and happier, more engaged engineers.",
-    name: "Samantha Lee",
-    title: "VP of Engineering, CodeHarbor",
-    avatar: "SL",
-  },
-  {
-    quote: "I was skeptical about automated tracking, but DevDNA's seamless integration proved me wrong. It provides incredible visibility without any of the administrative overhead.",
-    name: "Michael Chen",
-    title: "Project Manager, TechSolutions",
-    avatar: "MC",
-  },
-  {
-    quote: "The ability to match developers to projects based on their skills and growth goals has been invaluable for talent retention. Our team feels more valued and challenged.",
-    name: "Emily Rodriguez",
-    title: "Director of R&D, FutureSys",
-    avatar: "ER",
-  },
-];
+import testimonials from "@/data/testimonials.json";
 
 const CaseStudies = () => {
   return (

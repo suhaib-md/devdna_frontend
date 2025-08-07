@@ -1,41 +1,23 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import TiltedCard from "@/components/ui/TiltedCard";
 import { BarChart3, UserCheck, Bot, GitMerge, Sparkles, Code } from "lucide-react";
+import featuresData from "@/data/features.json";
 
-const features = [
-  {
-    icon: <BarChart3 className="h-8 w-8 text-cyan-400" />,
-    title: "Automated Performance Tracking",
-    description: "Eliminates manual reporting with comprehensive activity visibility from integrated platforms.",
-  },
-  {
-    icon: <UserCheck className="h-8 w-8 text-cyan-400" />,
-    title: "Intelligent Developer Profiling",
-    description: "Creates detailed skill profiles based on actual code contributions and work patterns.",
-  },
-  {
-    icon: <Bot className="h-8 w-8 text-cyan-400" />,
-    title: "Data-Driven Project Management",
-    description: "Enables objective decision-making for project assignments and resource allocation.",
-  },
-  {
-    icon: <GitMerge className="h-8 w-8 text-cyan-400" />,
-    title: "Seamless Integration",
-    description: "Works with your existing tools like GitHub, JIRA, and Confluence without disrupting workflows.",
-  },
-  {
-    icon: <Sparkles className="h-8 w-8 text-cyan-400" />,
-    title: "AI-Powered Insights",
-    description: "Provides actionable recommendations through advanced analytics and natural language processing.",
-  },
-  {
-    icon: <Code className="h-8 w-8 text-cyan-400" />,
-    title: "Continuous Learning Tracking",
-    description: "Monitors skill development and adaptation to new technologies over time.",
-  },
-];
+type IconMap = {
+  [key: string]: React.ReactNode;
+};
+
+const icons: IconMap = {
+  BarChart3: <BarChart3 className="h-8 w-8 text-cyan-400" />,
+  UserCheck: <UserCheck className="h-8 w-8 text-cyan-400" />,
+  Bot: <Bot className="h-8 w-8 text-cyan-400" />,
+  GitMerge: <GitMerge className="h-8 w-8 text-cyan-400" />,
+  Sparkles: <Sparkles className="h-8 w-8 text-cyan-400" />,
+  Code: <Code className="h-8 w-8 text-cyan-400" />,
+};
 
 const Features = () => {
   return (
@@ -58,7 +40,7 @@ const Features = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 xl:gap-16 max-w-6xl mx-auto">
-          {features.map((feature, index) => (
+          {featuresData.map((feature, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -70,7 +52,7 @@ const Features = () => {
               <TiltedCard>
                 <div className="bg-neutral-950 border border-neutral-800 group-hover:border-cyan-400/50 group-hover:bg-neutral-900 transition-all duration-300 h-full rounded-xl p-8 flex flex-col items-center text-center min-h-[280px] w-full max-w-sm mx-auto">
                   <div className="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-cyan-400/20 to-cyan-600/10 border border-cyan-400/30 mb-6 group-hover:scale-110 transition-transform duration-300">
-                    {feature.icon}
+                    {icons[feature.icon]}
                   </div>
                   <h3 className="text-xl lg:text-2xl font-semibold text-white leading-tight mb-4 min-h-[3.5rem] flex items-center">
                     {feature.title}

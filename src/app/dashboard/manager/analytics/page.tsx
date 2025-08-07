@@ -41,26 +41,11 @@ import {
   ChartConfig,
 } from "@/components/ui/chart"
 import { Bar, BarChart as RechartsBarChart, Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid, Pie, PieChart, Cell } from "recharts"
+import managerAnalyticsData from '@/data/manager-analytics.json';
 
-const teamCommitData = [
-  { date: "2023-05-01", commits: 35 },
-  { date: "2023-05-02", commits: 42 },
-  { date: "2023-05-03", commits: 28 },
-  { date: "2023-05-04", commits: 51 },
-  { date: "2023-05-05", commits: 45 },
-  { date: "2023-05-06", commits: 30 },
-  { date: "2023-05-07", commits: 22 },
-];
+const { teamCommitData, skillDistributionData } = managerAnalyticsData;
 
-const skillDistributionData = [
-  { name: 'React', value: 400 },
-  { name: 'Node.js', value: 300 },
-  { name: 'Python', value: 250 },
-  { name: 'DevOps', value: 200 },
-  { name: 'Vue.js', value: 150 },
-];
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#BF00FF"];
-
 
 const chartConfig = {
   commits: {

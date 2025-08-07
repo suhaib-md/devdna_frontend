@@ -54,21 +54,10 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import notifications from '@/data/notifications.json';
+import adminDashboardData from '@/data/admin-dashboard.json';
 
-
-const projects = [
-    { name: 'DevDNA Platform', status: 'Active', teamSize: 8, completion: 75, lead: 'John Doe' },
-    { name: 'AI Chatbot Integration', status: 'Active', teamSize: 5, completion: 60, lead: 'Jane Smith' },
-    { name: 'Internal Tools', status: 'Completed', teamSize: 3, completion: 100, lead: 'Peter Jones' },
-    { name: 'Data Pipeline', status: 'On Hold', teamSize: 4, completion: 20, lead: 'Mary Johnson' },
-]
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
+const { projects } = adminDashboardData;
 
 
 export default function AdminDashboard() {

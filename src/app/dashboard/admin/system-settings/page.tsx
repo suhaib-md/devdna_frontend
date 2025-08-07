@@ -48,14 +48,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import notifications from '@/data/notifications.json';
 
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
 
 export default function SystemSettingsPage() {
   return (

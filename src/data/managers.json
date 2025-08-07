@@ -1,0 +1,6 @@
+
+[
+    { "id": "5", "name": "Alex Green", "email": "manager@gmail.com", "status": "Active", "teamSize": 8 },
+    { "id": "6", "name": "Samantha Blue", "email": "s.blue@example.com", "status": "Active", "teamSize": 5 },
+    { "id": "7", "name": "Tom Red", "email": "t.red@example.com", "status": "Inactive", "teamSize": 0 }
+]

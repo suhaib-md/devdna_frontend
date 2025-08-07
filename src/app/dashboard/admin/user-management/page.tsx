@@ -63,22 +63,8 @@ import {
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-
-
-const users = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Developer', status: 'Active' },
-    { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'Developer', status: 'Active' },
-    { id: '3', name: 'Peter Jones', email: 'peter@example.com', role: 'Developer', status: 'On Leave' },
-    { id: '4', name: 'Mary Johnson', email: 'mary@example.com', role: 'Developer', status: 'Active' },
-    { id: '5', name: 'Alex Green', email: 'manager@gmail.com', role: 'Manager', status: 'Active' },
-];
-
-const notifications = [
-    { user: 'Admin', action: 'updated developer role permissions', time: '15m ago' },
-    { user: 'System', action: 'detected high memory usage on server', time: '1h ago', isSystem: true },
-    { user: 'Manager A', action: 'initiated a new project "Phoenix"', time: '3h ago' },
-    { user: 'Admin', action: 'created a new developer account', time: 'yesterday' },
-];
+import users from '@/data/users.json';
+import notifications from '@/data/notifications.json';
 
 export default function UserManagementPage() {
   const [searchTerm, setSearchTerm] = useState('');
