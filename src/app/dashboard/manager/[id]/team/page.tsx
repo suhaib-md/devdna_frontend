@@ -225,10 +225,10 @@ export default function ManagerTeamPage() {
                                         <h4 className="font-semibold mb-2 mt-2">Key Updates:</h4>
                                         <ul className="list-disc list-inside space-y-1 text-sm text-neutral-300">
                                             <li>
-                                                <span className="font-semibold text-white">Merged PR #{Math.floor(Math.random() * 100) + 100}:</span> Implemented caching for user profiles.
+                                                <span className="font-semibold text-white">Merged PR #152:</span> Implemented caching for user profiles.
                                             </li>
                                             <li>
-                                                <span className="font-semibold text-white">Pushed {Math.floor(Math.random() * 5) + 2} commits to `feature/api-throttling`:</span> Completed initial setup.
+                                                <span className="font-semibold text-white">Pushed 3 commits to `feature/api-throttling`:</span> Completed initial setup.
                                             </li>
                                         </ul>
                                     </div>
