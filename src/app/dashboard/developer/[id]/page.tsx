@@ -26,8 +26,10 @@ import {
   Wrench,
   Bug,
   Codepen,
-  Layers
+  Layers,
+  ArrowLeft
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -88,6 +90,7 @@ const chartConfig = {
 
 export default function DeveloperProfilePage() {
   const params = useParams();
+  const router = useRouter();
   const developer = allUsers.find(d => d.id === params.id && d.role === 'Developer');
 
   if (!developer || !developer.profile) {
@@ -234,7 +237,11 @@ export default function DeveloperProfilePage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1">
+          <div className="w-full flex-1 flex items-center gap-4">
+             <Button variant="outline" size="icon" onClick={() => router.back()}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+            </Button>
              <h1 className="text-lg font-semibold md:text-2xl">Developer DNA: {developer.name}</h1>
           </div>
           <DropdownMenu>
