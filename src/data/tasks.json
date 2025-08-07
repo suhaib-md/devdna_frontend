@@ -1,8 +1,10 @@
 
 [
-    { "id": "TASK-101", "name": "Implement user authentication flow", "status": "Done", "progress": 100, "dueDate": "2023-10-20", "assignee": "John Doe" },
-    { "id": "TASK-102", "name": "Design dashboard layout and components", "status": "In Progress", "progress": 60, "dueDate": "2023-10-25", "assignee": "Jane Smith" },
-    { "id": "TASK-103", "name": "Develop API for user profiles", "status": "In Progress", "progress": 40, "dueDate": "2023-10-28", "assignee": "Mary Johnson"},
-    { "id": "TASK-104", "name": "Setup CI/CD pipeline for frontend", "status": "To Do", "progress": 10, "dueDate": "2023-10-30", "assignee": "Peter Jones" },
-    { "id": "TASK-105", "name": "Write integration tests for auth service", "status": "To Do", "progress": 0, "dueDate": "2023-11-05", "assignee": "John Doe" }
+    { "id": "TASK-101", "name": "Refactor authentication module with new security protocols", "status": "In Progress", "progress": 75, "dueDate": "2023-11-10", "assignee": "Suhaib" },
+    { "id": "TASK-102", "name": "Optimize database queries for the analytics dashboard", "status": "In Progress", "progress": 50, "dueDate": "2023-11-15", "assignee": "Arul" },
+    { "id": "TASK-103", "name": "Build the UI for the new project creation form", "status": "Done", "progress": 100, "dueDate": "2023-11-01", "assignee": "Pavan"},
+    { "id": "TASK-104", "name": "Integrate the JIRA API for real-time task synchronization", "status": "To Do", "progress": 15, "dueDate": "2023-11-20", "assignee": "Farhan" },
+    { "id": "TASK-105", "name": "Write end-to-end tests for the user profile page", "status": "To Do", "progress": 0, "dueDate": "2023-11-18", "assignee": "Jane Smith" },
+    { "id": "TASK-106", "name": "Design the data schema for the notifications service", "status": "Done", "progress": 100, "dueDate": "2023-10-29", "assignee": "Suhaib" },
+    { "id": "TASK-107", "name": "Set up a staging environment in AWS for the backend services", "status": "In Progress", "progress": 80, "dueDate": "2023-11-12", "assignee": "Arul" }
 ]

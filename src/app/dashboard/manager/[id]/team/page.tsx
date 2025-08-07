@@ -17,6 +17,8 @@ import {
   Code,
   Activity,
   BarChart,
+  GitPullRequest,
+  CheckCircle,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -47,15 +49,9 @@ import { Progress } from '@/components/ui/progress';
 const developers = allUsers.filter(u => u.role === 'Developer');
 
 export default function ManagerTeamPage() {
-  const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
   const params = useParams();
   const managerId = params.id as string;
-
-  const filteredDevelopers = developers.filter(dev =>
-    dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (dev.profile && dev.profile.languages.some(lang => lang.toLowerCase().includes(searchTerm.toLowerCase())))
-  );
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -211,36 +207,49 @@ export default function ManagerTeamPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
             <Card>
                 <CardHeader>
-                    <CardTitle>Project Team</CardTitle>
+                    <CardTitle>Daily Status</CardTitle>
                     <CardDescription>
-                        Developers currently assigned to the "DevDNA Platform" project.
+                        A summary of your team's activity for the "DevDNA Platform" project.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {developers.map((dev) => (
-                        <Link key={dev.id} href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
-                            <Card className="hover:bg-neutral-900 hover:border-primary/50 transition-colors cursor-pointer h-full">
-                                <CardHeader className="flex-row items-center gap-4">
-                                    <Avatar className="w-12 h-12">
-                                        <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
-                                        <AvatarFallback>{dev.avatar}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <CardTitle className="text-lg">{dev.name}</CardTitle>
-                                        <CardDescription>{dev.developerType}</CardDescription>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="space-y-3">
-                                    <div className="space-y-1">
-                                        <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                            <span>Current Task</span>
-                                        </div>
-                                        <p className="text-sm font-medium truncate">API Integration</p>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
+                <CardContent className="space-y-8">
+                     {developers.map(dev => (
+                    <Card key={dev.id} className="bg-neutral-950/40 border-neutral-800">
+                        <CardHeader className="flex flex-row items-center gap-4">
+                            <Avatar className="h-12 w-12">
+                                <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
+                                <AvatarFallback>{dev.avatar}</AvatarFallback>
+                            </Avatar>
+                             <div className="flex-grow">
+                                <Link href={`/dashboard/manager/${managerId}/developers/${dev.id}`} className="hover:underline">
+                                    <CardTitle>{dev.name}</CardTitle>
+                                </Link>
+                                <CardDescription>{dev.developerType}</CardDescription>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4 pl-8">
+                           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+                                <div className="flex items-center gap-2" title="Commits today"><GitCommit className="h-4 w-4"/><span>5 Commits</span></div>
+                                <div className="flex items-center gap-2" title="Pull Requests opened"><GitPullRequest className="h-4 w-4"/><span>1 PR Opened</span></div>
+                                <div className="flex items-center gap-2" title="Issues resolved"><CheckCircle className="h-4 w-4"/><span>3 Issues Resolved</span></div>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-2 text-sm">Key Updates:</h4>
+                                <ul className="list-disc list-inside space-y-2 text-sm text-neutral-300">
+                                    <li>
+                                        <span className="font-semibold text-white">Merged PR #123:</span> Implemented caching layer for user profiles. Blocked by API key availability.
+                                    </li>
+                                     <li>
+                                        <span className="font-semibold text-white">Fixed Bug #456:</span> Resolved authentication issue on mobile devices.
+                                    </li>
+                                     <li>
+                                        <span className="font-semibold text-white">Pushed 5 commits to `feature/api-throttling`:</span> Completed initial setup for rate limiting.
+                                    </li>
+                                </ul>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
                 </CardContent>
             </Card>
 
