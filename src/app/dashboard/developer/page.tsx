@@ -52,6 +52,7 @@ import { PieChart, Pie, Cell } from 'recharts';
 import developerDashboardData from '@/data/developer-dashboard.json';
 import allUsers from '@/data/users.json';
 import { useParams } from 'next/navigation';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 
 const { workTypeData } = developerDashboardData;
@@ -81,7 +82,7 @@ const chartConfig = {
 export default function DeveloperDashboard() {
   const params = useParams();
   // In a real app, this would come from a session or auth context
-  const loggedInUserId = params.id || "1"; 
+  const loggedInUserId = params.id as string; 
   const user = allUsers.find(u => u.id === loggedInUserId);
 
   if (!user || !user.profile) {
@@ -220,10 +221,7 @@ export default function DeveloperDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">{user.name}'s Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Developer</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

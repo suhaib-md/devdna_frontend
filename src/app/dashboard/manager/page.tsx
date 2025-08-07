@@ -17,7 +17,6 @@ import {
   LineChart,
   Trophy,
   PlusCircle,
-  ArrowLeft,
   CalendarClock
 } from 'lucide-react';
 
@@ -43,6 +42,7 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import allUsers from '@/data/users.json';
 import { Progress } from '@/components/ui/progress';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -158,10 +158,7 @@ function ManagerDashboardComponent() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Avinash's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Manager</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

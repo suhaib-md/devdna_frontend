@@ -54,6 +54,7 @@ import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import analyticsData from '@/data/analytics.json';
 import notifications from '@/data/notifications.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const { userGrowthData, serverLoadData } = analyticsData;
 
@@ -228,10 +229,7 @@ export default function SystemAnalyticsPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">System Analytics</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

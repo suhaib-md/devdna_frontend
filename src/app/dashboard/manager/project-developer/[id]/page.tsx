@@ -15,7 +15,6 @@ import {
   GitPullRequest,
   CheckCircle,
   ClipboardList,
-  ArrowLeft,
   User,
   ExternalLink
 } from 'lucide-react';
@@ -51,6 +50,7 @@ import {
 import { Progress } from '@/components/ui/progress';
 import allUsers from '@/data/users.json';
 import tasks from '@/data/tasks.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -166,15 +166,8 @@ export default function ProjectDeveloperProfilePage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">{developer.name}'s Project Profile</h1>
-                 <p className="text-sm text-muted-foreground">DevDNA Platform</p>
-            </div>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

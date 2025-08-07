@@ -16,7 +16,6 @@ import {
   Lock,
   Unlock,
   Bot,
-  ArrowLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -41,6 +40,7 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export default function CreateProjectPage() {
   const router = useRouter();
@@ -152,15 +152,8 @@ export default function CreateProjectPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">Create New Project</h1>
-                 <p className="text-sm text-muted-foreground">Set up your next project</p>
-            </div>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

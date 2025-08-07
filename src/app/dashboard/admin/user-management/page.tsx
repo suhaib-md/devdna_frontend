@@ -65,6 +65,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import users from '@/data/users.json';
 import notifications from '@/data/notifications.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export default function UserManagementPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -233,10 +234,7 @@ export default function UserManagementPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">User Management</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -12,7 +12,6 @@ import {
   Users,
   ClipboardList,
   History,
-  ArrowLeft,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
@@ -44,6 +43,7 @@ import {
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
 import tasks from '@/data/tasks.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 export default function MyTasksPage() {
   const router = useRouter();
@@ -177,12 +177,8 @@ export default function MyTasksPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <h1 className="text-lg font-semibold md:text-2xl">My Tasks</h1>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -16,7 +16,6 @@ import {
   Loader2,
   BarChart,
   Trophy,
-  ArrowLeft
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -35,6 +34,7 @@ import { getInsight } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 type Message = {
     role: 'user' | 'assistant';
@@ -173,15 +173,8 @@ export default function AiAssistantPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-             <div>
-                <h1 className="text-lg font-semibold md:text-2xl">AI Assistant</h1>
-                <p className="text-sm text-muted-foreground">Your intelligent project copilot</p>
-            </div>
+          <div className="w-full flex-1">
+             <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

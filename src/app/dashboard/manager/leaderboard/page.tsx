@@ -17,7 +17,6 @@ import {
   CheckCircle,
   Award,
   Bot,
-  ArrowLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -39,6 +38,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import allUsers from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const leaderboardData = allUsers
     .filter(u => u.role === 'Developer' && u.profile)
@@ -160,15 +160,8 @@ export default function ManagerLeaderboardPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-            <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">Developer Leaderboard</h1>
-                <p className="text-sm text-muted-foreground">Team performance rankings</p>
-            </div>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -56,6 +56,7 @@ import Link from 'next/link';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import notifications from '@/data/notifications.json';
 import adminDashboardData from '@/data/admin-dashboard.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const { projects } = adminDashboardData;
 
@@ -220,10 +221,7 @@ export default function AdminDashboard() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Welcome back, Admin!</p>
-            </div>
+             <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -15,7 +15,6 @@ import {
   GitCommit,
   GitPullRequest,
   CheckCircle,
-  ArrowLeft,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
@@ -44,6 +43,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import projectHistory from '@/data/project-history.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 
 export default function ProjectHistoryPage() {
@@ -178,12 +178,8 @@ export default function ProjectHistoryPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-            <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <h1 className="text-lg font-semibold md:text-2xl">Project History</h1>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

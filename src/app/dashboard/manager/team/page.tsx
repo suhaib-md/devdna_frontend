@@ -16,7 +16,6 @@ import {
   Trophy,
   GitBranch,
   Bot,
-  ArrowLeft
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -59,6 +58,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import allUsers from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -177,15 +177,8 @@ export default function ManagerTeamPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">My Team</h1>
-                <p className="text-sm text-muted-foreground">Manage your project team</p>
-            </div>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

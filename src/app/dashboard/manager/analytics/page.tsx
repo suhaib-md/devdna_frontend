@@ -15,7 +15,6 @@ import {
   GitCommit,
   Activity,
   Bot,
-  ArrowLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -43,6 +42,7 @@ import {
 } from "@/components/ui/chart"
 import { Bar, BarChart as RechartsBarChart, Line, LineChart as RechartsLineChart, XAxis, YAxis, CartesianGrid, Pie, PieChart, Cell } from "recharts"
 import managerAnalyticsData from '@/data/manager-analytics.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const { teamCommitData, skillDistributionData } = managerAnalyticsData;
 
@@ -159,15 +159,8 @@ export default function ManagerAnalyticsPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">Team Analytics</h1>
-                <p className="text-sm text-muted-foreground">Insights into your team's performance</p>
-            </div>
+          <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

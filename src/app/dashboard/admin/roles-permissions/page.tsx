@@ -53,6 +53,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import initialRoles from '@/data/roles.json';
 import notifications from '@/data/notifications.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 type Permission = 'read' | 'write' | 'create' | 'delete';
 type Module = 'users' | 'projects' | 'billing' | 'settings';
@@ -231,10 +232,7 @@ export default function RolesPermissionsPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Roles & Permissions</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

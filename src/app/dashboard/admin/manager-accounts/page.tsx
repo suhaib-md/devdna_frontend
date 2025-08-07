@@ -64,6 +64,7 @@ import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import allUsers from '@/data/users.json';
 import notifications from '@/data/notifications.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const managers = allUsers.filter(user => user.role === 'Manager');
 
@@ -233,10 +234,7 @@ export default function ManagerAccountsPage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Admin's Dashboard</h1>
-              <p className="text-sm text-muted-foreground">Manager Accounts</p>
-            </div>
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

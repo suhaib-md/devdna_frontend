@@ -16,7 +16,6 @@ import {
   GitPullRequest,
   CheckCircle,
   Bot,
-  ArrowLeft,
   MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,6 +38,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import allUsers from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -147,15 +147,8 @@ export default function DailyStatusPage() {
               </nav>
             </SheetContent>
           </Sheet>
-           <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <div>
-                <h1 className="text-lg font-semibold md:text-2xl">Daily Status</h1>
-                <p className="text-sm text-muted-foreground">Updates from the last 24 hours.</p>
-            </div>
+           <div className="w-full flex-1">
+            <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
