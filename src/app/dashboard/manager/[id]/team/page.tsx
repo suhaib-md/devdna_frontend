@@ -202,7 +202,7 @@ export default function ManagerTeamPage() {
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {developers.map((dev) => (
                     <TiltedCard key={dev.id}>
-                        <Link href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
+                        <Link href={`/dashboard/manager/${managerId}/team/${dev.id}`}>
                             <Card className="hover:bg-neutral-900/50 transition-colors h-full">
                                 <CardHeader className="flex flex-row items-center gap-4">
                                     <Avatar className="h-12 w-12">
