@@ -2,22 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import LightRays from "@/components/ui/LightRays";
+import DarkVeil from "@/components/ui/DarkVeil";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
-        <LightRays
-            raysOrigin="top-center"
-            raysColor="#00ffff"
-            raysSpeed={1.5}
-            lightSpread={0.8}
-            rayLength={1.2}
-            followMouse={true}
-            mouseInfluence={0.1}
-            noiseAmount={0.1}
-            distortion={0.05}
-        />
+        <div className="absolute inset-0 z-0">
+          <DarkVeil />
+        </div>
         <div className="container relative z-10 flex flex-col items-center text-center px-12">
             <h1 className="font-headline text-7xl md:text-8xl font-bold tracking-tighter !leading-tight mb-8 max-w-4xl">
                 DevDNA
