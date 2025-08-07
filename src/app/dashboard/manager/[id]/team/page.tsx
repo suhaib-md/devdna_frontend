@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import {
   Bell,
   CircleUser,
@@ -9,16 +8,10 @@ import {
   Menu,
   Package2,
   Users,
-  Search,
   Trophy,
-  GitCommit,
   Bot,
   User as UserIcon,
-  Code,
-  Activity,
   BarChart,
-  GitPullRequest,
-  CheckCircle,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -37,7 +30,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
@@ -45,6 +37,7 @@ import allUsers from '@/data/users.json';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
+import TiltedCard from '@/components/ui/TiltedCard';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -207,49 +200,49 @@ export default function ManagerTeamPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
             <Card>
                 <CardHeader>
-                    <CardTitle>Daily Status</CardTitle>
+                    <CardTitle>Project Team: DevDNA Platform</CardTitle>
                     <CardDescription>
-                        A summary of your team's activity for the "DevDNA Platform" project.
+                        An overview of the developers currently assigned to your project.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-8">
+                <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                      {developers.map(dev => (
-                    <Card key={dev.id} className="bg-neutral-950/40 border-neutral-800">
-                        <CardHeader className="flex flex-row items-center gap-4">
-                            <Avatar className="h-12 w-12">
-                                <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
-                                <AvatarFallback>{dev.avatar}</AvatarFallback>
-                            </Avatar>
-                             <div className="flex-grow">
-                                <Link href={`/dashboard/manager/${managerId}/developers/${dev.id}`} className="hover:underline">
-                                    <CardTitle>{dev.name}</CardTitle>
-                                </Link>
-                                <CardDescription>{dev.developerType}</CardDescription>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4 pl-8">
-                           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                                <div className="flex items-center gap-2" title="Commits today"><GitCommit className="h-4 w-4"/><span>5 Commits</span></div>
-                                <div className="flex items-center gap-2" title="Pull Requests opened"><GitPullRequest className="h-4 w-4"/><span>1 PR Opened</span></div>
-                                <div className="flex items-center gap-2" title="Issues resolved"><CheckCircle className="h-4 w-4"/><span>3 Issues Resolved</span></div>
-                            </div>
-                            <div>
-                                <h4 className="font-semibold mb-2 text-sm">Key Updates:</h4>
-                                <ul className="list-disc list-inside space-y-2 text-sm text-neutral-300">
-                                    <li>
-                                        <span className="font-semibold text-white">Merged PR #123:</span> Implemented caching layer for user profiles. Blocked by API key availability.
-                                    </li>
-                                     <li>
-                                        <span className="font-semibold text-white">Fixed Bug #456:</span> Resolved authentication issue on mobile devices.
-                                    </li>
-                                     <li>
-                                        <span className="font-semibold text-white">Pushed 5 commits to `feature/api-throttling`:</span> Completed initial setup for rate limiting.
-                                    </li>
-                                </ul>
-                            </div>
-                        </CardContent>
-                    </Card>
-                ))}
+                        <Link key={dev.id} href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
+                            <TiltedCard>
+                                <Card className="hover:bg-neutral-900 hover:border-primary/50 transition-colors cursor-pointer h-full">
+                                    <CardHeader className="flex-row items-center gap-4">
+                                        <Avatar className="w-12 h-12">
+                                            <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
+                                            <AvatarFallback>{dev.avatar}</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <CardTitle className="text-lg">{dev.name}</CardTitle>
+                                            <CardDescription>{dev.developerType}</CardDescription>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3">
+                                        <div className="space-y-1">
+                                            <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                <span>Top Skills</span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1">
+                                                {dev.profile?.languages.slice(0, 3).map(lang => (
+                                                    <Badge key={lang} variant="secondary">{lang}</Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                         <div className="space-y-1">
+                                            <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                                <span>Performance Score</span>
+                                                <span className="font-semibold text-foreground">{dev.activityScore}%</span>
+                                            </div>
+                                            <Progress value={dev.activityScore} />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </TiltedCard>
+                        </Link>
+                    ))}
                 </CardContent>
             </Card>
 
@@ -268,3 +261,4 @@ export default function ManagerTeamPage() {
     </div>
   );
 }
+
