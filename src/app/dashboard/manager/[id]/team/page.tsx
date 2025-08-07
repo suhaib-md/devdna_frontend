@@ -12,8 +12,10 @@ import {
   Bot,
   User as UserIcon,
   BarChart,
+  GitCommit,
+  GitPullRequest,
+  CheckCircle,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -36,10 +38,9 @@ import { useRouter, useParams } from 'next/navigation';
 import allUsers from '@/data/users.json';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Progress } from '@/components/ui/progress';
 import TiltedCard from '@/components/ui/TiltedCard';
 
-const developers = allUsers.filter(u => u.role === 'Developer');
+const developers = allUsers.filter(u => u.role === 'Developer' && u.profile);
 
 export default function ManagerTeamPage() {
   const router = useRouter();
@@ -198,53 +199,45 @@ export default function ManagerTeamPage() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Project Team: DevDNA Platform</CardTitle>
-                    <CardDescription>
-                        An overview of the developers currently assigned to your project.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                     {developers.map(dev => (
-                        <Link key={dev.id} href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
-                            <TiltedCard>
-                                <Card className="hover:bg-neutral-900 hover:border-primary/50 transition-colors cursor-pointer h-full">
-                                    <CardHeader className="flex-row items-center gap-4">
-                                        <Avatar className="w-12 h-12">
-                                            <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
-                                            <AvatarFallback>{dev.avatar}</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <CardTitle className="text-lg">{dev.name}</CardTitle>
-                                            <CardDescription>{dev.developerType}</CardDescription>
-                                        </div>
-                                    </CardHeader>
-                                    <CardContent className="space-y-3">
-                                        <div className="space-y-1">
-                                            <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                                <span>Top Skills</span>
-                                            </div>
-                                            <div className="flex flex-wrap gap-1">
-                                                {dev.profile?.languages.slice(0, 3).map(lang => (
-                                                    <Badge key={lang} variant="secondary">{lang}</Badge>
-                                                ))}
-                                            </div>
-                                        </div>
-                                         <div className="space-y-1">
-                                            <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                                <span>Performance Score</span>
-                                                <span className="font-semibold text-foreground">{dev.activityScore}%</span>
-                                            </div>
-                                            <Progress value={dev.activityScore} />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </TiltedCard>
+            <div className="space-y-8">
+                {developers.map((dev) => (
+                    <TiltedCard key={dev.id}>
+                        <Link href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
+                            <Card className="hover:bg-neutral-900/50 transition-colors">
+                                <CardHeader className="flex flex-row items-center gap-4">
+                                    <Avatar className="h-12 w-12">
+                                        <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
+                                        <AvatarFallback>{dev.avatar}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <CardTitle>{dev.name}</CardTitle>
+                                        <CardDescription>{dev.developerType}</CardDescription>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                    <div className="flex items-center gap-2"><GitCommit className="h-4 w-4"/><span>{dev.profile?.monthly_commits || 0} Commits (30d)</span></div>
+                                    <div className="flex items-center gap-2"><GitPullRequest className="h-4 w-4"/><span>{dev.metrics.prs.created} PRs Opened</span></div>
+                                    <div className="flex items-center gap-2"><CheckCircle className="h-4 w-4"/><span>{dev.metrics.issues_resolved} Issues Resolved</span></div>
+                                     <div className="flex items-center gap-2 text-green-400"><Trophy className="h-4 w-4" /><span>Perf. Score: {dev.activityScore}%</span></div>
+                                </div>
+                                    <div>
+                                        <h4 className="font-semibold mb-2 mt-2">Key Updates:</h4>
+                                        <ul className="list-disc list-inside space-y-1 text-sm text-neutral-300">
+                                            <li>
+                                                <span className="font-semibold text-white">Merged PR #{Math.floor(Math.random() * 100) + 100}:</span> Implemented caching for user profiles.
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-white">Pushed {Math.floor(Math.random() * 5) + 2} commits to `feature/api-throttling`:</span> Completed initial setup.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </Link>
-                    ))}
-                </CardContent>
-            </Card>
+                    </TiltedCard>
+                ))}
+            </div>
 
              <Link href={`/dashboard/manager/${managerId}/ai-assistant`}>
                 <Button
@@ -261,4 +254,3 @@ export default function ManagerTeamPage() {
     </div>
   );
 }
-
