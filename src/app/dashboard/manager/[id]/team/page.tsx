@@ -199,11 +199,11 @@ export default function ManagerTeamPage() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
-            <div className="space-y-8">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {developers.map((dev) => (
                     <TiltedCard key={dev.id}>
                         <Link href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
-                            <Card className="hover:bg-neutral-900/50 transition-colors">
+                            <Card className="hover:bg-neutral-900/50 transition-colors h-full">
                                 <CardHeader className="flex flex-row items-center gap-4">
                                     <Avatar className="h-12 w-12">
                                         <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
