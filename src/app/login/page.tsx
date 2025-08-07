@@ -26,12 +26,13 @@ export default function LoginPage() {
         } else if (user.role === 'Admin') {
             router.push('/dashboard/admin');
         } else {
-            router.push(`/dashboard/developer`);
+            router.push(`/dashboard/developer/${user.id}`);
         }
     } else {
         // Fallback for generic dev email
-        if(email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com')) {
-            router.push('/dashboard/developer');
+        const firstDev = allUsers.find(u => u.role === 'Developer');
+        if(firstDev && (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com'))) {
+            router.push(`/dashboard/developer/${firstDev.id}`);
         }
     }
   };
