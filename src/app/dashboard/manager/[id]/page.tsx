@@ -44,6 +44,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import allUsers from '@/data/users.json';
 import { Progress } from '@/components/ui/progress';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
+import tasks from '@/data/tasks.json';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
@@ -54,7 +55,15 @@ function ManagerDashboardComponent() {
   const [noProject, setNoProject] = useState(true);
 
   useEffect(() => {
+    // Check sessionStorage first
+    if (sessionStorage.getItem('projectCreated') === 'true') {
+      setNoProject(false);
+      return;
+    }
+
+    // Check URL params for initial creation
     if (searchParams.get('created') === 'true') {
+      sessionStorage.setItem('projectCreated', 'true');
       setNoProject(false);
     }
   }, [searchParams]);
@@ -297,23 +306,30 @@ function ManagerDashboardComponent() {
                                         </tr>
                                     </thead>
                                      <tbody className="[&_tr:last-child]:border-0">
-                                        {developers.map((dev) => (
-                                            <tr key={dev.id} className="border-b transition-colors hover:bg-muted/50">
-                                                <td className="p-4 align-middle">
-                                                    <Link href={`/dashboard/manager/${managerId}/project-developer/${dev.id}`}>
-                                                        <div className="flex items-center gap-3 group">
-                                                            <Avatar>
-                                                                <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.avatar}`} />
-                                                                <AvatarFallback>{dev.avatar}</AvatarFallback>
-                                                            </Avatar>
-                                                            <span className="font-medium group-hover:text-primary">{dev.name}</span>
-                                                        </div>
-                                                    </Link>
-                                                </td>
-                                                <td className="p-4 align-middle">API Integration for User Profiles</td>
-                                                <td className="p-4 align-middle"><Badge variant="outline">In Progress</Badge></td>
-                                            </tr>
-                                        ))}
+                                        {developers.map((dev) => {
+                                            const devTask = tasks.find(t => t.assignee === dev.name) || { name: 'No task assigned', status: 'To Do' };
+                                            return (
+                                                <tr key={dev.id} className="border-b transition-colors hover:bg-muted/50">
+                                                    <td className="p-4 align-middle">
+                                                        <Link href={`/dashboard/manager/${managerId}/project-developer/${dev.id}`}>
+                                                            <div className="flex items-center gap-3 group">
+                                                                <Avatar>
+                                                                    <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.avatar}`} />
+                                                                    <AvatarFallback>{dev.avatar}</AvatarFallback>
+                                                                </Avatar>
+                                                                <span className="font-medium group-hover:text-primary">{dev.name}</span>
+                                                            </div>
+                                                        </Link>
+                                                    </td>
+                                                    <td className="p-4 align-middle">{devTask.name}</td>
+                                                    <td className="p-4 align-middle">
+                                                        <Badge variant={devTask.status === 'Done' ? 'default' : devTask.status === 'In Progress' ? 'outline' : 'secondary'}>
+                                                            {devTask.status}
+                                                        </Badge>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
