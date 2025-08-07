@@ -11,9 +11,10 @@ import {
   Code,
   Users,
   ClipboardList,
-  History
+  History,
+  ArrowLeft,
 } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -45,6 +46,8 @@ import { Progress } from '@/components/ui/progress';
 import tasks from '@/data/tasks.json';
 
 export default function MyTasksPage() {
+  const router = useRouter();
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -174,7 +177,11 @@ export default function MyTasksPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1">
+          <div className="w-full flex-1 flex items-center gap-4">
+             <Button variant="outline" size="icon" onClick={() => router.back()}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+            </Button>
             <h1 className="text-lg font-semibold md:text-2xl">My Tasks</h1>
           </div>
           <DropdownMenu>

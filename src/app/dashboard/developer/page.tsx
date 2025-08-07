@@ -50,8 +50,15 @@ import Link from 'next/link';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { PieChart, Pie, Cell } from 'recharts';
 import developerDashboardData from '@/data/developer-dashboard.json';
+import allUsers from '@/data/users.json';
+
 
 const { workTypeData } = developerDashboardData;
+// Typically you'd get the logged-in user's ID from a session.
+// For this example, we'll hardcode it to Suhaib's ID.
+const loggedInUserId = "1"; 
+const user = allUsers.find(u => u.id === loggedInUserId);
+
 
 const chartConfig = {
   work: {
@@ -76,6 +83,11 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function DeveloperDashboard() {
+
+  if (!user) {
+    return <div>User not found</div>
+  }
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -128,7 +140,7 @@ export default function DeveloperDashboard() {
                 Project History
               </Link>
                <Link
-                href="/dashboard/developer/1"
+                href={`/dashboard/developer/${user.id}`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
@@ -196,7 +208,7 @@ export default function DeveloperDashboard() {
                   Project History
                 </Link>
                  <Link
-                  href="/dashboard/developer/1"
+                  href={`/dashboard/developer/${user.id}`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Code className="h-5 w-5" />
@@ -207,7 +219,7 @@ export default function DeveloperDashboard() {
           </Sheet>
           <div className="w-full flex-1">
             <div>
-              <h1 className="text-lg font-semibold md:text-2xl">John Doe's Dashboard</h1>
+              <h1 className="text-lg font-semibold md:text-2xl">{user.name}'s Dashboard</h1>
               <p className="text-sm text-muted-foreground">Developer</p>
             </div>
           </div>
