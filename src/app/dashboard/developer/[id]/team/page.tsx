@@ -12,7 +12,6 @@ import {
   Users,
   ClipboardList,
   History,
-  ArrowLeft
 } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
@@ -37,6 +36,8 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import TiltedCard from '@/components/ui/TiltedCard';
 import users from '@/data/users.json';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
+
 
 const teamMembers = users.filter(u => u.role === 'Developer' || u.role === 'Manager');
 
@@ -176,12 +177,8 @@ export default function TeamPage() {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.push(`/dashboard/developer/${loggedInUserId}`)}>
-                <ArrowLeft />
-                <span className="sr-only">Back</span>
-            </Button>
-            <h1 className="text-lg font-semibold md:text-2xl">Project Team</h1>
+          <div className="w-full flex-1">
+             <Breadcrumbs />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
