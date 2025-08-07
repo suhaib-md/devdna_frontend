@@ -92,6 +92,13 @@ export default function ManagerAnalyticsPage() {
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
+               <Link
+                href={`/dashboard/manager/${managerId}/team`}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+              >
+                <Users className="h-4 w-4" />
+                Team
+              </Link>
               <Link
                 href={`/dashboard/manager/${managerId}/developers`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
@@ -152,6 +159,13 @@ export default function ManagerAnalyticsPage() {
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
+                </Link>
+                <Link
+                  href={`/dashboard/manager/${managerId}/team`}
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                >
+                  <Users className="h-5 w-5" />
+                  Team
                 </Link>
                 <Link
                   href={`/dashboard/manager/${managerId}/developers`}

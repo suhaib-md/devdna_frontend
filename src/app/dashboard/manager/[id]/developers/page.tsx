@@ -46,7 +46,7 @@ import { Progress } from '@/components/ui/progress';
 
 const developers = allUsers.filter(u => u.role === 'Developer');
 
-export default function ManagerTeamPage() {
+export default function ManagerDevelopersPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
   const params = useParams();
@@ -80,16 +80,16 @@ export default function ManagerTeamPage() {
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
-              <Link
+               <Link
                 href={`/dashboard/manager/${managerId}/team`}
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Team
               </Link>
               <Link
                 href={`/dashboard/manager/${managerId}/developers`}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Developers
@@ -150,14 +150,14 @@ export default function ManagerTeamPage() {
                 </Link>
                 <Link
                   href={`/dashboard/manager/${managerId}/team`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Users className="h-5 w-5" />
                   Team
                 </Link>
                 <Link
                   href={`/dashboard/manager/${managerId}/developers`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <Users className="h-5 w-5" />
                   Developers
@@ -211,38 +211,61 @@ export default function ManagerTeamPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
             <Card>
                 <CardHeader>
-                    <CardTitle>Project Team</CardTitle>
+                    <CardTitle>Find Developers</CardTitle>
                     <CardDescription>
-                        Developers currently assigned to the "DevDNA Platform" project.
+                        Search and filter through all developers in the organization.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {developers.map((dev) => (
-                        <Link key={dev.id} href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
-                            <Card className="hover:bg-neutral-900 hover:border-primary/50 transition-colors cursor-pointer h-full">
-                                <CardHeader className="flex-row items-center gap-4">
-                                    <Avatar className="w-12 h-12">
-                                        <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
-                                        <AvatarFallback>{dev.avatar}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                        <CardTitle className="text-lg">{dev.name}</CardTitle>
-                                        <CardDescription>{dev.developerType}</CardDescription>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="space-y-3">
-                                    <div className="space-y-1">
-                                        <div className="flex justify-between items-center text-xs text-muted-foreground">
-                                            <span>Current Task</span>
-                                        </div>
-                                        <p className="text-sm font-medium truncate">API Integration</p>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
+                <CardContent>
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input
+                            placeholder="Search by name or skill (e.g., Python, React)..."
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </CardContent>
             </Card>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {filteredDevelopers.map((dev) => (
+                    <Link key={dev.id} href={`/dashboard/manager/${managerId}/developers/${dev.id}`}>
+                        <Card className="hover:bg-neutral-900 hover:border-primary/50 transition-colors cursor-pointer h-full">
+                            <CardHeader className="flex-row items-center gap-4">
+                                <Avatar className="w-12 h-12">
+                                    <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
+                                    <AvatarFallback>{dev.avatar}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <CardTitle className="text-lg">{dev.name}</CardTitle>
+                                    <CardDescription>{dev.developerType}</CardDescription>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-3">
+                                <div className="space-y-1">
+                                    <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                        <span>Top Skills</span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1">
+                                        {dev.profile?.languages.slice(0, 3).map(lang => (
+                                            <Badge key={lang} variant="secondary">{lang}</Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                                 <div className="space-y-1">
+                                    <div className="flex justify-between items-center text-xs text-muted-foreground">
+                                        <span>Performance Score</span>
+                                        <span className="font-semibold text-foreground">{dev.activityScore}%</span>
+                                    </div>
+                                    <Progress value={dev.activityScore} />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))}
+            </div>
 
              <Link href={`/dashboard/manager/${managerId}/ai-assistant`}>
                 <Button
