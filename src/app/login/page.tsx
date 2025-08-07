@@ -22,7 +22,7 @@ export default function LoginPage() {
 
     if (user) {
         if (user.role === 'Manager') {
-            router.push('/dashboard/manager');
+            router.push(`/dashboard/manager/${user.id}`);
         } else if (user.role === 'Admin') {
             router.push('/dashboard/admin');
         } else {

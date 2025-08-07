@@ -29,7 +29,7 @@ const breadcrumbNameMap: { [key: string]: string } = {
   'leaderboard': 'Leaderboard',
   'create-project': 'Create Project',
   'daily-status': 'Daily Status',
-  'project-developer': 'Project Developer',
+  'project-developer': 'Developer Profile',
   'project': 'Current Project',
   'tasks': 'My Tasks',
   'project-history': 'Project History',
@@ -51,10 +51,19 @@ const Breadcrumbs = () => {
         
         let name = breadcrumbNameMap[segment] || segment.replace(/-/g, ' ');
         
-        // Check if the segment is a user ID
+        // Check if the segment is a user ID (and not the last segment of a deep path like project-developer)
         if (userCache[segment]) {
             name = userCache[segment];
         }
+
+        // Special case for team member view to avoid showing ID
+        if (pathSegments[index-1] === 'team' && userCache[segment]) {
+             name = userCache[segment];
+        }
+         if (pathSegments[index-1] === 'project-developer' && userCache[segment]) {
+             name = userCache[segment];
+        }
+
 
         return (
           <Fragment key={href}>
