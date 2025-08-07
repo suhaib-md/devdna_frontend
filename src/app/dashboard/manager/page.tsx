@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -11,7 +10,6 @@ import {
   Home,
   Menu,
   Package2,
-  Projector,
   Users,
   GitCommit,
   Users2,
