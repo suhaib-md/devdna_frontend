@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -10,10 +11,9 @@ import {
   Code,
   Users,
   ClipboardList,
-  History
+  History,
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -32,11 +32,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import Link from 'next/link';
 import { Progress } from '@/components/ui/progress';
+import tasks from '@/data/tasks.json';
 import Breadcrumbs from '@/components/ui/breadcrumbs';
 
-export default function CurrentProjectPage() {
+export default function MyTasksPage() {
   const params = useParams();
   const developerId = params.id as string;
 
@@ -65,14 +74,14 @@ export default function CurrentProjectPage() {
               </Link>
               <Link
                 href={`/dashboard/developer/${developerId}/project`}
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
               </Link>
               <Link
                 href={`/dashboard/developer/${developerId}/tasks`}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <ClipboardList className="h-4 w-4" />
                 My Tasks
@@ -84,7 +93,7 @@ export default function CurrentProjectPage() {
                 <Users className="h-4 w-4" />
                 Team
               </Link>
-              <Link
+               <Link
                 href={`/dashboard/developer/${developerId}/project-history`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -133,14 +142,14 @@ export default function CurrentProjectPage() {
                 </Link>
                 <Link
                   href={`/dashboard/developer/${developerId}/project`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
                 </Link>
-                <Link
+                 <Link
                   href={`/dashboard/developer/${developerId}/tasks`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                   <ClipboardList className="h-5 w-5" />
                   My Tasks
@@ -194,42 +203,44 @@ export default function CurrentProjectPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-2xl">DevDNA Platform</CardTitle>
+                    <CardTitle>All Assigned Tasks</CardTitle>
                     <CardDescription>
-                       An intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
+                        A list of all your tasks for the "DevDNA Platform" project.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                    <div>
-                        <h3 className="text-lg font-semibold mb-2">Project Details</h3>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div className="font-semibold">Your Role:</div>
-                            <div>Frontend Developer</div>
-                            <div className="font-semibold">Status:</div>
-                            <div><Badge variant="outline">Active</Badge></div>
-                            <div className="font-semibold">Start Date:</div>
-                            <div>2023-01-15</div>
-                            <div className="font-semibold">Project Lead:</div>
-                            <div>Avinash</div>
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Project Progress</h3>
-                        <div className="flex items-center gap-4">
-                            <span className="text-lg font-bold">75%</span>
-                            <Progress value={75} className="w-full" />
-                        </div>
-                    </div>
-                     <div>
-                        <h3 className="text-lg font-semibold mb-2">Tech Stack</h3>
-                        <div className="flex flex-wrap gap-2">
-                           <Badge variant="secondary">Next.js</Badge>
-                           <Badge variant="secondary">TypeScript</Badge>
-                           <Badge variant="secondary">Tailwind CSS</Badge>
-                           <Badge variant="secondary">Genkit</Badge>
-                           <Badge variant="secondary">Firebase</Badge>
-                        </div>
-                    </div>
+                <CardContent>
+                <Table>
+                    <TableHeader>
+                    <TableRow>
+                        <TableHead>Task ID</TableHead>
+                        <TableHead>Task Name</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead className="text-right">Progress</TableHead>
+                    </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                    {tasks.map((task) => (
+                        <TableRow key={task.id}>
+                        <TableCell className="font-mono text-xs">{task.id}</TableCell>
+                        <TableCell className="font-medium">{task.name}</TableCell>
+                        <TableCell>
+                            <Badge 
+                                variant={task.status === 'Done' ? 'default' : task.status === 'In Progress' ? 'outline' : 'secondary'}>
+                                {task.status}
+                            </Badge>
+                        </TableCell>
+                        <TableCell>{task.dueDate}</TableCell>
+                        <TableCell className="text-right">
+                            <div className="flex items-center justify-end gap-2">
+                                <span>{task.progress}%</span>
+                                <Progress value={task.progress} className="w-24" />
+                            </div>
+                        </TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
                 </CardContent>
             </Card>
         </main>
