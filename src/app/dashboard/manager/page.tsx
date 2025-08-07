@@ -256,7 +256,7 @@ function ManagerDashboardComponent() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Team Overview</CardTitle>
-                            <CardDescription>Current assignments for developers on this project. Click a developer to view their profile.</CardDescription>
+                            <CardDescription>Current assignments for developers on this project. Click a developer to view their project-specific profile.</CardDescription>
                         </CardHeader>
                         <CardContent>
                              <div className="relative w-full overflow-auto">
@@ -272,7 +272,7 @@ function ManagerDashboardComponent() {
                                         {developers.map((dev) => (
                                             <tr key={dev.id} className="border-b transition-colors hover:bg-muted/50">
                                                 <td className="p-4 align-middle">
-                                                    <Link href={`/dashboard/developer/${dev.id}`}>
+                                                    <Link href={`/dashboard/manager/project-developer/${dev.id}`}>
                                                         <div className="flex items-center gap-3 group">
                                                             <Avatar>
                                                                 <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.avatar}`} />
@@ -317,5 +317,3 @@ export default function ManagerDashboard() {
         </Suspense>
     )
 }
-
-    
