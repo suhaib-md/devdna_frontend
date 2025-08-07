@@ -11,12 +11,12 @@ type IconMap = {
 };
 
 const icons: IconMap = {
-  BarChart3: <BarChart3 className="h-8 w-8 text-cyan-400" />,
-  UserCheck: <UserCheck className="h-8 w-8 text-cyan-400" />,
-  Bot: <Bot className="h-8 w-8 text-cyan-400" />,
-  GitMerge: <GitMerge className="h-8 w-8 text-cyan-400" />,
-  Sparkles: <Sparkles className="h-8 w-8 text-cyan-400" />,
-  Code: <Code className="h-8 w-8 text-cyan-400" />,
+  BarChart3: <BarChart3 className="h-8 w-8 text-foreground" />,
+  UserCheck: <UserCheck className="h-8 w-8 text-foreground" />,
+  Bot: <Bot className="h-8 w-8 text-foreground" />,
+  GitMerge: <GitMerge className="h-8 w-8 text-foreground" />,
+  Sparkles: <Sparkles className="h-8 w-8 text-foreground" />,
+  Code: <Code className="h-8 w-8 text-foreground" />,
 };
 
 const Features = () => {
@@ -50,8 +50,8 @@ const Features = () => {
               className="flex justify-center"
             >
               <TiltedCard>
-                <div className="bg-neutral-950 border border-neutral-800 group-hover:border-cyan-400/50 group-hover:bg-neutral-900 transition-all duration-300 h-full rounded-xl p-8 flex flex-col items-center text-center min-h-[280px] w-full max-w-sm mx-auto">
-                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-cyan-400/20 to-cyan-600/10 border border-cyan-400/30 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="bg-neutral-950 border border-neutral-800 group-hover:border-primary/50 group-hover:bg-neutral-900 transition-all duration-300 h-full rounded-xl p-8 flex flex-col items-center text-center min-h-[280px] w-full max-w-sm mx-auto">
+                  <div className="flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-300">
                     {icons[feature.icon]}
                   </div>
                   <h3 className="text-xl lg:text-2xl font-semibold text-white leading-tight mb-4 min-h-[3.5rem] flex items-center">

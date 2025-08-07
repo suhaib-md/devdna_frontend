@@ -7,7 +7,7 @@ const Header = () => {
     <header className="absolute top-0 z-50 w-full bg-transparent">
       <div className="container flex h-20 max-w-screen-2xl items-center justify-between px-12">
         <Link href="/" className="flex items-center gap-2">
-          <Atom className="h-6 w-6 text-primary" />
+          <Atom className="h-6 w-6 text-foreground" />
           <span className="font-bold text-lg">DevDNA</span>
         </Link>
         <Link href="/login">

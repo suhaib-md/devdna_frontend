@@ -11,10 +11,10 @@ type IconMap = {
 };
 
 const icons: IconMap = {
-    ShieldCheck: <ShieldCheck className="w-8 h-8 text-cyan-400"/>,
-    GitBranch: <GitBranch className="w-8 h-8 text-cyan-400"/>,
-    DatabaseZap: <DatabaseZap className="w-8 h-8 text-cyan-400"/>,
-    Workflow: <Workflow className="w-8 h-8 text-cyan-400"/>,
+    ShieldCheck: <ShieldCheck className="w-8 h-8 text-foreground"/>,
+    GitBranch: <GitBranch className="w-8 h-8 text-foreground"/>,
+    DatabaseZap: <DatabaseZap className="w-8 h-8 text-foreground"/>,
+    Workflow: <Workflow className="w-8 h-8 text-foreground"/>,
 };
 
 const Security = () => {
@@ -55,8 +55,8 @@ const Security = () => {
                                 className="flex justify-center"
                             >
                                 <TiltedCard>
-                                    <div className="h-full flex flex-col items-center text-center p-8 rounded-xl bg-neutral-900/50 border border-neutral-800/50 hover:border-cyan-400/30 transition-all duration-300 hover:bg-neutral-900/70 min-h-[260px] w-full max-w-xs mx-auto">
-                                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-cyan-400/20 to-cyan-600/10 border border-cyan-400/30 mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    <div className="h-full flex flex-col items-center text-center p-8 rounded-xl bg-neutral-900/50 border border-neutral-800/50 hover:border-primary/30 transition-all duration-300 hover:bg-neutral-900/70 min-h-[260px] w-full max-w-xs mx-auto">
+                                        <div className="flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/30 mb-6 group-hover:scale-110 transition-transform duration-300">
                                             {icons[feature.icon]}
                                         </div>
                                         <h3 className="text-lg lg:text-xl font-semibold text-white leading-tight mb-4 min-h-[2.5rem] flex items-center">
