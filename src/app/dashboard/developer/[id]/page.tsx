@@ -61,8 +61,7 @@ import { useParams } from 'next/navigation';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Pie, PieChart, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
-import allDevelopers from '@/data/developers.json';
-import suhaibProfile from '@/data/suhaib-profile.json';
+import allUsers from '@/data/users.json';
 
 const chartConfig = {
   work: {
@@ -89,42 +88,22 @@ const chartConfig = {
 
 export default function DeveloperProfilePage() {
   const params = useParams();
-  
-  let developer;
-  let isSuhaib = false;
+  const developer = allUsers.find(d => d.id === params.id && d.role === 'Developer');
 
-  if(params.id === '1') {
-      developer = allDevelopers.find(d => d.id === params.id);
-      if(developer?.email === 'suhaib@gmail.com') {
-          isSuhaib = true;
-          const workType = suhaibProfile.type_of_work_in_percentage;
-          developer.metrics.workType = [
-                { "type": "Features", "value": workType.features, "fill": "hsl(var(--primary))" },
-                { "type": "Bugs", "value": workType.bugs, "fill": "hsl(var(--destructive))" },
-                { "type": "Infrastructure", "value": workType.infrastructure, "fill": "hsl(var(--chart-4))" },
-                { "type": "Documentation", "value": workType.documentation, "fill": "hsl(var(--chart-3))" }
-          ];
-          developer.strengths = [suhaibProfile.strengths];
-          developer.weaknesses = [suhaibProfile.weakness];
-          developer.topSkills = suhaibProfile.languages.slice(0,3);
-          developer.topDomains = suhaibProfile.skills_domains;
-          developer.metrics.commits.last30 = suhaibProfile.monthly_commits;
-          developer.metrics.prs.approvalRate = parseFloat(suhaibProfile.pull_request_approval_rate);
-          developer.metrics.reviews = suhaibProfile.pull_request_reviews;
-          developer.metrics.languages = suhaibProfile.languages;
-          developer.developerType = "Data-Driven Generalist";
-      }
-  } else {
-    developer = allDevelopers.find(d => d.id === params.id);
-  }
-  
-  const workData = developer?.metrics?.workType || [];
-
-  if (!developer) {
+  if (!developer || !developer.profile) {
     return <div className="flex items-center justify-center h-screen bg-black text-white">Developer not found.</div>;
   }
 
-  const averageCommitsPerDay = developer.metrics.commits.last30 / 30;
+  const { profile } = developer;
+
+  const workData = [
+    { type: "Features", value: profile.type_of_work_in_percentage.features, fill: "hsl(var(--primary))" },
+    { type: "Bugs", value: profile.type_of_work_in_percentage.bugs, fill: "hsl(var(--destructive))" },
+    { type: "Infrastructure", value: profile.type_of_work_in_percentage.infrastructure, fill: "hsl(var(--chart-4))" },
+    { type: "Documentation", value: profile.type_of_work_in_percentage.documentation, fill: "hsl(var(--chart-3))" }
+  ];
+
+  const prApprovalRate = parseFloat(profile.pull_request_approval_rate);
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -288,7 +267,7 @@ export default function DeveloperProfilePage() {
                         <div className='flex justify-between items-start'>
                              <div>
                                 <CardTitle className="text-3xl">{developer.name}</CardTitle>
-                                <a href={`https://github.com/${developer.github.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="text-lg text-muted-foreground hover:text-primary">{developer.github}</a>
+                                <a href={`https://github.com/${profile.github_username}`} target="_blank" rel="noopener noreferrer" className="text-lg text-muted-foreground hover:text-primary">@{profile.github_username}</a>
                             </div>
                              <Badge variant="outline" className="text-base">{developer.developerType}</Badge>
                         </div>
@@ -296,13 +275,13 @@ export default function DeveloperProfilePage() {
                             <div className="flex flex-col">
                                 <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Code className="h-3.5 w-3.5" /> Top Skills</span>
                                 <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {developer.topSkills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
+                                    {profile.languages.slice(0, 3).map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
                                 </div>
                             </div>
                              <div className="flex flex-col">
                                 <span className='text-sm text-muted-foreground flex items-center gap-1.5'><Layers className="h-3.5 w-3.5" /> Top Domains</span>
                                 <div className='flex gap-2 mt-1 flex-wrap'>
-                                    {developer.topDomains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
+                                    {profile.skills_domains.map(domain => <Badge key={domain} variant="secondary">{domain}</Badge>)}
                                 </div>
                             </div>
                         </div>
@@ -326,8 +305,8 @@ export default function DeveloperProfilePage() {
                     <GitCommit className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.metrics.commits.last30}</div>
-                    <p className="text-xs text-muted-foreground">Avg {averageCommitsPerDay.toFixed(1)}/day</p>
+                    <div className="text-2xl font-bold">{profile.monthly_commits}</div>
+                    <p className="text-xs text-muted-foreground">Avg {profile.average_commits_per_day.toFixed(1)}/day</p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -336,7 +315,7 @@ export default function DeveloperProfilePage() {
                     <GitPullRequest className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{developer.metrics.prs.approvalRate}%</div>
+                    <div className="text-2xl font-bold">{prApprovalRate}%</div>
                     <p className="text-xs text-muted-foreground">{developer.metrics.prs.created} PRs created</p>
                   </CardContent>
                 </Card>
@@ -346,7 +325,7 @@ export default function DeveloperProfilePage() {
                     <CheckCircle className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                     <div className="text-2xl font-bold">{developer.metrics.reviews}</div>
+                     <div className="text-2xl font-bold">{profile.pull_request_reviews}</div>
                      <p className="text-xs text-muted-foreground">Peer reviews completed</p>
                   </CardContent>
                 </Card>
@@ -357,7 +336,7 @@ export default function DeveloperProfilePage() {
                     </CardHeader>
                     <CardContent>
                         <div className='flex flex-wrap gap-2 mt-2'>
-                           {developer.metrics.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
+                           {profile.languages.slice(0, 3).map(lang => <Badge key={lang} variant="outline">{lang}</Badge>)}
                         </div>
                     </CardContent>
                 </Card>
@@ -372,17 +351,13 @@ export default function DeveloperProfilePage() {
                         <div>
                             <h4 className="font-semibold flex items-center mb-2"><ThumbsUp className="h-5 w-5 mr-2 text-green-500" /> Strengths</h4>
                             <ul className="space-y-2 list-inside">
-                                {developer.strengths.map((strength, i) => (
-                                     <li key={i} className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{strength}</li>
-                                ))}
+                                <li className="flex items-start text-sm"><CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-green-500 flex-shrink-0" />{profile.strengths}</li>
                             </ul>
                         </div>
                          <div>
                             <h4 className="font-semibold flex items-center mb-2"><ThumbsDown className="h-5 w-5 mr-2 text-red-500" /> Weaknesses</h4>
                             <ul className="space-y-2 list-inside">
-                                {developer.weaknesses.map((weakness, i) => (
-                                     <li key={i} className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{weakness}</li>
-                                ))}
+                                <li className="flex items-start text-sm"><Activity className="h-4 w-4 mr-2 mt-0.5 text-red-500 flex-shrink-0" />{profile.weakness}</li>
                             </ul>
                         </div>
                     </CardContent>

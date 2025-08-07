@@ -206,7 +206,7 @@ export default function CurrentProjectPage() {
                             <div className="font-semibold">Start Date:</div>
                             <div>2023-01-15</div>
                             <div className="font-semibold">Project Lead:</div>
-                            <div>Alex Green</div>
+                            <div>Avinash</div>
                         </div>
                     </div>
                      <div>
@@ -233,5 +233,3 @@ export default function CurrentProjectPage() {
     </div>
   );
 }
-
-    

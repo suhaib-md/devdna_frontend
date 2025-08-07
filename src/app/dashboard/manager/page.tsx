@@ -41,10 +41,10 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import teamData from '@/data/team.json';
+import allUsers from '@/data/users.json';
 import { Progress } from '@/components/ui/progress';
 
-const { developers } = teamData;
+const developers = allUsers.filter(u => u.role === 'Developer');
 
 function ManagerDashboardComponent() {
   const searchParams = useSearchParams();
@@ -159,7 +159,7 @@ function ManagerDashboardComponent() {
           </Sheet>
           <div className="w-full flex-1">
             <div>
-              <h1 className="text-lg font-semibold md:text-2xl">Alex Green's Dashboard</h1>
+              <h1 className="text-lg font-semibold md:text-2xl">Avinash's Dashboard</h1>
               <p className="text-sm text-muted-foreground">Manager</p>
             </div>
           </div>
@@ -218,7 +218,7 @@ function ManagerDashboardComponent() {
                                         <div className="font-semibold text-muted-foreground">Start Date:</div>
                                         <div>2023-01-15</div>
                                         <div className="font-semibold text-muted-foreground">Team Size:</div>
-                                        <Link href="/dashboard/manager/team" className="text-primary hover:underline">4 Developers</Link>
+                                        <Link href="/dashboard/manager/team" className="text-primary hover:underline">{developers.length} Developers</Link>
                                         <div className="font-semibold text-muted-foreground">GitHub Repo:</div>
                                         <Link href="#" className="text-primary hover:underline">devdna/platform</Link>
                                     </div>

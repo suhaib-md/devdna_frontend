@@ -62,9 +62,10 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from '@/components/ui/label';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import managers from '@/data/managers.json';
+import allUsers from '@/data/users.json';
 import notifications from '@/data/notifications.json';
 
+const managers = allUsers.filter(user => user.role === 'Manager');
 
 export default function ManagerAccountsPage() {
   const [searchTerm, setSearchTerm] = useState('');

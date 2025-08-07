@@ -1,8 +1,144 @@
 
 [
-    { "id": "1", "name": "John Doe", "email": "john@example.com", "role": "Developer", "status": "Active" },
-    { "id": "2", "name": "Jane Smith", "email": "jane@example.com", "role": "Developer", "status": "Active" },
-    { "id": "3", "name": "Peter Jones", "email": "peter@example.com", "role": "Developer", "status": "On Leave" },
-    { "id": "4", "name": "Mary Johnson", "email": "mary@example.com", "role": "Developer", "status": "Active" },
-    { "id": "5", "name": "Alex Green", "email": "manager@gmail.com", "role": "Manager", "status": "Active" }
+    { 
+      "id": "1", 
+      "name": "Suhaib", 
+      "email": "suhaib@gmail.com", 
+      "role": "Developer",
+      "developerType": "Data-Driven Generalist",
+      "activityScore": 89,
+      "status": "Active",
+      "avatar": "SM", 
+      "metrics": {
+        "prs": { "created": 12, "approvalRate": 90 },
+        "issues_resolved": 45
+      },
+      "profile": {
+        "github_username": "suhaib-md",
+        "monthly_commits": 223,
+        "average_commits_per_day": 7,
+        "pull_request_approval_rate": "0%",
+        "pull_request_reviews": 0,
+        "languages": ["TypeScript", "PHP", "HTML", "Jinja", "Java", "EJS", "HCL", "Bicep", "Shell", "SCSS", "PowerShell", "CSS", "Python", "Jupyter Notebook", "C#", "Dockerfile", "JavaScript", "Smarty", "Procfile", "Nix", "Kotlin", "Makefile"],
+        "skills_domains": ["DevOps", "Frontend", "Backend", "Data Science"],
+        "strengths": "Broad exposure to a wide range of languages, tools, and frameworks across multiple domains including DevOps, web development (frontend and backend), and data science.",
+        "weakness": "No available pull request reviews or diffs, so collaboration, code review participation, and detailed code quality aspects cannot be analyzed.",
+        "type_of_work_in_percentage": { "features": 40, "bugs": 15, "infrastructure": 35, "documentation": 10 }
+      }
+    },
+    { 
+      "id": "2", 
+      "name": "Arul", 
+      "email": "arul@gmail.com", 
+      "role": "Developer",
+      "developerType": "Adaptable Polyglot",
+      "activityScore": 78,
+      "status": "Active", 
+      "avatar": "A",
+      "metrics": {
+        "prs": { "created": 5, "approvalRate": 85 },
+        "issues_resolved": 10
+      },
+      "profile": {
+        "github_username": "Arul6851",
+        "monthly_commits": 17,
+        "average_commits_per_day": 0,
+        "pull_request_approval_rate": "0%",
+        "pull_request_reviews": 0,
+        "languages": ["Java", "Swift", "Cython", "PHP", "CMake", "Kotlin", "Dart", "C++", "Python", "Dockerfile", "Shell", "Fortran", "Go", "C", "HCL", "JavaScript", "Forth", "Meson", "PowerShell", "CSS", "Objective-C", "TypeScript", "Jupyter Notebook", "HTML", "Batchfile"],
+        "skills_domains": ["Frontend", "Data Science", "DevOps", "Backend"],
+        "strengths": "Arul6851 demonstrates breadth across a diverse set of programming languages and technologies, suggesting adaptability and a solid foundation across multiple domains.",
+        "weakness": "There is limited accessible data on code review, collaborative contributions, and pull request activity; this restricts insight into code standards adherence and teamwork capabilities.",
+        "type_of_work_in_percentage": { "features": 60, "bugs": 20, "infrastructure": 10, "documentation": 10 }
+      }
+    },
+    { 
+      "id": "3", 
+      "name": "Pavan", 
+      "email": "pavan@gmail.com", 
+      "role": "Developer",
+      "developerType": "Web Development Specialist",
+      "activityScore": 92,
+      "status": "Active", 
+      "avatar": "P",
+      "metrics": {
+        "prs": { "created": 35, "approvalRate": 95 },
+        "issues_resolved": 60
+      },
+      "profile": {
+        "github_username": "pavanjvm",
+        "monthly_commits": 225,
+        "average_commits_per_day": 7,
+        "pull_request_approval_rate": "0.0%",
+        "pull_request_reviews": 0,
+        "languages": ["JavaScript", "HCL", "Python", "TypeScript", "Nix", "CSS", "HTML"],
+        "skills_domains": ["Frontend", "Backend"],
+        "strengths": "Versatile in both frontend and backend domains; strong use of modern web development tools. Code is structured, modular, and readable, with good adherence to common design patterns.",
+        "weakness": "Limited evidence of advanced algorithmic work or deep system design. PRs suggest quick feature iteration rather than extensive refactoring or architectural planning.",
+        "type_of_work_in_percentage": { "features": 50, "bugs": 20, "infrastructure": 20, "documentation": 10 }
+      }
+    },
+    { 
+      "id": "4", 
+      "name": "Farhan", 
+      "email": "farhan@gmail.com", 
+      "role": "Developer",
+      "developerType": "Versatile Technologist",
+      "activityScore": 85,
+      "status": "Active", 
+      "avatar": "F",
+      "metrics": {
+        "prs": { "created": 18, "approvalRate": 92 },
+        "issues_resolved": 35
+      },
+      "profile": {
+        "github_username": "farhanfist10",
+        "monthly_commits": 45,
+        "average_commits_per_day": 7,
+        "pull_request_approval_rate": "0%",
+        "pull_request_reviews": 0,
+        "languages": ["JavaScript", "Batchfile", "Procfile", "Shell", "CSS", "Makefile", "Jupyter Notebook", "Java", "PHP", "HCL", "Dockerfile", "HTML", "PLSQL", "PowerShell", "Python", "Roff"],
+        "skills_domains": ["DevOps", "Config", "GitHub Config", "Frontend", "Data Science", "Backend"],
+        "strengths": "Demonstrates versatility across many technologies, with experience in scripting, web development, backend services, DevOps practices, and data science. Skilled with infrastructure-related configuration and cross-domain tooling.",
+        "weakness": "Lack of publicly available PR diffs and reviews prevents deeper analysis of code quality and collaboration. There is insufficient data to assess architectural thinking or long-term maintainability.",
+        "type_of_work_in_percentage": { "features": 40, "bugs": 10, "infrastructure": 10, "documentation": 40 }
+      }
+    },
+    {
+      "id": "5",
+      "name": "Jane Smith",
+      "email": "jane@gmail.com",
+      "role": "Developer",
+      "developerType": "Frontend Specialist",
+      "activityScore": 88,
+      "status": "On Leave",
+      "avatar": "JS",
+      "metrics": {
+        "prs": { "created": 22, "approvalRate": 98 },
+        "issues_resolved": 48
+      },
+      "profile": {
+        "github_username": "janesmith",
+        "monthly_commits": 180,
+        "average_commits_per_day": 6,
+        "pull_request_approval_rate": "98%",
+        "pull_request_reviews": 55,
+        "languages": ["React", "JavaScript", "CSS", "HTML", "GraphQL"],
+        "skills_domains": ["Frontend", "UI/UX", "Web Performance"],
+        "strengths": "Exceptional at building beautiful and performant user interfaces. Strong collaborator and mentor to junior developers.",
+        "weakness": "Can be hesitant to take on backend tasks, prefers to stay within the frontend domain.",
+        "type_of_work_in_percentage": { "features": 70, "bugs": 15, "infrastructure": 5, "documentation": 10 }
+      }
+    },
+    { 
+      "id": "6", 
+      "name": "Avinash", 
+      "email": "avinash@gmail.com", 
+      "role": "Manager",
+      "status": "Active", 
+      "avatar": "AV",
+      "teamSize": 5,
+      "metrics": {},
+      "profile": null
+    }
 ]

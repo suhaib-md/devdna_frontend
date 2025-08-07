@@ -34,9 +34,9 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import TiltedCard from '@/components/ui/TiltedCard';
-import teamData from '@/data/team.json';
+import users from '@/data/users.json';
 
-const { teamMembers } = teamData;
+const teamMembers = users.filter(u => u.role === 'Developer' || u.role === 'Manager');
 
 export default function TeamPage() {
   return (
@@ -214,7 +214,7 @@ export default function TeamPage() {
                                         </div>
                                     </CardHeader>
                                     <CardContent>
-                                        <Badge variant="secondary">{member.topSkill}</Badge>
+                                        <Badge variant="secondary">{member.role}</Badge>
                                     </CardContent>
                                 </Card>
                             </TiltedCard>

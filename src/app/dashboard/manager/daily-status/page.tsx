@@ -38,9 +38,10 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import teamData from '@/data/team.json';
+import allUsers from '@/data/users.json';
 
-const { developers } = teamData;
+const developers = allUsers.filter(u => u.role === 'Developer');
+
 
 export default function DailyStatusPage() {
   const router = useRouter();
@@ -181,12 +182,12 @@ export default function DailyStatusPage() {
                     <Card key={dev.id}>
                         <CardHeader className="flex flex-row items-center gap-4">
                             <Avatar className="h-12 w-12">
-                                <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.id}`} />
-                                <AvatarFallback>{dev.id}</AvatarFallback>
+                                <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.avatar}`} />
+                                <AvatarFallback>{dev.avatar}</AvatarFallback>
                             </Avatar>
                             <div>
                                 <CardTitle>{dev.name}</CardTitle>
-                                <CardDescription>{dev.topSkill}</CardDescription>
+                                <CardDescription>{dev.developerType}</CardDescription>
                             </div>
                         </CardHeader>
                         <CardContent className="space-y-4">

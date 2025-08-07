@@ -58,9 +58,9 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import teamData from '@/data/team.json';
+import allUsers from '@/data/users.json';
 
-const { developers } = teamData;
+const developers = allUsers.filter(u => u.role === 'Developer');
 
 export default function ManagerTeamPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,7 +68,7 @@ export default function ManagerTeamPage() {
 
   const filteredDevelopers = developers.filter(dev =>
     dev.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    dev.topSkill.toLowerCase().includes(searchTerm.toLowerCase())
+    (dev.profile && dev.profile.languages[0].toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleDevClick = (id: string) => {
@@ -277,7 +277,7 @@ export default function ManagerTeamPage() {
                     <TableHead>Name</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Top Skill</TableHead>
-                    <TableHead>Commits (All Time)</TableHead>
+                    <TableHead>Commits (30d)</TableHead>
                     <TableHead>Status</TableHead>
                     </TableRow>
                 </TableHeader>
@@ -286,8 +286,8 @@ export default function ManagerTeamPage() {
                     <TableRow key={dev.id} onClick={() => handleDevClick(dev.id)} className="cursor-pointer">
                         <TableCell>{dev.name}</TableCell>
                         <TableCell>{dev.email}</TableCell>
-                        <TableCell>{dev.topSkill}</TableCell>
-                        <TableCell>{dev.commits}</TableCell>
+                        <TableCell>{dev.profile ? dev.profile.languages[0] : 'N/A'}</TableCell>
+                        <TableCell>{dev.profile ? dev.profile.monthly_commits : 'N/A'}</TableCell>
                         <TableCell>
                         <Badge variant={dev.status === 'Active' ? 'default' : 'secondary'}>{dev.status}</Badge>
                         </TableCell>

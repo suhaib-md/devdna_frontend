@@ -11,30 +11,30 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import DarkVeil from '@/components/ui/DarkVeil';
+import allUsers from '@/data/users.json';
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
 
-  const handleSignIn = (role: string) => {
-    // In a real app, you'd have authentication logic here.
-    if (role === 'admin' && email.toLowerCase() === 'admin@gmail.com') {
-      router.push('/dashboard/admin');
-    } else if (role === 'manager' && email.toLowerCase() === 'manager@gmail.com') {
-      router.push('/dashboard/manager');
-    } else if (role === 'user' && email.toLowerCase() === 'suhaib@gmail.com') {
-      router.push('/dashboard/developer/1');
-    } else if (role === 'user' && (email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com'))) {
-      router.push('/dashboard/developer');
-    } else if (role === 'user') {
-      router.push('/dashboard/developer');
+  const handleSignIn = () => {
+    const user = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (user) {
+        if (user.role === 'Manager') {
+            router.push('/dashboard/manager');
+        } else if (user.role === 'Admin') {
+            router.push('/dashboard/admin');
+        } else {
+            router.push(`/dashboard/developer/${user.id}`);
+        }
+    } else {
+        // Fallback for generic dev email
+        if(email.toLowerCase().includes('dev@gmail.com') || email.toLowerCase().includes('user@gmail.com')) {
+            router.push('/dashboard/developer');
+        }
     }
   };
-
-  const handleRoleChange = (role: string) => {
-    setEmail(''); // Reset email when role changes
-  }
-
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black p-4 relative">
@@ -55,70 +55,21 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="user" className="w-full" onValueChange={handleRoleChange}>
-            <TabsList className="grid w-full grid-cols-3 bg-neutral-900">
-              <TabsTrigger value="user">
-                <User className="mr-2 h-4 w-4" /> User
-              </TabsTrigger>
-              <TabsTrigger value="manager">
-                <Building className="mr-2 h-4 w-4" /> Manager
-              </TabsTrigger>
-               <TabsTrigger value="admin">
-                <Shield className="mr-2 h-4 w-4" /> Admin
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="user">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('user'); }}>
-                <div className="space-y-4 pt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="user-email">Email</Label>
-                    <Input id="user-email" type="email" placeholder="dev@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="user-password">Password</Label>
-                    <Input id="user-password" type="password" required className="bg-neutral-900 border-neutral-700" defaultValue="password" />
-                  </div>
-                  <Button type="submit" className="w-full">
-                    Sign In as User
-                  </Button>
-                </div>
-              </form>
-            </TabsContent>
-            <TabsContent value="manager">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('manager'); }}>
-                <div className="space-y-4 pt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="manager-email">Manager Email</Label>
-                    <Input id="manager-email" type="email" placeholder="manager@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="manager-password">Password</Label>
-                    <Input id="manager-password" type="password" required className="bg-neutral-900 border-neutral-700" defaultValue="password" />
-                  </div>
-                  <Button type="submit" className="w-full">
-                    Sign In as Manager
-                  </Button>
-                </div>
-              </form>
-            </TabsContent>
-            <TabsContent value="admin">
-              <form onSubmit={(e) => { e.preventDefault(); handleSignIn('admin'); }}>
-                <div className="space-y-4 pt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-email">Admin Email</Label>
-                    <Input id="admin-email" type="email" placeholder="admin@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="admin-password">Password</Label>
-                    <Input id="admin-password" type="password" required className="bg-neutral-900 border-neutral-700" defaultValue="password" />
-                  </div>
-                  <Button type="submit" className="w-full">
-                    Sign In as Admin
-                  </Button>
-                </div>
-              </form>
-            </TabsContent>
-          </Tabs>
+           <form onSubmit={(e) => { e.preventDefault(); handleSignIn(); }}>
+            <div className="space-y-4 pt-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="user@gmail.com" required className="bg-neutral-900 border-neutral-700" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" required className="bg-neutral-900 border-neutral-700" defaultValue="password" />
+              </div>
+              <Button type="submit" className="w-full">
+                Sign In
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
     </div>

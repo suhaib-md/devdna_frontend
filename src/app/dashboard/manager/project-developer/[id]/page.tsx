@@ -49,9 +49,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Progress } from '@/components/ui/progress';
-import developers from '@/data/developers.json';
+import allUsers from '@/data/users.json';
 import tasks from '@/data/tasks.json';
 
+const developers = allUsers.filter(u => u.role === 'Developer');
 
 export default function ProjectDeveloperProfilePage() {
   const params = useParams();

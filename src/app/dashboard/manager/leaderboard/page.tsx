@@ -38,7 +38,22 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import leaderboardData from '@/data/leaderboard.json';
+import allUsers from '@/data/users.json';
+
+const leaderboardData = allUsers
+    .filter(u => u.role === 'Developer' && u.profile)
+    .map(u => ({
+        rank: 0,
+        id: u.id,
+        name: u.name,
+        avatar: u.avatar,
+        score: u.activityScore,
+        commits: u.profile.monthly_commits,
+        prs: u.metrics.prs.created,
+        issues: u.metrics.issues_resolved
+    }))
+    .sort((a,b) => b.score - a.score)
+    .map((u, index) => ({...u, rank: index + 1}));
 
 
 export default function ManagerLeaderboardPage() {
