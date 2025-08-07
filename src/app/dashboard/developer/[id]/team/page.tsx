@@ -209,7 +209,7 @@ export default function TeamPage() {
                 </CardHeader>
                 <CardContent className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {teamMembers.map((member) => (
-                         <Link href={`/dashboard/developer/${member.id}/profile?from=team`} key={member.id}>
+                         <Link href={`/dashboard/developer/${loggedInUserId}/team/${member.id}`} key={member.id}>
                             <TiltedCard>
                                 <Card className="hover:bg-neutral-900/50 transition-colors h-full">
                                     <CardHeader className="flex flex-row items-center gap-4">

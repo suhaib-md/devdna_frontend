@@ -29,7 +29,7 @@ import {
   Layers,
   ArrowLeft
 } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -49,17 +49,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useParams } from 'next/navigation';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Pie, PieChart, Cell } from 'recharts';
 import { Progress } from '@/components/ui/progress';
@@ -89,11 +80,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 
-export default function DeveloperProfilePage() {
+export default function TeammateProfilePage() {
   const params = useParams();
   const router = useRouter();
 
-  const profileId = params.id as string;
+  const loggedInUserId = params.id as string;
+  const profileId = params.memberId as string;
   
   const developer = allUsers.find(d => d.id === profileId);
 
@@ -129,43 +121,43 @@ export default function DeveloperProfilePage() {
           <div className="flex-1">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
-                href={`/dashboard/developer/${profileId}`}
+                href={`/dashboard/developer/${loggedInUserId}`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Home className="h-4 w-4" />
                 Dashboard
               </Link>
               <Link
-                href={`/dashboard/developer/${profileId}/project`}
+                href={`/dashboard/developer/${loggedInUserId}/project`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Projector className="h-4 w-4" />
                 Current Project
               </Link>
                <Link
-                href={`/dashboard/developer/${profileId}/tasks`}
+                href={`/dashboard/developer/${loggedInUserId}/tasks`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <ClipboardList className="h-4 w-4" />
                 My Tasks
               </Link>
               <Link
-                href={`/dashboard/developer/${profileId}/team`}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
+                href={`/dashboard/developer/${loggedInUserId}/team`}
+                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
                 <Users className="h-4 w-4" />
                 Team
               </Link>
               <Link
-                href={`/dashboard/developer/${profileId}/project-history`}
+                href={`/dashboard/developer/${loggedInUserId}/project-history`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <History className="h-4 w-4" />
                 Project History
               </Link>
                <Link
-                href={`/dashboard/developer/${profileId}/profile`}
-                className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
+                href={`/dashboard/developer/${loggedInUserId}/profile`}
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
                 <Code className="h-4 w-4" />
                 Skill Profile
@@ -197,43 +189,43 @@ export default function DeveloperProfilePage() {
                   <span className="sr-only">DevDNA</span>
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${profileId}`}
+                  href={`/dashboard/developer/${loggedInUserId}`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${profileId}/project`}
+                  href={`/dashboard/developer/${loggedInUserId}/project`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Projector className="h-5 w-5" />
                   Current Project
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${profileId}/tasks`}
+                  href={`/dashboard/developer/${loggedInUserId}/tasks`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <ClipboardList className="h-5 w-5" />
                   My Tasks
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${profileId}/team`}
-                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                  href={`/dashboard/developer/${loggedInUserId}/team`}
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
                 >
                    <Users className="h-5 w-5" />
                   Team
                 </Link>
                 <Link
-                  href={`/dashboard/developer/${profileId}/project-history`}
+                  href={`/dashboard/developer/${loggedInUserId}/project-history`}
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <History className="h-5 w-5" />
                   Project History
                 </Link>
                  <Link
-                  href={`/dashboard/developer/${profileId}/profile`}
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
+                  href={`/dashboard/developer/${loggedInUserId}/profile`}
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
                   <Code className="h-5 w-5" />
                   Skill Profile
