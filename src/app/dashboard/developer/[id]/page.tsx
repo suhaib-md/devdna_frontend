@@ -238,7 +238,7 @@ export default function DeveloperProfilePage() {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1 flex items-center gap-4">
-             <Button variant="outline" size="icon" onClick={() => router.back()}>
+             <Button variant="outline" size="icon" onClick={() => router.push('/dashboard/developer')}>
                 <ArrowLeft />
                 <span className="sr-only">Back</span>
             </Button>

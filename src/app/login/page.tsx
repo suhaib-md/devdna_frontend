@@ -26,7 +26,7 @@ export default function LoginPage() {
         } else if (user.role === 'Admin') {
             router.push('/dashboard/admin');
         } else {
-            router.push(`/dashboard/developer/${user.id}`);
+            router.push(`/dashboard/developer`);
         }
     } else {
         // Fallback for generic dev email
