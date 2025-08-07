@@ -15,7 +15,8 @@ import {
   Search,
   Trophy,
   GitBranch,
-  Bot
+  Bot,
+  ArrowLeft
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -99,13 +100,6 @@ export default function ManagerTeamPage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/projects"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Projector className="h-4 w-4" />
-                Project
-              </Link>
-              <Link
                 href="/dashboard/manager/team"
                 className="flex items-center gap-3 rounded-lg bg-neutral-800 px-3 py-2 text-white transition-all hover:text-white"
               >
@@ -125,13 +119,6 @@ export default function ManagerTeamPage() {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
-               <Link
-                href="/dashboard/manager/ai-assistant"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Bot className="h-4 w-4" />
-                AI Assistant
               </Link>
             </nav>
           </div>
@@ -166,13 +153,6 @@ export default function ManagerTeamPage() {
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/projects"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Projector className="h-5 w-5" />
-                  Project
-                </Link>
                 <Link
                   href="/dashboard/manager/team"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-neutral-800 px-3 py-2 text-white hover:text-white"
@@ -194,18 +174,18 @@ export default function ManagerTeamPage() {
                   <Trophy className="h-5 w-5" />
                   Leaderboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/ai-assistant"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Bot className="h-5 w-5" />
-                  AI Assistant
-                </Link>
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">My Team</h1>
+          <div className="w-full flex-1 flex items-center gap-4">
+             <Button variant="outline" size="icon" onClick={() => router.back()}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+            </Button>
+            <div>
+                <h1 className="text-lg font-semibold md:text-2xl">My Team</h1>
+                <p className="text-sm text-muted-foreground">Manage your project team</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -226,7 +206,7 @@ export default function ManagerTeamPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
             <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
                 <Card className="lg:col-span-3">
                   <CardHeader className="flex flex-row items-center justify-between">
@@ -317,6 +297,16 @@ export default function ManagerTeamPage() {
                 </Table>
             </CardContent>
             </Card>
+             <Link href="/dashboard/manager/ai-assistant">
+                <Button
+                    variant="default"
+                    size="icon"
+                    className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg"
+                >
+                    <Bot className="h-8 w-8" />
+                    <span className="sr-only">Open AI Assistant</span>
+                </Button>
+            </Link>
         </main>
       </div>
     </div>

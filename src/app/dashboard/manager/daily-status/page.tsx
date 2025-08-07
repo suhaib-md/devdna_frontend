@@ -1,25 +1,32 @@
 
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Bell,
-  Bot,
   CircleUser,
   Home,
   Menu,
   Package2,
-  Projector,
   Users,
-  Send,
-  Loader2,
+  Projector,
   BarChart,
   Trophy,
-  ArrowLeft
+  GitCommit,
+  GitPullRequest,
+  CheckCircle,
+  Bot,
+  ArrowLeft,
+  MessageSquare
 } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,47 +37,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
-import { Textarea } from '@/components/ui/textarea';
-import { getInsight } from '@/app/actions';
-import { useToast } from '@/hooks/use-toast';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import teamData from '@/data/team.json';
 
-type Message = {
-    role: 'user' | 'assistant';
-    content: string;
-};
+const { developers } = teamData;
 
-export default function AiAssistantPage() {
-  const { toast } = useToast();
+export default function DailyStatusPage() {
   const router = useRouter();
-
-  const [chatInput, setChatInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChatSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!chatInput.trim()) return;
-
-    const newMessages: Message[] = [...messages, { role: 'user', content: chatInput }];
-    setMessages(newMessages);
-    setChatInput("");
-    setIsLoading(true);
-
-    const result = await getInsight(chatInput);
-    setIsLoading(false);
-
-    if (result.error) {
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: result.error,
-        });
-    } else if (result.summary) {
-        setMessages([...newMessages, { role: 'assistant', content: result.summary }]);
-    }
-  }
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
@@ -109,7 +82,7 @@ export default function AiAssistantPage() {
                 <BarChart className="h-4 w-4" />
                 Analytics
               </Link>
-              <Link
+               <Link
                 href="/dashboard/manager/leaderboard"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -163,24 +136,24 @@ export default function AiAssistantPage() {
                   <BarChart className="h-5 w-5" />
                   Analytics
                 </Link>
-                <Link
-                    href="/dashboard/manager/leaderboard"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
+                 <Link
+                  href="/dashboard/manager/leaderboard"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
-                    <Trophy className="h-5 w-5" />
-                    Leaderboard
+                  <Trophy className="h-5 w-5" />
+                  Leaderboard
                 </Link>
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1 flex items-center gap-4">
+           <div className="w-full flex-1 flex items-center gap-4">
              <Button variant="outline" size="icon" onClick={() => router.back()}>
                 <ArrowLeft />
                 <span className="sr-only">Back</span>
             </Button>
-             <div>
-                <h1 className="text-lg font-semibold md:text-2xl">AI Assistant</h1>
-                <p className="text-sm text-muted-foreground">Your intelligent project copilot</p>
+            <div>
+                <h1 className="text-lg font-semibold md:text-2xl">Daily Status</h1>
+                <p className="text-sm text-muted-foreground">Updates from the last 24 hours.</p>
             </div>
           </div>
           <DropdownMenu>
@@ -202,54 +175,54 @@ export default function AiAssistantPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col p-4 md:p-8 items-center justify-center">
-            <Card className="w-full max-w-4xl h-[70vh]">
-                <CardHeader>
-                    <CardTitle>AI Assistant</CardTitle>
-                    <CardDescription>Ask about team skills, project risks, or for a summary.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col h-[calc(70vh-78px)]">
-                    <ScrollArea className="flex-grow h-0 pr-4">
-                        <div className="space-y-4">
-                            {messages.map((message, index) => (
-                                <div key={index} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
-                                    {message.role === 'assistant' && <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>}
-                                    <div className={`rounded-lg px-4 py-2 max-w-[80%] ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-secondary'}`}>
-                                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                                    </div>
-                                     {message.role === 'user' && <Avatar className="w-8 h-8"><AvatarFallback><CircleUser size={20}/></AvatarFallback></Avatar>}
-                                </div>
-                            ))}
-                            {isLoading && (
-                                <div className="flex items-start gap-3">
-                                    <Avatar className="w-8 h-8"><AvatarFallback><Bot size={20}/></AvatarFallback></Avatar>
-                                    <div className="rounded-lg px-4 py-2 bg-secondary flex items-center">
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </ScrollArea>
-                    <form onSubmit={handleChatSubmit} className="mt-4 flex items-center gap-2 border-t border-neutral-800 pt-4">
-                        <Textarea
-                            placeholder="e.g., 'Who are my top Python developers?'"
-                            value={chatInput}
-                            onChange={(e) => setChatInput(e.target.value)}
-                            className="min-h-0 text-base bg-neutral-900 border-neutral-700"
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    handleChatSubmit(e);
-                                }
-                            }}
-                            rows={1}
-                        />
-                        <Button type="submit" size="icon" disabled={isLoading || !chatInput.trim()}>
-                            <Send className="h-4 w-4" />
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
+            <div className="space-y-8">
+                {developers.map(dev => (
+                    <Card key={dev.id}>
+                        <CardHeader className="flex flex-row items-center gap-4">
+                            <Avatar className="h-12 w-12">
+                                <AvatarImage src={`https://placehold.co/48x48.png?text=${dev.id}`} />
+                                <AvatarFallback>{dev.id}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <CardTitle>{dev.name}</CardTitle>
+                                <CardDescription>{dev.topSkill}</CardDescription>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                           <div className="flex items-center gap-6 text-sm">
+                                <div className="flex items-center gap-2"><GitCommit className="h-4 w-4"/><span>5 Commits</span></div>
+                                <div className="flex items-center gap-2"><GitPullRequest className="h-4 w-4"/><span>1 PR Opened</span></div>
+                                <div className="flex items-center gap-2"><CheckCircle className="h-4 w-4"/><span>3 Issues Resolved</span></div>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold mb-2">Key Updates:</h4>
+                                <ul className="list-disc list-inside space-y-2 text-sm text-neutral-300">
+                                    <li>
+                                        <span className="font-semibold text-white">Merged PR #123:</span> Implemented caching layer for user profiles. Blocked by API key availability.
+                                    </li>
+                                     <li>
+                                        <span className="font-semibold text-white">Fixed Bug #456:</span> Resolved authentication issue on mobile devices.
+                                    </li>
+                                     <li>
+                                        <span className="font-semibold text-white">Pushed 5 commits to `feature/api-throttling`:</span> Completed initial setup for rate limiting.
+                                    </li>
+                                </ul>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+             <Link href="/dashboard/manager/ai-assistant">
+                <Button
+                    variant="default"
+                    size="icon"
+                    className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg"
+                >
+                    <Bot className="h-8 w-8" />
+                    <span className="sr-only">Open AI Assistant</span>
+                </Button>
+            </Link>
         </main>
       </div>
     </div>

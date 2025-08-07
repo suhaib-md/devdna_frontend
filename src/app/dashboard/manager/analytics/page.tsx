@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useRouter } from 'next/navigation';
 import {
   Bell,
   CircleUser,
@@ -13,9 +14,9 @@ import {
   Trophy,
   GitCommit,
   Activity,
-  Bot
+  Bot,
+  ArrowLeft
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -55,6 +56,8 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export default function ManagerAnalyticsPage() {
+  const router = useRouter();
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -79,13 +82,6 @@ export default function ManagerAnalyticsPage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/projects"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Projector className="h-4 w-4" />
-                Project
-              </Link>
-              <Link
                 href="/dashboard/manager/team"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -105,13 +101,6 @@ export default function ManagerAnalyticsPage() {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
-               <Link
-                href="/dashboard/manager/ai-assistant"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Bot className="h-4 w-4" />
-                AI Assistant
               </Link>
             </nav>
           </div>
@@ -146,13 +135,6 @@ export default function ManagerAnalyticsPage() {
                   <Home className="h-5 w-5" />
                   Dashboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/projects"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Projector className="h-5 w-5" />
-                  Project
-                </Link>
                 <Link
                   href="/dashboard/manager/team"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
@@ -174,18 +156,18 @@ export default function ManagerAnalyticsPage() {
                   <Trophy className="h-5 w-5" />
                   Leaderboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/ai-assistant"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Bot className="h-5 w-5" />
-                  AI Assistant
-                </Link>
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Team Analytics</h1>
+          <div className="w-full flex-1 flex items-center gap-4">
+             <Button variant="outline" size="icon" onClick={() => router.back()}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+            </Button>
+            <div>
+                <h1 className="text-lg font-semibold md:text-2xl">Team Analytics</h1>
+                <p className="text-sm text-muted-foreground">Insights into your team's performance</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -206,7 +188,7 @@ export default function ManagerAnalyticsPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
             <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -277,6 +259,16 @@ export default function ManagerAnalyticsPage() {
                     </CardContent>
                 </Card>
             </div>
+             <Link href="/dashboard/manager/ai-assistant">
+                <Button
+                    variant="default"
+                    size="icon"
+                    className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg"
+                >
+                    <Bot className="h-8 w-8" />
+                    <span className="sr-only">Open AI Assistant</span>
+                </Button>
+            </Link>
         </main>
       </div>
     </div>

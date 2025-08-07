@@ -1,7 +1,9 @@
 
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   Bell,
   Bot,
@@ -14,10 +16,11 @@ import {
   GitCommit,
   Users2,
   BarChart,
-  Settings,
   LineChart,
   Trophy,
-  PlusCircle
+  PlusCircle,
+  ArrowLeft,
+  CalendarClock
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -39,8 +42,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import teamData from '@/data/team.json';
+import { Progress } from '@/components/ui/progress';
 
-export default function ManagerDashboard() {
+const { developers } = teamData;
+
+function ManagerDashboardComponent() {
+  const searchParams = useSearchParams();
+  const [noProject, setNoProject] = useState(true);
+
+  useEffect(() => {
+    if (searchParams.get('created') === 'true') {
+      setNoProject(false);
+    }
+  }, [searchParams]);
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr] bg-black text-white">
       <div className="hidden border-r border-neutral-800 bg-neutral-950/40 md:block">
@@ -65,13 +82,6 @@ export default function ManagerDashboard() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/projects"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Projector className="h-4 w-4" />
-                Project
-              </Link>
-              <Link
                 href="/dashboard/manager/team"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -91,13 +101,6 @@ export default function ManagerDashboard() {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
-              <Link
-                href="/dashboard/manager/ai-assistant"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Bot className="h-4 w-4" />
-                AI Assistant
               </Link>
             </nav>
           </div>
@@ -133,13 +136,6 @@ export default function ManagerDashboard() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/manager/projects"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Projector className="h-5 w-5" />
-                  Project
-                </Link>
-                <Link
                   href="/dashboard/manager/team"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
@@ -159,13 +155,6 @@ export default function ManagerDashboard() {
                 >
                     <Trophy className="h-5 w-5" />
                     Leaderboard
-                </Link>
-                 <Link
-                    href="/dashboard/manager/ai-assistant"
-                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                    <Bot className="h-5 w-5" />
-                    AI Assistant
                 </Link>
               </nav>
             </SheetContent>
@@ -196,63 +185,117 @@ export default function ManagerDashboard() {
           </DropdownMenu>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Project</CardTitle>
-                        <Projector className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">DevDNA Platform</div>
-                        <p className="text-xs text-muted-foreground">Status: In Progress</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Team Size</CardTitle>
-                         <Users2 className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">12</div>
-                        <p className="text-xs text-muted-foreground">Total developers</p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Team Velocity</CardTitle>
-                        <LineChart className="h-4 w-4 text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold">18 SP</div>
-                         <p className="text-xs text-muted-foreground">+5 from last sprint</p>
-                    </CardContent>
-                </Card>
+           {noProject ? (
                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Commits</CardTitle>
-                        <GitCommit className="h-4 w-4 text-muted-foreground" />
+                    <CardHeader>
+                        <CardTitle>No Active Project</CardTitle>
+                        <CardDescription>You are not currently managing any project.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">2,450</div>
-                        <p className="text-xs text-muted-foreground">+150 this month</p>
+                        <p>Create a new project to get started.</p>
+                         <Link href="/dashboard/manager/create-project">
+                            <Button className="mt-4">
+                                <PlusCircle className="mr-2 h-4 w-4"/>
+                                Create New Project
+                            </Button>
+                        </Link>
                     </CardContent>
                 </Card>
-            </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Project Overview</CardTitle>
-                    <CardDescription>High-level status of the current project.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <p>No active project. Create a new project to get started.</p>
-                     <Link href="/dashboard/manager/create-project">
-                        <Button className="mt-4">
-                            <PlusCircle className="mr-2 h-4 w-4"/>
-                            Create New Project
-                        </Button>
-                    </Link>
-                </CardContent>
-            </Card>
+            ) : (
+                <div className="space-y-8">
+                     <Card>
+                        <CardHeader>
+                            <CardTitle className="text-2xl">DevDNA Platform</CardTitle>
+                            <CardDescription>
+                            An intelligent AI agent that revolutionizes performance management and project allocation through automated tracking and data-driven insights.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 className="text-lg font-semibold mb-2">Project Details</h3>
+                                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                                        <div className="font-semibold text-muted-foreground">Status:</div>
+                                        <div><Badge variant="outline">Active</Badge></div>
+                                        <div className="font-semibold text-muted-foreground">Start Date:</div>
+                                        <div>2023-01-15</div>
+                                        <div className="font-semibold text-muted-foreground">Team Size:</div>
+                                        <Link href="/dashboard/manager/team" className="text-primary hover:underline">4 Developers</Link>
+                                        <div className="font-semibold text-muted-foreground">GitHub Repo:</div>
+                                        <Link href="#" className="text-primary hover:underline">devdna/platform</Link>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-semibold mb-2">Project Health</h3>
+                                    <div className="space-y-4">
+                                        <Link href="/dashboard/manager/analytics">
+                                            <div className="flex justify-between mb-1 hover:text-primary cursor-pointer">
+                                                <span className="text-sm font-medium">Overall Progress</span>
+                                                <span className="text-sm font-medium">75%</span>
+                                            </div>
+                                            <Progress value={75} />
+                                        </Link>
+                                        <Link href="/dashboard/manager/analytics">
+                                            <div className="flex justify-between mb-1 hover:text-primary cursor-pointer">
+                                                <span className="text-sm font-medium">Sprint Velocity</span>
+                                                <span className="text-sm font-medium">18 SP / sprint</span>
+                                            </div>
+                                            <Progress value={90} />
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                             <div className="pt-4">
+                                <Link href="/dashboard/manager/daily-status">
+                                    <Button variant="outline">
+                                        <CalendarClock className="mr-2"/> View Daily Status
+                                    </Button>
+                                </Link>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Team Overview</CardTitle>
+                            <CardDescription>Current assignments for developers on this project.</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                             <div className="relative w-full overflow-auto">
+                                <table className="w-full caption-bottom text-sm">
+                                    <thead className="[&_tr]:border-b">
+                                        <tr className="border-b transition-colors hover:bg-muted/50">
+                                            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Developer</th>
+                                            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Current Task</th>
+                                            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+                                        </tr>
+                                    </thead>
+                                     <tbody className="[&_tr:last-child]:border-0">
+                                        {developers.map((dev) => (
+                                            <tr key={dev.id} className="border-b transition-colors hover:bg-muted/50">
+                                                <td className="p-4 align-middle">
+                                                    <Link href={`/dashboard/developer/${dev.id}`}>
+                                                        <div className="flex items-center gap-3 group">
+                                                            <Avatar>
+                                                                <AvatarImage src={`https://placehold.co/40x40.png?text=${dev.id}`} />
+                                                                <AvatarFallback>{dev.id}</AvatarFallback>
+                                                            </Avatar>
+                                                            <span className="font-medium group-hover:text-primary">{dev.name}</span>
+                                                        </div>
+                                                    </Link>
+                                                </td>
+                                                <td className="p-4 align-middle">API Integration for User Profiles</td>
+                                                <td className="p-4 align-middle"><Badge variant="outline">In Progress</Badge></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            )}
+
             <Link href="/dashboard/manager/ai-assistant">
                 <Button
                     variant="default"
@@ -267,4 +310,12 @@ export default function ManagerDashboard() {
       </div>
     </div>
   );
+}
+
+export default function ManagerDashboard() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ManagerDashboardComponent />
+        </Suspense>
+    )
 }

@@ -15,7 +15,8 @@ import {
   Github,
   Lock,
   Unlock,
-  Bot
+  Bot,
+  ArrowLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -47,9 +48,7 @@ export default function CreateProjectPage() {
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you would have API calls to create the project and repo.
-    // For now, we'll just redirect to the projects page.
-    router.push('/dashboard/manager/projects?created=true');
+    router.push('/dashboard/manager?created=true');
   };
 
   return (
@@ -76,13 +75,6 @@ export default function CreateProjectPage() {
                 Dashboard
               </Link>
               <Link
-                href="/dashboard/manager/projects"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Projector className="h-4 w-4" />
-                Project
-              </Link>
-              <Link
                 href="/dashboard/manager/team"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
               >
@@ -102,13 +94,6 @@ export default function CreateProjectPage() {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
-               <Link
-                href="/dashboard/manager/ai-assistant"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-neutral-400 transition-all hover:text-white"
-              >
-                <Bot className="h-4 w-4" />
-                AI Assistant
               </Link>
             </nav>
           </div>
@@ -144,13 +129,6 @@ export default function CreateProjectPage() {
                   Dashboard
                 </Link>
                 <Link
-                  href="/dashboard/manager/projects"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Projector className="h-5 w-5" />
-                  Project
-                </Link>
-                <Link
                   href="/dashboard/manager/team"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
                 >
@@ -171,18 +149,18 @@ export default function CreateProjectPage() {
                   <Trophy className="h-5 w-5" />
                   Leaderboard
                 </Link>
-                 <Link
-                  href="/dashboard/manager/ai-assistant"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-neutral-400 hover:text-white"
-                >
-                  <Bot className="h-5 w-5" />
-                  AI Assistant
-                </Link>
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1">
-            <h1 className="text-lg font-semibold md:text-2xl">Create New Project</h1>
+          <div className="w-full flex-1 flex items-center gap-4">
+             <Button variant="outline" size="icon" onClick={() => router.back()}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+            </Button>
+            <div>
+                <h1 className="text-lg font-semibold md:text-2xl">Create New Project</h1>
+                 <p className="text-sm text-muted-foreground">Set up your next project</p>
+            </div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -203,7 +181,7 @@ export default function CreateProjectPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 relative">
           <Card className="max-w-2xl mx-auto w-full">
             <CardHeader>
               <CardTitle>Project Details</CardTitle>
@@ -273,9 +251,18 @@ export default function CreateProjectPage() {
               </form>
             </CardContent>
           </Card>
+           <Link href="/dashboard/manager/ai-assistant">
+                <Button
+                    variant="default"
+                    size="icon"
+                    className="fixed bottom-8 right-8 h-16 w-16 rounded-full shadow-lg"
+                >
+                    <Bot className="h-8 w-8" />
+                    <span className="sr-only">Open AI Assistant</span>
+                </Button>
+            </Link>
         </main>
       </div>
     </div>
   );
 }
-
